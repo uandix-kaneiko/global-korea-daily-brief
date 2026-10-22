@@ -1,0 +1,75 @@
+name: Kakao daily briefing
+
+on:
+  schedule:
+    # KST 08:10/08:40, 09:10/09:40, 10:10/10:40. Times can be delayed by GitHub.
+    - cron: '10,40 23,0,1 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'preview: no send / send: enabled configuration required'
+        type: choice
+        options: [preview, send]
+        default: preview
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/kakao_daily.py'
+      - 'tests/test_kakao_daily.py'
+      - '.github/workflows/kakao-daily.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kakao-daily-delivery
+  cancel-in-progress: false
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -v
+
+  delivery:
+    needs: tests
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check integration and deliver or preview
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RUN_MODE: ${{ inputs.mode }}
+          KAKAO_ENABLED: ${{ vars.KAKAO_ENABLED }}
+          KAKAO_MAX_RECIPIENTS: ${{ vars.KAKAO_MAX_RECIPIENTS || '50' }}
+          SENS_ACCESS_KEY: ${{ secrets.SENS_ACCESS_KEY }}
+          SENS_SECRET_KEY: ${{ secrets.SENS_SECRET_KEY }}
+          SENS_SERVICE_ID: ${{ secrets.SENS_SERVICE_ID }}
+          KAKAO_CHANNEL_ID: ${{ secrets.KAKAO_CHANNEL_ID }}
+          KAKAO_RECIPIENTS_JSON: ${{ secrets.KAKAO_RECIPIENTS_JSON }}
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "workflow_dispatch" && "$RUN_MODE" == "preview" ]]; then
+            python scripts/kakao_daily.py
+          elif [[ "$KAKAO_ENABLED" == "true" ]]; then
+            python scripts/kakao_daily.py --send
+          else
+            echo 'Integration not activated. No Kakao messages sent.' >> "$GITHUB_STEP_SUMMARY"
+            echo 'Required: SENS account/channel registration, 5 secrets, KAKAO_ENABLED=true.' >> "$GITHUB_STEP_SUMMARY"
+          fi
