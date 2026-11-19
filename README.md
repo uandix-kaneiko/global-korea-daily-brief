@@ -1,33 +1,25 @@
-# Global · Korea Daily Brief
+# Tech & Global New Daily
 
-새 통합 브리핑 전용 GitHub Pages 사이트입니다.
+공개 금융·경제·은행·지급결제·IT 기술·AI·클라우드·사이버보안 뉴스를 다루는 경영진 브리핑입니다.
 
-구성:
-- `index.html` : 항상 최신 브리핑
-- `archive/YYYY-MM-DD.html` : 날짜별 보관
-- `archive/index.html` : 지난 브리핑 목록
-- `.nojekyll` : GitHub Pages 정적 배포용
+- [최신 브리핑](https://uandix-kaneiko.github.io/global-korea-daily-brief/latest.html)
+- [지난 브리핑](https://uandix-kaneiko.github.io/global-korea-daily-brief/archive/index.html)
+- [RSS](https://uandix-kaneiko.github.io/global-korea-daily-brief/feed.xml)
 
-현재 최초 기준일: 2026-10-14
-내용: 글로벌·테크 5건 + 국내 디지털·IT·보안 5건 + Watch Board
+## 발행
 
-이 패키지는 과거 `global_news` 뉴스데일리 콘텐츠를 재사용하지 않았습니다.
+공개 자료를 확인한 날짜별 데이터를 `data/briefing-YYYY-MM-DD.json`에 작성한 뒤 다음 명령으로 렌더링합니다.
 
-## 자동 발행
+```bash
+python scripts/render_briefing.py --date YYYY-MM-DD
+```
 
-ChatGPT의 통합 브리핑 예약에서 오전 8시경(Asia/Seoul) 실행합니다.
-- `archive/YYYY-MM-DD.html`: 해당 날짜 브리핑을 보관합니다.
-- `archive/index.html`: 이전 날짜 목록을 보존하고 새 날짜를 추가합니다.
-- `index.html`: 최신 날짜의 보관 HTML과 동일하게 갱신합니다.
-- 업로드·배포 확인 후 최신 링크와 오늘자 보관 링크를 안내합니다.
-- 업로드 실패 시 갱신 성공으로 표시하지 않고 오류와 HTML 파일을 제공합니다.
+루트·최신·당일 페이지를 동일 본문으로 갱신하고 과거 파일을 보존합니다. RSS는 중복 없이 해당 날짜 항목을 맨 위에 유지하며 이전 항목을 보존합니다. 실제 공개사이트 반영을 확인한 후 완료를 보고합니다.
 
-발행 대상은 공개 뉴스 브리핑이며, 개인 일정·메일·내부 문서·인증정보를 게시하지 않습니다.
+[편집·디자인·검증 기준](docs/editorial-design.md)
 
-## 카카오 자동발송 연동
+## 카카오 연동
 
-당일 GitHub Pages와 RSS 게시본을 검증한 후 카카오 브랜드 메시지 API로 발송하는
-워크플로를 추가했습니다. 날짜별 중복발송 방지와 실제 수신 결과 조회를 포함합니다.
-기본 상태는 미개통이며, 외부 서비스 등록과 Secrets 설정 후 활성화해야 합니다.
+기본 상태는 미개통입니다. 등록·설정과 실제 수신 확인을 완료한 뒤에만 발송 성공으로 표시합니다.
 
 [설정·본인 테스트·운영 안내](docs/kakao-setup.md)
