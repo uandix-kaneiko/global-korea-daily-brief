@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global Enterprise Layer View_Sample</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: one relationship dataset, five tabs (경영·업무·시스템 뷰 + 영향 분석 + 데이터 품질). A shared scope bar carries 법인/업무역량 across views. Risk uses semantic color; KB yellow is the brand accent and the "selected" marker. */
+:root{
+  --bg:#F6F5F2; --surface:#FFFFFF; --ink:#24262A; --muted:#5B5E64; --line:#DEDBD4; --soft:#EFEDE8;
+  --accent:#FFBC00; --accent-soft:#FFF4CF;
+  --biz:#A87400; --svc:#3D6FB6; --tech:#3E7D5C;
+  --ok:#2F8F5B; --ok-soft:#E3F2E9; --warn:#B06400; --warn-soft:#FCEFD9; --bad:#C2412D; --bad-soft:#FBE4DF;
+  --edge:#B9B5AC; --hit:#3D6FB6;
+  --body:'Noto Sans KR','Malgun Gothic','맑은 고딕','Apple SD Gothic Neo',system-ui,sans-serif; --mono:'IBM Plex Mono',Consolas,ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16171A; --surface:#202226; --ink:#ECEBE7; --muted:#A6A8AE; --line:#34363C; --soft:#2A2C31;
+    --accent:#FFC21A; --accent-soft:#3A3115;
+    --biz:#E6B33A; --svc:#7FA6E0; --tech:#7EC29C;
+    --ok:#6CC596; --ok-soft:#1E3328; --warn:#F0A847; --warn-soft:#3A2D18; --bad:#F07F6B; --bad-soft:#3E211C;
+    --edge:#4A4D54; --hit:#7FA6E0; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16171A; --surface:#202226; --ink:#ECEBE7; --muted:#A6A8AE; --line:#34363C; --soft:#2A2C31;
+  --accent:#FFC21A; --accent-soft:#3A3115;
+  --biz:#E6B33A; --svc:#7FA6E0; --tech:#7EC29C;
+  --ok:#6CC596; --ok-soft:#1E3328; --warn:#F0A847; --warn-soft:#3A2D18; --bad:#F07F6B; --bad-soft:#3E211C;
+  --edge:#4A4D54; --hit:#7FA6E0; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;letter-spacing:-0.1px}
+h1,h2,h3{text-wrap:balance;margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--hit);outline-offset:2px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:0}
+.muted{color:var(--muted)}
+.wrap{max-width:1500px;margin:0 auto;padding:20px 20px 48px;display:flex;flex-direction:column;gap:16px}
+header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .bar{width:6px;height:40px;border-radius:3px;background:var(--accent)}
+.brand h1{font-size:24px;font-weight:900;line-height:1.2}
+.brand p{margin:0;color:var(--muted);font-size:14px}
+.sample{font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn)}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+nav.tabs a{display:flex;flex-direction:column;padding:10px 16px 9px;text-decoration:none;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px;line-height:1.3}
+nav.tabs a b{font-size:15px;color:var(--ink)}
+nav.tabs a span{font-size:12px}
+nav.tabs a[aria-current="page"]{border-bottom-color:var(--accent)}
+nav.tabs a:hover b{color:var(--svc)}
+nav.tabs .sep{width:1px;background:var(--line);margin:10px 6px}
+.scope{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:10px;font-size:13px}
+.scope label{font-weight:700;color:var(--muted)}
+.scope .crumb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-left:auto}
+.view{display:none;flex-direction:column;gap:16px}
+.view.on{display:flex}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.sec-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:12px}
+.sec-h h2{font-size:18px;font-weight:900}
+.sec-h p{margin:0;color:var(--muted);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.kpi .v{font-size:28px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.2}
+.kpi .l{font-size:13px;color:var(--muted)}
+.kpi .s{font-size:12px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px}
+.scroll{overflow-x:auto}
+table.heat{border-collapse:separate;border-spacing:4px;width:100%;min-width:760px}
+table.heat th{font-size:13px;font-weight:700;color:var(--muted);text-align:center;padding:4px}
+table.heat th.row{text-align:left;color:var(--ink);white-space:nowrap}
+table.heat th.on,table.heat th.row.on{color:var(--ink);background:var(--accent-soft);border-radius:6px}
+table.heat td{padding:0}
+.cell{width:100%;min-height:54px;border:1px solid transparent;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--bg);padding:4px}
+.cell .n{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.2}
+.cell .m{font-size:11px;color:var(--muted)}
+.cell.lv0{background:var(--ok-soft);color:var(--ok)} .cell.lv1{background:var(--warn-soft);color:var(--warn)} .cell.lv2{background:var(--bad-soft);color:var(--bad)}
+.cell.none{cursor:default;color:var(--muted);background:transparent;border:1px dashed var(--line)}
+.cell.on{outline:2px solid var(--ink);outline-offset:1px}
+.cell:not(.none):hover{border-color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:5px 12px;font-size:13px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.risk-list{display:flex;flex-direction:column;gap:8px}
+.risk-row{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;text-align:left;width:100%}
+.risk-row:hover{border-color:var(--ink)}
+.score{font-size:18px;font-weight:900;text-align:center;border-radius:8px;padding:6px 0;font-variant-numeric:tabular-nums}
+.lv0.score,.pill.lv0{background:var(--ok-soft);color:var(--ok)} .lv1.score,.pill.lv1{background:var(--warn-soft);color:var(--warn)} .lv2.score,.pill.lv2{background:var(--bad-soft);color:var(--bad)}
+.risk-row b{display:block;font-size:14px}
+.risk-row span{font-size:12px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12.5px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);cursor:pointer;line-height:1.5}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.chip.static{cursor:default}
+.chip.low{border-style:dashed;border-color:var(--warn);color:var(--warn)}
+.chip.host{font-family:var(--mono);font-size:11.5px;border-radius:6px}
+.chip.host.lv1{border-color:var(--warn);color:var(--warn)} .chip.host.lv2{border-color:var(--bad);color:var(--bad)}
+.pill{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap;display:inline-block}
+.pill.crit{background:var(--bad-soft);color:var(--bad)}
+.pill.norm{background:var(--soft);color:var(--muted)}
+select,input[type="search"]{font:inherit;font-size:14px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+table.simple{border-collapse:collapse;width:100%;font-size:13.5px}
+table.simple th{text-align:left;font-size:12px;color:var(--muted);font-weight:700;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.simple td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.simple td.num,table.simple th.num{text-align:right;font-variant-numeric:tabular-nums}
+table.simple tbody tr.click{cursor:pointer}
+table.simple tbody tr.click:hover{background:var(--bg)}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:14px}
+.capgroup{font-size:15px;font-weight:900;color:var(--svc);margin:6px 0 -4px}
+.svc{display:flex;flex-direction:column;gap:10px;border-left:4px solid var(--svc)}
+.svc .hd{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.svc h3{font-size:17px;font-weight:900}
+dl.kv{display:grid;grid-template-columns:76px minmax(0,1fr);gap:4px 10px;margin:0;font-size:13px}
+dl.kv dt{color:var(--muted)} dl.kv dd{margin:0}
+.stack{display:flex;flex-direction:column;gap:8px}
+.chain{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.chain .h{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chain .h b{font-size:13px}
+.chain .row{display:grid;grid-template-columns:64px minmax(0,1fr);gap:8px;align-items:start}
+.chain .row > span:first-child{font-size:12px;color:var(--muted)}
+.tag{font-family:var(--mono);font-size:11px;padding:1px 6px;border-radius:4px;background:var(--soft);color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:7px 12px;border-radius:8px;border:1px solid var(--ink);background:var(--surface);cursor:pointer}
+.btn:hover{background:var(--ink);color:var(--surface)}
+.sys-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.sys{display:flex;flex-direction:column;gap:10px;border-left:4px solid var(--tech);cursor:pointer;text-align:left;width:100%}
+.sys:hover{border-color:var(--ink)}
+.sys .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.sys h3{font-size:16px;font-weight:900}
+.type{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap;border:1px solid}
+.type.sys{color:var(--tech)} .type.app{color:var(--svc)} .type.prog{color:var(--tech)} .type.node{color:var(--muted)}
+.filters{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end}
+.filters .f{display:flex;flex-direction:column;gap:6px}
+.filters label,.filters .flabel{font-size:13px;color:var(--muted);font-weight:700}
+.impact{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:16px;align-items:start}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.scen{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.scen .lbl{font-size:13px;color:var(--muted);font-weight:700}
+.graph-box{overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface);max-height:860px}
+.graph{position:relative}
+.graph svg{position:absolute;inset:0;pointer-events:none}
+.colh{position:absolute;top:10px;font-size:12px;font-weight:900;display:flex;flex-direction:column;line-height:1.3}
+.colh span{font-weight:500;color:var(--muted)}
+.band{position:absolute;top:0;height:6px;border-radius:0 0 4px 4px}
+.node{position:absolute;height:40px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:3px 9px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;text-align:left;line-height:1.25;overflow:hidden}
+.node .nm{font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node .id{font-family:var(--mono);font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node.t-ent,.node.t-cap{border-left:4px solid var(--biz)}
+.node.t-svc{border-left:4px solid var(--svc)}
+.node.t-sys,.node.t-app,.node.t-prog,.node.t-node{border-left:4px solid var(--tech)}
+.node.r1{box-shadow:inset -4px 0 0 var(--warn)} .node.r2{box-shadow:inset -4px 0 0 var(--bad)}
+.graph.sel .node{opacity:0.3}
+.graph.sel .node.hit{opacity:1;background:var(--accent-soft);border-color:var(--accent)}
+.graph.sel .node.origin{opacity:1;background:var(--accent);border-color:var(--accent);color:#24262A}
+.graph.sel .node.origin .id{color:#4a3a00}
+.node:hover{border-color:var(--ink)}
+path.e{fill:none;stroke:var(--edge);stroke-width:1.2;opacity:0.55}
+path.e.low{stroke-dasharray:4 4}
+.graph.sel path.e{opacity:0.1}
+.graph.sel path.e.hit{stroke:var(--hit);stroke-width:2;opacity:0.95}
+path.e.ent{display:none}
+.graph.sel path.e.ent.hit{display:inline}
+.side{display:flex;flex-direction:column;gap:12px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+.side h3{font-size:17px;font-weight:900}
+.side h4{margin:0;font-size:13px;font-weight:900}
+.dir{font-size:12px;font-weight:700;color:var(--muted)}
+.counts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.counts div{background:var(--bg);border-radius:8px;padding:6px 8px;display:flex;flex-direction:column}
+.counts b{font-size:18px;font-variant-numeric:tabular-nums;line-height:1.2}
+.counts span{font-size:11px;color:var(--muted)}
+.paths{display:flex;flex-direction:column;gap:6px;font-size:12.5px}
+.path{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:6px 8px;background:var(--bg);border-radius:8px}
+.path i{font-style:normal;color:var(--muted)}
+.note{font-size:12.5px;padding:8px 10px;border-radius:8px;background:var(--warn-soft);color:var(--warn)}
+.note.ok{background:var(--ok-soft);color:var(--ok)}
+.foot{font-size:12.5px;color:var(--muted);margin:0}
+textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg);color:var(--ink)}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar-row{display:grid;grid-template-columns:150px minmax(0,1fr) 54px;gap:10px;align-items:center;font-size:13px}
+.bar{display:flex;height:16px;border-radius:4px;overflow:hidden;background:var(--soft)}
+.bar span{display:block;height:100%}
+.st-ok{color:var(--ok);font-weight:700} .st-warn{color:var(--warn);font-weight:700} .st-bad{color:var(--bad);font-weight:700}
+@media (max-width:1100px){
+  .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .grid2,.impact{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;max-height:none}
+  .svc-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:520px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .brand h1{font-size:20px}
+  nav.tabs a{padding:8px 10px}
+  .scope .crumb{margin-left:0}
+}
+@media (prefers-reduced-motion: no-preference){
+  .node,path.e{transition:opacity .18s ease, background-color .18s ease}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="bar"></div>
+      <div>
+        <h1>Global Enterprise Layer View_Sample</h1>
+        <p>글로벌IT 시범 · 사업 → 업무 → 시스템 → 앱코드 → 프로그램 → 서버·노드를 하나의 관계 데이터로 연결</p>
+      </div>
+    </div>
+    <div class="sample">샘플 데이터 · 실제 시스템·서버·수치가 아닙니다</div>
+  </header>
+
+  <nav class="tabs" aria-label="뷰 선택">
+    <a href="#business" data-v="business"><b>경영 뷰</b><span>Business · 경영진</span></a>
+    <a href="#service" data-v="service"><b>업무 뷰</b><span>Service · 현업·IT 부서장</span></a>
+    <a href="#system" data-v="system"><b>시스템 뷰</b><span>Technology · IT 조직</span></a>
+    <span class="sep" aria-hidden="true"></span>
+    <a href="#impact" data-v="impact"><b>영향 분석</b><span>Top-down · Bottom-up</span></a>
+    <a href="#quality" data-v="quality"><b>데이터 품질</b><span>매핑·검증 현황</span></a>
+  </nav>
+
+  <div class="scope" role="group" aria-label="조회 범위">
+    <label for="sc-ent">법인·지점</label><select id="sc-ent"></select>
+    <label for="sc-cap">업무역량</label><select id="sc-cap"></select>
+    <div class="crumb" id="crumb"></div>
+  </div>
+
+  <!-- Business -->
+  <section class="view" id="v-business">
+    <div class="kpis" id="kpis"></div>
+    <div class="grid2">
+      <div class="card">
+        <div class="sec-h"><h2>법인·지점 × 업무역량</h2>
+          <div class="seg" role="group" aria-label="지표"><button data-m="risk" id="m-risk">IT 위험</button><button data-m="verify" id="m-verify">관계 검증률</button></div></div>
+        <div class="scroll"><table class="heat" id="heat"></table></div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="card">
+        <div class="sec-h"><h2>우선 조치 대상 서버·노드</h2><p>누르면 영향 범위를 추적합니다</p></div>
+        <div class="risk-list" id="toprisk"></div>
+        <p class="foot" style="margin-top:12px">위험점수(샘플 산식) = 지원종료 경과 40 · 1년 내 25 · 그 외 5 + 취약점 × 8 + 최근 90일 장애 × 10, 최대 100</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec-h"><h2>법인·지점별 IT 현황</h2><p>행을 누르면 업무 뷰로 이동합니다</p></div>
+      <div class="scroll"><table class="simple" id="entsum" style="min-width:820px"></table></div>
+    </div>
+  </section>
+
+  <!-- Service -->
+  <section class="view" id="v-service">
+    <div class="stack" id="svcs"></div>
+  </section>
+
+  <!-- System -->
+  <section class="view" id="v-system">
+    <div class="sys-grid" id="systems"></div>
+    <div class="card">
+      <div class="sec-h"><h2>구성 항목 목록</h2><p id="itcount"></p></div>
+      <div class="filters" style="margin-bottom:12px">
+        <div class="f"><label for="q">ID·이름·호스트명 검색</label><input type="search" id="q" placeholder="예: GBSLN, kgbsdb, 이자"></div>
+        <div class="f"><span class="flabel">유형</span><div class="chips" id="typechips"></div></div>
+      </div>
+      <div class="scroll"><table class="simple" id="itlist" style="min-width:980px"></table></div>
+    </div>
+  </section>
+
+  <!-- Impact -->
+  <section class="view" id="v-impact">
+    <div class="card toolbar">
+      <div class="scen" id="scen"></div>
+      <div class="seg" role="group" aria-label="그래프 보기"><button data-g="focus" id="g-focus">영향 범위만</button><button data-g="all" id="g-all">전체 지도</button></div>
+    </div>
+    <div class="impact">
+      <div class="graph-box"><div class="graph" id="graph"></div></div>
+      <aside class="card side" id="side"></aside>
+    </div>
+    <p class="foot">노드를 누르면 위(사업)와 아래(서버·노드) 방향으로 연결된 항목이 함께 표시됩니다. 점선은 신뢰수준이 높지 않은 관계, 노드 오른쪽 띠는 서버 위험도입니다.</p>
+  </section>
+
+  <!-- Quality -->
+  <section class="view" id="v-quality">
+    <div class="kpis" id="qkpis"></div>
+    <div class="grid2">
+      <div class="card">
+        <div class="sec-h"><h2>관계 유형별 신뢰수준</h2><p>높음 · 중간 · 낮음(미검증)</p></div>
+        <div class="bars" id="qbars"></div>
+        <div class="legend"><span><i style="background:var(--ok)"></i>높음</span><span><i style="background:var(--warn)"></i>중간</span><span><i style="background:var(--bad)"></i>낮음</span></div>
+      </div>
+      <div class="card">
+        <div class="sec-h"><h2>수집 원천별 관계 수</h2><p>자동 수집 + 담당자 검증</p></div>
+        <div class="bars" id="qsrc"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec-h"><h2>조치 필요 항목</h2><p>누르면 영향 분석으로 이동합니다</p></div>
+      <div class="scroll"><table class="simple" id="qissues" style="min-width:900px"></table></div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ================= Sample data (fictional) ================= */
+const REF = new Date(Date.UTC(2026,10,20));
+const BR6 = ['E-NY','E-LDN','E-HK','E-SG','E-TKO','E-VN'];
+const ALL8 = BR6.concat(['E-KH','E-ID']);
+const ENT = [
+  {id:'E-NY',name:'뉴욕지점',kind:'지점'},{id:'E-LDN',name:'런던지점',kind:'지점'},
+  {id:'E-HK',name:'홍콩지점',kind:'지점'},{id:'E-SG',name:'싱가포르지점',kind:'지점'},
+  {id:'E-TKO',name:'도쿄지점',kind:'지점'},{id:'E-VN',name:'베트남(호치민)',kind:'지점'},
+  {id:'E-KH',name:'KB PRASAC',kind:'현지법인'},{id:'E-ID',name:'KBI',kind:'현지법인'}
+];
+const CAP = [
+  {id:'CAP-DP',name:'수신'},{id:'CAP-LN',name:'여신'},{id:'CAP-DG',name:'비대면'},
+  {id:'CAP-FX',name:'외환·송금'},{id:'CAP-PY',name:'지급결제'},{id:'CAP-IF',name:'정보계'}
+];
+const SVC = [
+  {id:'SV-LN-01',name:'대출신청',cap:'CAP-LN',crit:0,dept:'글로벌여신부',sla:'99.5%'},
+  {id:'SV-LN-02',name:'여신심사',cap:'CAP-LN',crit:1,dept:'글로벌여신심사부',sla:'99.5%'},
+  {id:'SV-LN-03',name:'대출실행',cap:'CAP-LN',crit:1,dept:'글로벌여신부',sla:'99.9%'},
+  {id:'SV-LN-04',name:'이자계산',cap:'CAP-LN',crit:1,dept:'글로벌여신부',sla:'99.9%'},
+  {id:'SV-LN-05',name:'상환',cap:'CAP-LN',crit:1,dept:'글로벌여신부',sla:'99.9%'},
+  {id:'SV-LN-06',name:'연체관리',cap:'CAP-LN',crit:0,dept:'글로벌여신관리부',sla:'99.5%'},
+  {id:'SV-LN-07',name:'여신 한도관리',cap:'CAP-LN',crit:0,dept:'글로벌여신관리부',sla:'99.5%'},
+  {id:'SV-DP-01',name:'계좌개설',cap:'CAP-DP',crit:0,dept:'글로벌영업부',sla:'99.5%'},
+  {id:'SV-DP-02',name:'입출금',cap:'CAP-DP',crit:1,dept:'글로벌영업부',sla:'99.9%'},
+  {id:'SV-DG-01',name:'모바일뱅킹',cap:'CAP-DG',crit:1,dept:'글로벌디지털부',sla:'99.9%'},
+  {id:'SV-DG-02',name:'인터넷뱅킹',cap:'CAP-DG',crit:0,dept:'글로벌디지털부',sla:'99.5%'},
+  {id:'SV-FX-01',name:'해외송금',cap:'CAP-FX',crit:1,dept:'글로벌외환부',sla:'99.9%'},
+  {id:'SV-FX-02',name:'환전',cap:'CAP-FX',crit:0,dept:'글로벌외환부',sla:'99.5%'},
+  {id:'SV-PY-01',name:'현지 지급결제망 연계',cap:'CAP-PY',crit:1,dept:'글로벌영업부',sla:'99.9%'},
+  {id:'SV-IF-01',name:'규제보고',cap:'CAP-IF',crit:1,dept:'글로벌기획부',sla:'일 1회'},
+  {id:'SV-IF-02',name:'경영정보',cap:'CAP-IF',crit:0,dept:'글로벌기획부',sla:'일 1회'}
+];
+const SYS = [
+  {id:'SYS-GBS',code:'GBS',name:'글로벌뱅킹시스템',dc:'서울 주센터'},
+  {id:'SYS-LOS',code:'LOS',name:'여신심사시스템',dc:'서울 주센터'},
+  {id:'SYS-CH',code:'GCH',name:'글로벌 채널시스템',dc:'서울 주센터'},
+  {id:'SYS-FX',code:'GFX',name:'외환시스템',dc:'서울 주센터'},
+  {id:'SYS-FEP',code:'FEP',name:'대외계시스템',dc:'서울 주센터'},
+  {id:'SYS-DW',code:'GDW',name:'정보계시스템',dc:'서울 주센터'},
+  {id:'SYS-PRS',code:'LSS',name:'PRASAC 여신시스템',dc:'프놈펜 센터'},
+  {id:'SYS-KBI',code:'KBC',name:'KBI 코어뱅킹시스템',dc:'자카르타 센터'}
+];
+const APP = [
+  {id:'APP-GBS-LN',code:'GBSLN',name:'글로벌뱅킹 여신',sys:'SYS-GBS',ents:BR6,owner:'글로벌IT 여신파트'},
+  {id:'APP-GBS-DP',code:'GBSDP',name:'글로벌뱅킹 수신',sys:'SYS-GBS',ents:BR6,owner:'글로벌IT 수신파트'},
+  {id:'APP-LOS',code:'LOSUW',name:'여신심사',sys:'SYS-LOS',ents:BR6,owner:'글로벌IT 여신파트'},
+  {id:'APP-GMB',code:'GCHMB',name:'글로벌 모바일뱅킹',sys:'SYS-CH',ents:['E-VN'],owner:'글로벌IT 채널파트'},
+  {id:'APP-GIB',code:'GCHIB',name:'글로벌 인터넷뱅킹',sys:'SYS-CH',ents:BR6,owner:'글로벌IT 채널파트'},
+  {id:'APP-FX',code:'GFXRM',name:'외환·송금',sys:'SYS-FX',ents:BR6,owner:'글로벌IT 외환파트'},
+  {id:'APP-FEP',code:'FEPGW',name:'대외 게이트웨이',sys:'SYS-FEP',ents:BR6.concat(['E-ID']),owner:'글로벌IT 대외계파트'},
+  {id:'APP-DW',code:'GDWET',name:'정보계 적재',sys:'SYS-DW',ents:ALL8,owner:'글로벌IT 정보계파트'},
+  {id:'APP-RPT',code:'GDWRP',name:'규제보고',sys:'SYS-DW',ents:ALL8,owner:'글로벌IT 정보계파트'},
+  {id:'APP-PRS-LSS',code:'LSSLN',name:'PRASAC 여신',sys:'SYS-PRS',ents:['E-KH'],owner:'PRASAC IT'},
+  {id:'APP-KBI-CORE',code:'KBCCR',name:'KBI 코어',sys:'SYS-KBI',ents:['E-ID'],owner:'KBI IT'}
+];
+const SA = [ // service–application: [service, app, trust, source]
+  ['SV-LN-01','APP-LOS','높음','정적분석'],['SV-LN-01','APP-GMB','높음','APM'],['SV-LN-01','APP-GIB','중간','APM'],['SV-LN-01','APP-PRS-LSS','높음','담당자'],
+  ['SV-LN-02','APP-LOS','높음','정적분석'],['SV-LN-02','APP-PRS-LSS','높음','담당자'],
+  ['SV-LN-03','APP-GBS-LN','높음','정적분석'],['SV-LN-03','APP-FEP','높음','APM'],['SV-LN-03','APP-PRS-LSS','높음','담당자'],['SV-LN-03','APP-KBI-CORE','중간','담당자'],
+  ['SV-LN-04','APP-GBS-LN','높음','정적분석'],['SV-LN-04','APP-PRS-LSS','높음','담당자'],['SV-LN-04','APP-KBI-CORE','중간','담당자'],
+  ['SV-LN-05','APP-GBS-LN','높음','정적분석'],['SV-LN-05','APP-GMB','높음','APM'],['SV-LN-05','APP-PRS-LSS','높음','담당자'],
+  ['SV-LN-06','APP-GBS-LN','높음','정적분석'],['SV-LN-06','APP-DW','낮음','추정'],
+  ['SV-DP-01','APP-GBS-DP','높음','정적분석'],['SV-DP-01','APP-GMB','높음','APM'],['SV-DP-01','APP-KBI-CORE','중간','담당자'],
+  ['SV-DP-02','APP-GBS-DP','높음','정적분석'],['SV-DP-02','APP-FEP','높음','APM'],['SV-DP-02','APP-KBI-CORE','중간','담당자'],
+  ['SV-DG-01','APP-GMB','높음','CMDB'],['SV-DG-02','APP-GIB','높음','CMDB'],
+  ['SV-FX-01','APP-FX','높음','정적분석'],['SV-FX-01','APP-FEP','높음','APM'],['SV-FX-02','APP-FX','높음','정적분석'],
+  ['SV-PY-01','APP-FEP','중간','APM'],
+  ['SV-IF-01','APP-RPT','높음','CMDB'],['SV-IF-01','APP-DW','높음','배치스케줄러'],['SV-IF-02','APP-DW','높음','CMDB']
+];
+const PRG = [
+  {id:'PG-LN-EXE-020',name:'대출실행 처리',apps:['APP-GBS-LN'],svcs:['SV-LN-03'],nodes:['ND-GBSAP01','ND-GBSAP02','ND-GBSDB01','ND-GBSDB02'],repo:'gbs/loan-core',ver:'v4.12.0',trust:'높음',src:'정적분석'},
+  {id:'PG-LN-INT-030',name:'이자계산 모듈',apps:['APP-GBS-LN'],svcs:['SV-LN-04','SV-LN-05','SV-LN-06'],nodes:['ND-GBSAP01','ND-GBSAP02','ND-GBSDB01','ND-GBSDB02'],repo:'gbs/loan-core',ver:'v4.12.0',trust:'높음',src:'정적분석'},
+  {id:'PG-LN-RPY-040',name:'상환 처리',apps:['APP-GBS-LN'],svcs:['SV-LN-05'],nodes:['ND-GBSAP01','ND-GBSAP02','ND-GBSDB01'],repo:'gbs/loan-core',ver:'v4.12.0',trust:'높음',src:'정적분석'},
+  {id:'PG-LN-DLQ-050',name:'연체 관리',apps:['APP-GBS-LN'],svcs:['SV-LN-06'],nodes:['ND-GBSAP01','ND-GBSDB01'],repo:'gbs/loan-core',ver:'v4.11.3',trust:'높음',src:'정적분석'},
+  {id:'PG-LN-BAT-110',name:'일일 이자결산 배치',apps:['APP-GBS-LN'],svcs:['SV-LN-04'],nodes:['ND-GBSBT01','ND-GBSDB01'],repo:'gbs/loan-batch',ver:'v2.8.1',trust:'높음',src:'배치스케줄러'},
+  {id:'PG-LN-RPT-900',name:'여신 보고서(구)',apps:['APP-GBS-LN'],svcs:[],nodes:[],repo:'gbs/legacy-report',ver:'v0.9.4',trust:'낮음',src:'추정'},
+  {id:'PG-LOS-APP-001',name:'대출신청 접수',apps:['APP-LOS'],svcs:['SV-LN-01'],nodes:['ND-LOSAP01','ND-CHWEB01'],repo:'los/intake',ver:'v3.2.0',trust:'높음',src:'정적분석'},
+  {id:'PG-LOS-UW-010',name:'심사 엔진',apps:['APP-LOS'],svcs:['SV-LN-02'],nodes:['ND-LOSAP01'],repo:'los/underwriting',ver:'v3.5.4',trust:'높음',src:'정적분석'},
+  {id:'PG-COM-DT-001',name:'영업일·휴일 공통',apps:['APP-GBS-LN','APP-GBS-DP','APP-FX'],svcs:['SV-LN-03','SV-LN-04','SV-LN-05','SV-DP-02','SV-FX-01'],nodes:['ND-GBSAP01','ND-GBSAP02','ND-GBSBT01'],repo:'gbs/common',ver:'v1.9.0',trust:'중간',src:'정적분석'},
+  {id:'PG-FEP-ISO-200',name:'대외 전문 변환',apps:['APP-FEP'],svcs:['SV-LN-03','SV-DP-02','SV-FX-01','SV-PY-01'],nodes:['ND-FEPGW01','ND-FEPGW02'],repo:'fep/iso-gateway',ver:'v5.0.2',trust:'높음',src:'APM'},
+  {id:'PG-GMB-LN-300',name:'모바일 여신·계좌 화면',apps:['APP-GMB'],svcs:['SV-LN-01','SV-LN-05','SV-DG-01','SV-DP-01'],nodes:['ND-CHWEB01','ND-CHWEB02'],repo:'channel/mobile',ver:'v7.3.0',trust:'높음',src:'APM'},
+  {id:'PG-GIB-WEB-100',name:'인터넷뱅킹 웹',apps:['APP-GIB'],svcs:['SV-DG-02','SV-LN-01'],nodes:['ND-CHWEB01','ND-CHWEB02'],repo:'channel/web',ver:'v6.1.4',trust:'높음',src:'APM'},
+  {id:'PG-DP-ACC-010',name:'계좌 관리',apps:['APP-GBS-DP'],svcs:['SV-DP-01','SV-DP-02'],nodes:['ND-GBSAP01','ND-GBSAP02','ND-GBSDB01','ND-GBSDB02'],repo:'gbs/deposit-core',ver:'v4.12.0',trust:'높음',src:'정적분석'},
+  {id:'PG-FX-RMT-010',name:'해외송금 처리',apps:['APP-FX'],svcs:['SV-FX-01','SV-FX-02'],nodes:['ND-GBSAP02','ND-FEPGW01'],repo:'fx/remittance',ver:'v2.4.0',trust:'높음',src:'정적분석'},
+  {id:'PG-DW-ETL-500',name:'정보계 적재 ETL',apps:['APP-DW'],svcs:['SV-LN-06','SV-IF-01','SV-IF-02'],nodes:['ND-DWETL01','ND-GBSBT01','ND-DWDB01'],repo:'dw/etl',ver:'v3.0.7',trust:'중간',src:'배치스케줄러'},
+  {id:'PG-RPT-REG-010',name:'규제보고 생성',apps:['APP-RPT'],svcs:['SV-IF-01'],nodes:['ND-DWDB01'],repo:'dw/reg-report',ver:'v1.6.2',trust:'높음',src:'CMDB'},
+  {id:'PG-PRS-LN-010',name:'PRASAC 여신 원장',apps:['APP-PRS-LSS'],svcs:['SV-LN-01','SV-LN-02','SV-LN-03','SV-LN-05'],nodes:['ND-PRSAP01','ND-PRSDB01'],repo:'prasac/lss',ver:'v2.2.0',trust:'높음',src:'담당자'},
+  {id:'PG-PRS-INT-030',name:'PRASAC 이자계산',apps:['APP-PRS-LSS'],svcs:['SV-LN-04','SV-LN-05'],nodes:['ND-PRSAP01','ND-PRSDB01'],repo:'prasac/lss',ver:'v2.2.0',trust:'높음',src:'담당자'},
+  {id:'PG-PRS-BAT-120',name:'PRASAC 여신 배치',apps:['APP-PRS-LSS'],svcs:['SV-LN-03','SV-LN-04','SV-LN-05'],nodes:['ND-PRSAP01','ND-PRSDB01'],repo:'prasac/lss-batch',ver:'v1.4.0',trust:'중간',src:'배치스케줄러'},
+  {id:'PG-KBI-CORE-001',name:'KBI 코어 원장',apps:['APP-KBI-CORE'],svcs:['SV-LN-03','SV-LN-04','SV-DP-01','SV-DP-02'],nodes:['ND-KBICR01'],repo:'kbi/core',ver:'v9.1.0',trust:'중간',src:'담당자'}
+];
+const NODES = [ // servers / nodes
+  {id:'ND-GBSAP01',host:'kgbsap01p',name:'GBS AP 1호기',role:'AP',cluster:'GBS-AP 클러스터 · Node1',os:'Linux',dc:'서울 주센터',eos:'2028-06',vulns:1,inc:0},
+  {id:'ND-GBSAP02',host:'kgbsap02p',name:'GBS AP 2호기',role:'AP',cluster:'GBS-AP 클러스터 · Node2',os:'Linux',dc:'서울 주센터',eos:'2028-06',vulns:0,inc:1},
+  {id:'ND-GBSDB01',host:'kgbsdb01p',name:'GBS 원장 DB',role:'DB',cluster:'GBS-DB · Primary',os:'Unix',dc:'서울 주센터',eos:'2027-04',vulns:2,inc:1},
+  {id:'ND-GBSDB02',host:'kgbsdb02p',name:'GBS 원장 DB',role:'DB',cluster:'GBS-DB · Standby',os:'Unix',dc:'서울 주센터',eos:'2027-04',vulns:1,inc:0},
+  {id:'ND-GBSBT01',host:'kgbsbt01p',name:'GBS 배치',role:'배치',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2026-09',vulns:3,inc:2},
+  {id:'ND-LOSAP01',host:'klosap01p',name:'LOS AP',role:'AP',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2027-06',vulns:1,inc:1},
+  {id:'ND-FEPGW01',host:'kfepgw01p',name:'FEP 게이트웨이 1호기',role:'GW',cluster:'FEP 클러스터 · Node1',os:'Linux',dc:'서울 주센터',eos:'2027-12',vulns:1,inc:0},
+  {id:'ND-FEPGW02',host:'kfepgw02p',name:'FEP 게이트웨이 2호기',role:'GW',cluster:'FEP 클러스터 · Node2',os:'Linux',dc:'서울 주센터',eos:'2027-12',vulns:0,inc:0},
+  {id:'ND-CHWEB01',host:'kgchwb01p',name:'채널 WEB 1호기',role:'WEB',cluster:'채널 WEB · Node1',os:'Linux',dc:'서울 주센터',eos:'2029-03',vulns:0,inc:0},
+  {id:'ND-CHWEB02',host:'kgchwb02p',name:'채널 WEB 2호기',role:'WEB',cluster:'채널 WEB · Node2',os:'Linux',dc:'서울 주센터',eos:'2029-03',vulns:1,inc:0},
+  {id:'ND-DWDB01',host:'kgdwdb01p',name:'정보계 DW',role:'DB',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2027-02',vulns:1,inc:0},
+  {id:'ND-DWETL01',host:'kgdwet01p',name:'정보계 ETL',role:'배치',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2027-09',vulns:0,inc:1},
+  {id:'ND-PRSAP01',host:'pkhlsap01p',name:'PRASAC 여신 AP',role:'AP',cluster:'단일 노드',os:'Linux',dc:'프놈펜 센터',eos:'2026-12',vulns:2,inc:1},
+  {id:'ND-PRSDB01',host:'pkhlsdb01p',name:'PRASAC 여신 DB',role:'DB',cluster:'단일 노드',os:'Linux',dc:'프놈펜 센터',eos:'2027-08',vulns:1,inc:0},
+  {id:'ND-KBICR01',host:'idkbcr01p',name:'KBI 코어',role:'AP·DB',cluster:'단일 노드',os:'Unix',dc:'자카르타 센터',eos:'2028-01',vulns:0,inc:1},
+  {id:'ND-GBSAP90',host:'kgbsap90p',name:'구 여신 AP',role:'AP',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2025-12',vulns:4,inc:0}
+];
+const USE = {};
+['E-NY','E-LDN','E-HK','E-SG','E-TKO'].forEach(e=>USE[e]=['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06','SV-DP-01','SV-DP-02','SV-DG-02','SV-FX-01','SV-FX-02','SV-IF-01','SV-IF-02']);
+USE['E-VN'] = SVC.map(s=>s.id);
+USE['E-KH'] = ['SV-LN-01','SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-IF-01'];
+USE['E-ID'] = ['SV-LN-03','SV-LN-04','SV-DP-01','SV-DP-02','SV-PY-01','SV-IF-01'];
+
+/* ================= Indexes ================= */
+const BY = {};
+const put=(arr,t)=>arr.forEach(x=>BY[x.id]={...x,t});
+put(ENT,'ent');put(CAP,'cap');put(SVC,'svc');put(SYS,'sys');put(APP,'app');put(PRG,'prog');put(NODES,'node');
+const svcApps={}, appSvcs={};
+SA.forEach(([s,a])=>{(svcApps[s]=svcApps[s]||[]).push(a);(appSvcs[a]=appSvcs[a]||[]).push(s);});
+const sysApps = id => APP.filter(a=>a.sys===id).map(a=>a.id);
+const usersOf = s => ENT.filter(e=>USE[e.id].includes(s)).map(e=>e.id);
+const progsOfApp = a => PRG.filter(p=>p.apps.includes(a));
+const progsOnNode = n => PRG.filter(p=>p.nodes.includes(n));
+const TL = {ent:'법인·지점',cap:'업무역량',svc:'업무서비스',sys:'시스템',app:'애플리케이션',prog:'프로그램',node:'서버·노드'};
+const LAYER = {ent:0,cap:1,svc:2,sys:3,app:4,prog:5,node:6};
+const label = id => { const n=BY[id]; if(!n) return id; if(n.t==='node') return n.host; if(n.t==='app') return n.code; if(n.t==='sys') return n.code+' '+n.name; return n.name; };
+
+/* relation metadata: verifier / verified date / valid-until */
+const fmt = d => d.toISOString().slice(0,10);
+let ri=0;
+function meta(trust, verifier){
+  const i=ri++;
+  if(trust==='낮음') return {verifier:'—',at:'—',to:'—',status:'미검증'};
+  const m = trust==='높음' ? 7+(i%4) : 4+(i%3);
+  const day = 1+(i*7)%27;
+  const at=new Date(Date.UTC(2026,m,day)), to=new Date(Date.UTC(2026,m+6,day));
+  const days=(to-REF)/864e5;
+  return {verifier, at:fmt(at), to:fmt(to), status: days<0?'만료':days<60?'만료 임박':'유효'};
+}
+const REL=[];
+SA.forEach(([s,a,t,src])=>REL.push({k:'서비스–앱',u:s,v:a,trust:t,src,...meta(t,BY[a].owner+' PL')}));
+APP.forEach(a=>REL.push({k:'시스템–앱',u:a.sys,v:a.id,trust:'높음',src:'CMDB',...meta('높음','EA 담당')}));
+PRG.forEach(p=>p.apps.forEach(a=>REL.push({k:'앱–프로그램',u:a,v:p.id,trust:p.trust,src:p.src==='추정'?'추정':'형상관리',...meta(p.trust,BY[a].owner)})));
+PRG.forEach(p=>p.nodes.forEach(n=>{const t=(p.id==='PG-DW-ETL-500'&&n==='ND-GBSBT01')?'중간':'높음';REL.push({k:'프로그램–서버',u:p.id,v:n,trust:t,src:'배포이력·CMDB',...meta(t,'인프라운영팀')});}));
+const RELBY={}; REL.forEach(r=>RELBY[r.u+'|'+r.v]=r);
+const relGood = r => r.trust==='높음' && r.status==='유효';
+
+function nodeScore(a){
+  const [y,m]=a.eos.split('-').map(Number);
+  const months=(y-2026)*12+(m-11);
+  let s = months<0?40:months<12?25:5;
+  return Math.min(100, s + a.vulns*8 + a.inc*10);
+}
+function nodeWhy(a){
+  const [y,m]=a.eos.split('-').map(Number);
+  const months=(y-2026)*12+(m-11), r=[];
+  if(months<0) r.push('지원종료 경과('+a.eos+')'); else if(months<12) r.push('지원종료 임박('+a.eos+')');
+  if(a.vulns) r.push('취약점 '+a.vulns+'건'); if(a.inc) r.push('90일 장애 '+a.inc+'건');
+  return r.join(' · ')||'특이사항 없음';
+}
+const lv = s => s>=70?2:s>=40?1:0;
+const lvRate = r => r>=90?0:r>=70?1:2;
+
+/* ================= Scope & impact ================= */
+function scope(ent,cap){
+  let S=SVC.map(s=>s.id);
+  if(cap!=='all') S=S.filter(s=>BY[s].cap===cap);
+  if(ent!=='all') S=S.filter(s=>USE[ent].includes(s));
+  const Ss=new Set(S), A=new Set();
+  S.forEach(s=>(svcApps[s]||[]).forEach(a=>{ if(ent==='all'||BY[a].ents.includes(ent)) A.add(a); }));
+  const P=new Set(PRG.filter(p=>p.svcs.some(s=>Ss.has(s))&&p.apps.some(a=>A.has(a))).map(p=>p.id));
+  const X=new Set(); P.forEach(p=>BY[p].nodes.forEach(n=>X.add(n)));
+  const Y=new Set([...A].map(a=>BY[a].sys));
+  return {svc:Ss,app:A,prog:P,node:X,sys:Y};
+}
+function scopeRels(sc){
+  return REL.filter(r=>(r.k==='서비스–앱'&&sc.svc.has(r.u)&&sc.app.has(r.v))||(r.k==='시스템–앱'&&sc.app.has(r.v))||(r.k==='앱–프로그램'&&sc.app.has(r.u)&&sc.prog.has(r.v))||(r.k==='프로그램–서버'&&sc.prog.has(r.u)&&sc.node.has(r.v)));
+}
+function maxScore(set){ let m=0; set.forEach(x=>m=Math.max(m,nodeScore(BY[x]))); return m; }
+
+function impact(id){
+  const n=BY[id];
+  let S=new Set(), A=new Set(), P=new Set(), X=new Set(), E=new Set(), up=false;
+  const progsFor=(Ss,As)=>PRG.filter(p=>p.svcs.some(s=>Ss.has(s))&&p.apps.some(a=>As.has(a)));
+  if(n.t==='node'){ X.add(id); progsOnNode(id).forEach(p=>P.add(p.id)); up=true; }
+  if(n.t==='prog'){ P.add(id); n.nodes.forEach(x=>X.add(x)); up=true; }
+  if(n.t==='node'||n.t==='prog'){ P.forEach(pid=>{BY[pid].apps.forEach(a=>A.add(a)); BY[pid].svcs.forEach(s=>S.add(s));}); }
+  if(n.t==='app'||n.t==='sys'){
+    (n.t==='app'?[id]:sysApps(id)).forEach(a=>A.add(a));
+    A.forEach(a=>{(appSvcs[a]||[]).forEach(s=>S.add(s)); progsOfApp(a).forEach(p=>{P.add(p.id);p.nodes.forEach(x=>X.add(x));});});
+    up=true;
+  }
+  if(n.t==='svc'||n.t==='cap'||n.t==='ent'){
+    if(n.t==='svc') S.add(id);
+    if(n.t==='cap') SVC.filter(s=>s.cap===id).forEach(s=>S.add(s.id));
+    if(n.t==='ent') USE[id].forEach(s=>S.add(s));
+    S.forEach(s=>(svcApps[s]||[]).forEach(a=>{ if(n.t!=='ent'||BY[a].ents.includes(id)) A.add(a); }));
+    progsFor(S,A).forEach(p=>{P.add(p.id);p.nodes.forEach(x=>X.add(x));});
+  }
+  if(up){
+    S=new Set([...S].filter(s=>(svcApps[s]||[]).some(a=>A.has(a))));
+    ENT.forEach(e=>{ if([...S].some(s=>USE[e.id].includes(s)&&(svcApps[s]||[]).some(a=>A.has(a)&&BY[a].ents.includes(e.id)))) E.add(e.id); });
+  } else if(n.t==='ent') E.add(id);
+  else S.forEach(s=>usersOf(s).forEach(e=>E.add(e)));
+  const C=new Set([...S].map(s=>BY[s].cap)); if(n.t==='cap'){C.clear();C.add(id);}
+  const Y=new Set([...A].map(a=>BY[a].sys)); if(n.t==='sys') Y.add(id);
+  return {ent:E,cap:C,svc:S,sys:Y,app:A,prog:P,node:X};
+}
+/* edges in the 7-column map, low layer → high layer */
+const EDGES=[];
+ENT.forEach(e=>USE[e.id].forEach(s=>EDGES.push({u:e.id,v:s,k:'ent',trust:'높음'})));
+SVC.forEach(s=>EDGES.push({u:s.cap,v:s.id,k:'',trust:'높음'}));
+(()=>{const m={};SA.forEach(([s,a,t])=>{const key=s+'|'+BY[a].sys;const rank={'높음':0,'중간':1,'낮음':2};if(!m[key]||rank[t]>rank[m[key]])m[key]=t;});Object.entries(m).forEach(([k,t])=>{const [s,y]=k.split('|');EDGES.push({u:s,v:y,k:'',trust:t});});})();
+APP.forEach(a=>EDGES.push({u:a.sys,v:a.id,k:'',trust:'높음'}));
+PRG.forEach(p=>p.apps.forEach(a=>EDGES.push({u:a,v:p.id,k:'',trust:p.trust})));
+PRG.forEach(p=>p.nodes.forEach(x=>EDGES.push({u:p.id,v:x,k:'',trust:RELBY[p.id+'|'+x].trust})));
+function edgeHit(e,R){
+  const tu=BY[e.u].t, tv=BY[e.v].t;
+  if(!R[tu].has(e.u)||!R[tv].has(e.v)) return false;
+  if(tu==='ent') return R.app.size===0 || (svcApps[e.v]||[]).some(a=>R.app.has(a)&&BY[a].ents.includes(e.u));
+  if(tu==='svc'&&tv==='sys') return APP.some(a=>a.sys===e.v&&R.app.has(a.id)&&(svcApps[e.u]||[]).includes(a.id)&&PRG.some(p=>R.prog.has(p.id)&&p.svcs.includes(e.u)&&p.apps.includes(a.id)));
+  return true;
+}
+function paths(origin,R){
+  const hit=EDGES.filter(e=>edgeHit(e,R));
+  const dn={}, upm={};
+  hit.forEach(e=>{(dn[e.u]=dn[e.u]||[]).push(e.v);(upm[e.v]=upm[e.v]||[]).push(e.u);});
+  const out={down:[],up:[]}, LIM=300;
+  (function dfs(n,acc){ if(out.down.length>=LIM) return; const nx=(dn[n]||[]).filter(v=>BY[v].t!=='svc'||BY[n].t!=='ent'||true); if(!nx.length){ if(acc.length>1) out.down.push(acc); return; } nx.forEach(v=>dfs(v,acc.concat(v))); })(origin,[origin]);
+  (function dfs(n,acc){ if(out.up.length>=LIM) return; let nx=(upm[n]||[]); if(BY[n].t==='svc') nx=nx.filter(v=>BY[v].t==='ent'); if(!nx.length){ if(acc.length>1) out.up.push(acc); return; } nx.forEach(v=>dfs(v,acc.concat(v))); })(origin,[origin]);
+  return out;
+}
+
+/* ================= State & routing ================= */
+const st={ent:'all',cap:'all',q:'',type:'all',sel:'PG-LN-INT-030',metric:'risk',gmode:'focus'};
+const VIEWS=['business','service','system','impact','quality'];
+let curView='business';
+function show(v){
+  if(!VIEWS.includes(v)) v='business';
+  curView=v;
+  document.querySelectorAll('.view').forEach(el=>el.classList.toggle('on',el.id==='v-'+v));
+  document.querySelectorAll('nav.tabs a').forEach(a=>{ if(a.dataset.v===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  if(v==='impact') drawGraph();
+  try{ window.scrollTo(0,0); }catch(e){}
+}
+function route(){ let h=''; try{ h=(location.hash||'').slice(1); }catch(e){} show(h||curView); }
+try{ window.addEventListener('hashchange',route); }catch(e){}
+function go(v){ show(v); try{ history.replaceState(null,'','#'+v); }catch(e){} }
+document.querySelectorAll('nav.tabs a').forEach(a=>a.addEventListener('click',ev=>{ ev.preventDefault(); go(a.dataset.v); }));
+function openImpact(id){ st.sel=id; renderCrumb(); go('impact'); }
+function setScope(ent,cap){ st.ent=ent; st.cap=cap; renderAll(); }
+
+function renderScopeBar(){
+  const se=document.getElementById('sc-ent'), sc=document.getElementById('sc-cap');
+  se.innerHTML='<option value="all">전체</option>'+ENT.map(e=>`<option value="${e.id}">${e.name}</option>`).join('');
+  sc.innerHTML='<option value="all">전체</option>'+CAP.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  se.value=st.ent; sc.value=st.cap;
+  se.onchange=()=>setScope(se.value,st.cap); sc.onchange=()=>setScope(st.ent,sc.value);
+}
+function renderCrumb(){
+  const c=document.getElementById('crumb');
+  const parts=[];
+  if(st.ent!=='all'||st.cap!=='all') parts.push(`<span class="muted">범위</span> <b>${st.ent==='all'?'전체 법인':BY[st.ent].name}</b> › <b>${st.cap==='all'?'전체 업무':BY[st.cap].name}</b> <button class="chip" id="clr-scope">범위 해제</button>`);
+  if(st.sel) parts.push(`<span class="muted">분석 대상</span> <button class="chip" id="to-sel">${TL[BY[st.sel].t]} · ${label(st.sel)}</button>`);
+  c.innerHTML=parts.join('<span class="muted" aria-hidden="true">|</span>');
+  const a=document.getElementById('clr-scope'); if(a) a.onclick=()=>setScope('all','all');
+  const b=document.getElementById('to-sel'); if(b) b.onclick=()=>go('impact');
+}
+
+/* ================= Business view ================= */
+function renderBusiness(){
+  const crit=SVC.filter(s=>s.crit).length;
+  const good=REL.filter(relGood).length;
+  const warnNodes=NODES.filter(a=>nodeScore(a)>=40).length;
+  const k=[
+    [ENT.length,'법인·지점','지점 6 · 현지법인 2'],
+    [SVC.length,'업무서비스','중요 서비스 '+crit],
+    [SYS.length,'시스템','애플리케이션 '+APP.length],
+    [PRG.length,'프로그램','소스 저장소 연계'],
+    [NODES.length,'서버·노드','주의 이상 '+warnNodes],
+    [Math.round(good/REL.length*100)+'%','관계 검증률','유효·신뢰 높음 '+good+' / '+REL.length]
+  ];
+  document.getElementById('kpis').innerHTML=k.map(([v,l,s])=>`<div class="kpi"><span class="l">${l}</span><span class="v">${v}</span><span class="s">${s}</span></div>`).join('');
+  document.getElementById('m-risk').setAttribute('aria-pressed',st.metric==='risk');
+  document.getElementById('m-verify').setAttribute('aria-pressed',st.metric==='verify');
+  document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{st.metric=b.dataset.m;renderBusiness();});
+  let h='<thead><tr><th></th>'+CAP.map(c=>`<th class="${st.cap===c.id?'on':''}">${c.name}</th>`).join('')+'</tr></thead><tbody>';
+  ENT.forEach(e=>{
+    h+=`<tr><th class="row ${st.ent===e.id?'on':''}" scope="row">${e.name}</th>`;
+    CAP.forEach(c=>{
+      const sc=scope(e.id,c.id);
+      if(!sc.svc.size){ h+=`<td><div class="cell none"><span class="m">—</span></div></td>`; return; }
+      let val, cls, sub;
+      if(st.metric==='risk'){ val=maxScore(sc.node); cls='lv'+lv(val); sub='서비스 '+sc.svc.size+' · 노드 '+sc.node.size; }
+      else { const rs=scopeRels(sc); const r=rs.length?Math.round(rs.filter(relGood).length/rs.length*100):0; val=rs.length?r+'%':'—'; cls=rs.length?'lv'+lvRate(r):'lv2'; sub='관계 '+rs.length; }
+      const on=(st.ent===e.id&&st.cap===c.id)?' on':'';
+      h+=`<td><button class="cell ${cls}${on}" data-e="${e.id}" data-c="${c.id}" aria-label="${e.name} ${c.name} ${val}"><span class="n">${val}</span><span class="m">${sub}</span></button></td>`;
+    });
+    h+='</tr>';
+  });
+  const heat=document.getElementById('heat'); heat.innerHTML=h+'</tbody>';
+  heat.querySelectorAll('button.cell').forEach(b=>b.onclick=()=>{setScope(b.dataset.e,b.dataset.c);go('service');});
+  document.getElementById('legend').innerHTML = st.metric==='risk'
+    ? `<span><i style="background:var(--ok-soft);border:1px solid var(--ok)"></i>낮음 0–39</span><span><i style="background:var(--warn-soft);border:1px solid var(--warn)"></i>주의 40–69</span><span><i style="background:var(--bad-soft);border:1px solid var(--bad)"></i>높음 70+</span><span>숫자 = 연결된 서버·노드 중 최고 위험점수</span>`
+    : `<span><i style="background:var(--ok-soft);border:1px solid var(--ok)"></i>90% 이상</span><span><i style="background:var(--warn-soft);border:1px solid var(--warn)"></i>70–89%</span><span><i style="background:var(--bad-soft);border:1px solid var(--bad)"></i>70% 미만</span><span>검증률 = 유효기간 내·신뢰 높음 관계 / 전체 관계</span>`;
+  const top=[...NODES].sort((a,b)=>nodeScore(b)-nodeScore(a)).slice(0,5);
+  document.getElementById('toprisk').innerHTML=top.map(a=>{
+    const R=impact(a.id), cs=[...R.svc].filter(s=>BY[s].crit).length, s=nodeScore(a);
+    const eff = R.svc.size ? `영향: 법인·지점 ${R.ent.size} · 중요 서비스 ${cs} · 프로그램 ${R.prog.size}` : '연결된 업무서비스 없음 · 폐기 검토 대상';
+    return `<button class="risk-row" data-id="${a.id}"><span class="score lv${lv(s)}">${s}</span><span><b>${a.name} <span class="mono">${a.host}</span></b><span>${a.cluster} · ${nodeWhy(a)}</span><br><span>${eff}</span></span></button>`;
+  }).join('');
+  document.querySelectorAll('#toprisk .risk-row').forEach(b=>b.onclick=()=>openImpact(b.dataset.id));
+  let t='<thead><tr><th>법인·지점</th><th>구분</th><th class="num">업무서비스</th><th class="num">중요</th><th>시스템</th><th class="num">서버·노드</th><th class="num">최고 위험</th><th class="num">관계 검증률</th></tr></thead><tbody>';
+  ENT.forEach(e=>{
+    const sc=scope(e.id,'all'), rs=scopeRels(sc), r=rs.length?Math.round(rs.filter(relGood).length/rs.length*100):0, m=maxScore(sc.node);
+    t+=`<tr class="click" data-e="${e.id}" tabindex="0"><td><b>${e.name}</b></td><td>${e.kind}</td><td class="num">${sc.svc.size}</td><td class="num">${[...sc.svc].filter(s=>BY[s].crit).length}</td><td>${[...sc.sys].map(y=>BY[y].code).join(', ')}</td><td class="num">${sc.node.size}</td><td class="num"><span class="pill lv${lv(m)}">${m}</span></td><td class="num"><span class="pill lv${lvRate(r)}">${r}%</span></td></tr>`;
+  });
+  const es=document.getElementById('entsum'); es.innerHTML=t+'</tbody>';
+  es.querySelectorAll('tr.click').forEach(tr=>{const f=()=>{setScope(tr.dataset.e,'all');go('service');};tr.onclick=f;tr.onkeydown=ev=>{if(ev.key==='Enter')f();};});
+}
+
+/* ================= Service view ================= */
+function renderService(){
+  const sc=scope(st.ent,st.cap);
+  const caps=st.cap==='all'?CAP:[BY[st.cap]];
+  const box=document.getElementById('svcs');
+  let html='';
+  caps.forEach(c=>{
+    const list=SVC.filter(s=>s.cap===c.id&&sc.svc.has(s.id));
+    if(!list.length) return;
+    if(st.cap==='all') html+=`<div class="capgroup">${c.name} <span class="muted" style="font-weight:500;font-size:13px">서비스 ${list.length}</span></div>`;
+    html+='<div class="svc-grid">';
+    list.forEach(s=>{
+      let apps=svcApps[s.id]||[];
+      if(st.ent!=='all') apps=apps.filter(a=>BY[a].ents.includes(st.ent));
+      const R=impact(s.id), mx=maxScore(R.node);
+      const ents=st.ent==='all'?usersOf(s.id):[st.ent];
+      const chains = apps.length ? apps.map(a=>{
+        const rel=RELBY[s.id+'|'+a], A=BY[a];
+        const progs=PRG.filter(p=>p.apps.includes(a)&&p.svcs.includes(s.id));
+        const nodes=[...new Set(progs.flatMap(p=>p.nodes))];
+        return `<div class="chain">
+          <div class="h"><span class="tag">${BY[A.sys].code}</span><b>${BY[A.sys].name}</b><span class="muted">›</span><span class="tag">${A.code}</span><span>${A.name}</span>
+          ${rel.trust!=='높음'||rel.status!=='유효'?`<span class="pill lv1" title="원천 ${rel.src} · 검증 ${rel.at}">${rel.trust==='낮음'?'미검증':'신뢰 '+rel.trust}</span>`:''}</div>
+          <div class="row"><span>프로그램</span><span class="chips">${progs.map(p=>`<span class="chip static mono" title="${p.name}">${p.id}</span>`).join('')||'<span class="muted">매핑 없음</span>'}</span></div>
+          <div class="row"><span>서버·노드</span><span class="chips">${nodes.map(n=>`<span class="chip host static lv${lv(nodeScore(BY[n]))}" title="${BY[n].name} · ${BY[n].cluster} · 위험 ${nodeScore(BY[n])}">${BY[n].host}</span>`).join('')||'<span class="muted">—</span>'}</span></div>
+        </div>`;}).join('') : `<div class="note">연결된 애플리케이션이 없습니다. 서비스–앱 매핑이 필요합니다.</div>`;
+      html+=`<div class="card svc">
+        <div class="hd"><div><h3>${s.name}</h3><span class="mono">${s.id}</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><span class="pill ${s.crit?'crit':'norm'}">${s.crit?'중요':'일반'}</span><span class="pill lv${lv(mx)}">위험 ${mx}</span></div></div>
+        <dl class="kv"><dt>책임부서</dt><dd>${s.dept}</dd><dt>SLA</dt><dd>${s.sla}</dd><dt>제공 범위</dt><dd>${ents.map(e=>BY[e].name).join(', ')}</dd></dl>
+        <div class="stack">${chains}</div>
+        <div><button class="btn" data-id="${s.id}">영향 범위 보기 →</button></div></div>`;
+    });
+    html+='</div>';
+  });
+  box.innerHTML = html || `<div class="card">선택한 범위에 해당하는 업무서비스가 없습니다. 위에서 법인·지점이나 업무역량을 바꿔 보세요.</div>`;
+  box.querySelectorAll('.btn').forEach(b=>b.onclick=()=>openImpact(b.dataset.id));
+}
+
+/* ================= System view ================= */
+function renderSystem(){
+  const filtered = st.ent!=='all'||st.cap!=='all';
+  const sc=scope(st.ent,st.cap);
+  const sysList=SYS.filter(y=>!filtered||sc.sys.has(y.id));
+  document.getElementById('systems').innerHTML = sysList.map(y=>{
+    const apps=APP.filter(a=>a.sys===y.id&&(!filtered||sc.app.has(a.id)));
+    const progs=PRG.filter(p=>p.apps.some(a=>apps.some(x=>x.id===a))&&(!filtered||sc.prog.has(p.id)));
+    const nodes=[...new Set(progs.flatMap(p=>p.nodes))].concat(filtered?[]:NODES.filter(n=>!progsOnNode(n.id).length&&y.id==='SYS-GBS').map(n=>n.id));
+    const mx=maxScore(new Set(nodes));
+    return `<button class="card sys" data-id="${y.id}">
+      <div class="hd"><div><h3>${y.name}</h3><span class="mono">${y.id} · 코드 ${y.code}</span></div><span class="pill lv${lv(mx)}">위험 ${mx}</span></div>
+      <dl class="kv"><dt>위치</dt><dd>${y.dc}</dd>
+      <dt>앱 코드</dt><dd class="chips">${apps.map(a=>`<span class="chip static" title="${a.name}"><span class="mono">${a.code}</span> ${a.name}</span>`).join('')}</dd>
+      <dt>프로그램</dt><dd>${progs.length}개</dd>
+      <dt>서버·노드</dt><dd class="chips">${nodes.map(n=>`<span class="chip host static lv${lv(nodeScore(BY[n]))}" title="${BY[n].cluster} · 위험 ${nodeScore(BY[n])}">${BY[n].host}</span>`).join('')||'—'}</dd></dl>
+    </button>`;
+  }).join('') || `<div class="card">선택한 범위에 해당하는 시스템이 없습니다.</div>`;
+  document.querySelectorAll('#systems .sys').forEach(b=>b.onclick=()=>openImpact(b.dataset.id));
+
+  const types=[['all','전체'],['sys','시스템'],['app','애플리케이션'],['prog','프로그램'],['node','서버·노드']];
+  document.getElementById('typechips').innerHTML=types.map(([k,l])=>`<button class="chip" aria-pressed="${st.type===k}" data-t="${k}">${l}</button>`).join('');
+  document.querySelectorAll('#typechips .chip').forEach(b=>b.onclick=()=>{st.type=b.dataset.t;renderSystem();});
+  const rows=[];
+  SYS.forEach(y=>rows.push({t:'sys',id:y.id,key:y.code,name:y.name,where:y.dc,ver:'—',owner:'EA 담당',n:new Set(sysApps(y.id).flatMap(a=>appSvcs[a]||[])).size,st:''}));
+  APP.forEach(a=>rows.push({t:'app',id:a.id,key:a.code,name:a.name,where:BY[a.sys].code+' '+BY[a.sys].name,ver:'—',owner:a.owner,n:(appSvcs[a.id]||[]).length,st:''}));
+  PRG.forEach(p=>rows.push({t:'prog',id:p.id,key:p.id,name:p.name,where:p.repo,ver:p.ver,owner:BY[p.apps[0]].owner,n:p.svcs.length,st:`<span class="pill ${p.trust==='높음'?'lv0':p.trust==='중간'?'lv1':'lv2'}" title="원천 ${p.src}">신뢰 ${p.trust}</span>`}));
+  NODES.forEach(x=>{const s=nodeScore(x);rows.push({t:'node',id:x.id,key:x.host,name:x.name+' · '+x.role,where:x.cluster+' · '+x.dc,ver:x.os+' · EOS '+x.eos,owner:'인프라운영팀',n:impact(x.id).svc.size,st:`<span class="pill lv${lv(s)}" title="${nodeWhy(x)}">위험 ${s}</span>`});});
+  const inScope = r => !filtered || (r.t==='sys'?sc.sys:r.t==='app'?sc.app:r.t==='prog'?sc.prog:sc.node).has(r.id);
+  const q=st.q.trim().toLowerCase();
+  const f=rows.filter(r=>(st.type==='all'||r.t===st.type)&&inScope(r)&&(!q||(r.id+' '+r.key+' '+r.name+' '+r.where).toLowerCase().includes(q)));
+  const tl={sys:'시스템',app:'App',prog:'Program',node:'Server'};
+  document.getElementById('itcount').textContent=`${f.length}개 항목${filtered?' · 범위 적용':''}`;
+  document.getElementById('itlist').innerHTML=`<thead><tr><th>유형</th><th>코드·호스트명</th><th>이름</th><th>소속·저장소·위치</th><th>버전·OS·EOS</th><th>담당</th><th class="num">연결 서비스</th><th>상태</th></tr></thead><tbody>`+
+    (f.length?f.map(r=>`<tr class="click" tabindex="0" data-id="${r.id}"><td><span class="type ${r.t}">${tl[r.t]}</span></td><td class="mono">${r.key}</td><td>${r.name}</td><td>${r.where}</td><td class="mono">${r.ver}</td><td>${r.owner}</td><td class="num">${r.n}</td><td>${r.st}</td></tr>`).join(''):`<tr><td colspan="8">검색 결과가 없습니다. 앱 코드, 프로그램 ID, 호스트명으로 다시 찾아보세요.</td></tr>`)+'</tbody>';
+  document.querySelectorAll('#itlist tr.click').forEach(tr=>{tr.onclick=()=>openImpact(tr.dataset.id);tr.onkeydown=e=>{if(e.key==='Enter')openImpact(tr.dataset.id);};});
+}
+document.getElementById('q').addEventListener('input',e=>{st.q=e.target.value;renderSystem();});
+
+/* ================= Impact view ================= */
+const COLS=[['ent','법인·지점','biz'],['cap','업무역량','biz'],['svc','업무서비스','svc'],['sys','시스템','tech'],['app','애플리케이션','tech'],['prog','프로그램·소스','tech'],['node','서버·노드','tech']];
+const SRC={ent:ENT,cap:CAP,svc:SVC,sys:SYS,app:APP,prog:PRG,node:NODES};
+const NW=164, GAP=52, NH=40, VG=8, TOP=66, LEFT=14;
+const SCEN=[
+  ['PG-LN-INT-030','변경: 이자계산 모듈 배포'],
+  ['ND-GBSBT01','장애: 배치서버 kgbsbt01p'],
+  ['ND-GBSDB01','장애: 원장 DB kgbsdb01p'],
+  ['PG-COM-DT-001','취약점: 영업일 공통모듈'],
+  ['CAP-LN','Top-down: 여신'],
+  ['E-KH','Top-down: KB PRASAC']
+];
+function initScen(){
+  const box=document.getElementById('scen');
+  box.innerHTML='<span class="lbl">시나리오</span>'+SCEN.map(([id,l])=>`<button class="chip" data-id="${id}">${l}</button>`).join('');
+  box.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{st.sel=b.dataset.id;renderCrumb();drawGraph();});
+  document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{st.gmode=b.dataset.g;drawGraph();});
+}
+const nodeSub = x => x.t==='node'?x.host+' · '+x.role : x.t==='app'?x.code+' · '+BY[x.sys].code : x.t==='sys'?x.code+' · '+x.dc : x.id;
+function drawGraph(){
+  const R=st.sel?impact(st.sel):null;
+  const hitSet=new Set(); if(R) Object.values(R).forEach(s=>s.forEach(v=>hitSet.add(v)));
+  const focus = R && st.gmode==='focus';
+  document.getElementById('g-focus').setAttribute('aria-pressed',st.gmode==='focus');
+  document.getElementById('g-all').setAttribute('aria-pressed',st.gmode==='all');
+  const pos={}, colItems={};
+  COLS.forEach(([t],ci)=>{ colItems[t]=SRC[t].filter(x=>!focus||hitSet.has(x.id)); colItems[t].forEach((x,i)=>pos[x.id]={x:LEFT+ci*(NW+GAP),y:TOP+i*(NH+VG)}); });
+  const W=LEFT*2+COLS.length*NW+(COLS.length-1)*GAP;
+  const H=TOP+Math.max(1,...COLS.map(([t])=>colItems[t].length))*(NH+VG)+12;
+  let svg=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">`;
+  EDGES.forEach(e=>{
+    const a=pos[e.u], b=pos[e.v]; if(!a||!b) return;
+    const h=R&&edgeHit(e,R);
+    if(focus&&!h) return;
+    const x1=a.x+NW, y1=a.y+NH/2, x2=b.x, y2=b.y+NH/2, dx=Math.max(26,(x2-x1)/2);
+    svg+=`<path class="e ${e.k} ${e.trust!=='높음'?'low':''} ${h?'hit':''}" d="M${x1} ${y1} C${x1+dx} ${y1}, ${x2-dx} ${y2}, ${x2} ${y2}"/>`;
+  });
+  svg+='</svg>';
+  let html=svg;
+  COLS.forEach(([t,l,c],ci)=>{ html+=`<div class="band" style="left:${LEFT+ci*(NW+GAP)}px;width:${NW}px;background:var(--${c})"></div><div class="colh" style="left:${LEFT+ci*(NW+GAP)}px;width:${NW}px;color:var(--${c})">${l}<span>${colItems[t].length}${focus?' / '+SRC[t].length:''}개</span></div>`; });
+  COLS.forEach(([t])=>colItems[t].forEach(x=>{
+    const n=BY[x.id], p=pos[x.id];
+    const rk = n.t==='node' ? ' r'+lv(nodeScore(n)) : '';
+    const cls=['node','t-'+t, rk, R&&hitSet.has(x.id)?'hit':'', st.sel===x.id?'origin':''].join(' ');
+    html+=`<button class="${cls}" style="left:${p.x}px;top:${p.y}px;width:${NW}px" data-id="${x.id}" title="${TL[t]} · ${n.name} · ${nodeSub(n)}"><span class="nm">${n.name}</span><span class="id">${nodeSub(n)}</span></button>`;
+  }));
+  const g=document.getElementById('graph');
+  g.style.width=W+'px'; g.style.height=H+'px'; g.classList.toggle('sel',!!R); g.innerHTML=html;
+  g.querySelectorAll('.node').forEach(b=>b.onclick=()=>{st.sel=b.dataset.id;renderCrumb();drawGraph();});
+  document.querySelectorAll('#scen .chip').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.id===st.sel)));
+  renderSide(R);
+}
+function pathHtml(p,dir){
+  const seq = p.map(id=>`<span class="tag" title="${TL[BY[id].t]} · ${BY[id].name}">${label(id)}</span>`);
+  return `<div class="path">${seq.join(`<i>${dir}</i>`)}</div>`;
+}
+let lastReport='';
+function renderSide(R){
+  const side=document.getElementById('side');
+  if(!R){ side.innerHTML='<h3>항목을 선택하세요</h3><p class="foot">시나리오나 그래프의 노드를 누르면 영향 범위를 계산합니다.</p>'; return; }
+  const n=BY[st.sel], isUp=LAYER[n.t]>=3;
+  let attrs='';
+  if(n.t==='node') attrs=`<dt>호스트명</dt><dd class="mono">${n.host}</dd><dt>구성</dt><dd>${n.role} · ${n.cluster}</dd><dt>위치·OS</dt><dd>${n.dc} · ${n.os}</dd><dt>지원종료</dt><dd>${n.eos}</dd><dt>위험점수</dt><dd><span class="pill lv${lv(nodeScore(n))}">${nodeScore(n)}</span> ${nodeWhy(n)}</dd>`;
+  if(n.t==='prog') attrs=`<dt>저장소</dt><dd class="mono">${n.repo}</dd><dt>배포 버전</dt><dd class="mono">${n.ver}</dd><dt>소속 앱</dt><dd>${n.apps.map(a=>BY[a].code).join(', ')}</dd><dt>관계 원천</dt><dd>${n.src} · 신뢰 ${n.trust}</dd>`;
+  if(n.t==='app') attrs=`<dt>앱 코드</dt><dd class="mono">${n.code}</dd><dt>시스템</dt><dd>${BY[n.sys].code} ${BY[n.sys].name}</dd><dt>담당</dt><dd>${n.owner}</dd><dt>사용 범위</dt><dd>${n.ents.map(e=>BY[e].name).join(', ')}</dd>`;
+  if(n.t==='sys') attrs=`<dt>시스템 코드</dt><dd class="mono">${n.code}</dd><dt>위치</dt><dd>${n.dc}</dd><dt>앱</dt><dd>${sysApps(n.id).map(a=>BY[a].code).join(', ')}</dd>`;
+  if(n.t==='svc') attrs=`<dt>중요도</dt><dd>${n.crit?'중요':'일반'} · SLA ${n.sla}</dd><dt>책임부서</dt><dd>${n.dept}</dd>`;
+  if(n.t==='cap') attrs=`<dt>서비스</dt><dd>${SVC.filter(s=>s.cap===n.id).length}개</dd>`;
+  if(n.t==='ent') attrs=`<dt>구분</dt><dd>${n.kind}</dd><dt>제공 서비스</dt><dd>${USE[n.id].length}개</dd>`;
+  const critS=[...R.svc].filter(s=>BY[s].crit).map(s=>BY[s].name);
+  const rels=REL.filter(r=>{const tu=BY[r.u].t,tv=BY[r.v].t;return R[tu].has(r.u)&&R[tv].has(r.v);});
+  const bad=rels.filter(r=>!relGood(r));
+  const P=paths(st.sel,R);
+  const mx=maxScore(R.node);
+  const SHOW=5;
+  const upList = P.up.slice(0,SHOW).map(p=>pathHtml(p,'→')).join('');
+  const dnList = P.down.slice(0,SHOW).map(p=>pathHtml(p,'→')).join('');
+  lastReport = [
+    `[영향 분석] ${TL[n.t]} ${n.name} (${n.t==='node'?n.host:n.id})`,
+    `기준일 ${fmt(REF)} · 샘플 데이터`,
+    `영향 법인·지점(${R.ent.size}): ${[...R.ent].map(e=>BY[e].name).join(', ')||'-'}`,
+    `업무서비스(${R.svc.size}, 중요 ${critS.length}): ${[...R.svc].map(s=>BY[s].name).join(', ')||'-'}`,
+    `시스템(${R.sys.size}): ${[...R.sys].map(y=>BY[y].code).join(', ')||'-'}`,
+    `애플리케이션(${R.app.size}): ${[...R.app].map(a=>BY[a].code).join(', ')||'-'}`,
+    `프로그램(${R.prog.size}): ${[...R.prog].join(', ')||'-'}`,
+    `서버·노드(${R.node.size}): ${[...R.node].map(x=>BY[x].host).join(', ')||'-'}`,
+    `최고 위험점수 ${mx} · 검증 필요 관계 ${bad.length}건`
+  ].join('\n');
+  side.innerHTML=`
+    <div><span class="dir">${isUp?'Bottom-up · 시스템에서 사업으로':'Top-down · 사업에서 서버·노드로'}</span>
+    <h3>${n.name}</h3><span class="mono">${n.t==='node'?n.host:n.id} · ${TL[n.t]}</span></div>
+    <dl class="kv">${attrs}</dl>
+    <div class="counts">
+      <div><b>${R.ent.size}</b><span>법인·지점</span></div><div><b>${R.svc.size}</b><span>업무서비스</span></div><div><b>${critS.length}</b><span>중요 서비스</span></div><div><b>${R.sys.size}</b><span>시스템</span></div>
+      <div><b>${R.app.size}</b><span>앱</span></div><div><b>${R.prog.size}</b><span>프로그램</span></div><div><b>${R.node.size}</b><span>서버·노드</span></div><div><b>${mx}</b><span>최고 위험</span></div>
+    </div>
+    <dl class="kv"><dt>영향 법인</dt><dd>${[...R.ent].map(e=>BY[e].name).join(', ')||'—'}</dd><dt>중요 서비스</dt><dd>${critS.join(', ')||'—'}</dd></dl>
+    ${P.up.length?`<div class="paths"><h4>사업까지 경로 <span class="muted" style="font-weight:500">${P.up.length}개${P.up.length>SHOW?' 중 '+SHOW:''}</span></h4>${upList}</div>`:''}
+    ${P.down.length?`<div class="paths"><h4>서버·노드까지 경로 <span class="muted" style="font-weight:500">${P.down.length>=300?'300+':P.down.length}개${P.down.length>SHOW?' 중 '+SHOW:''}</span></h4>${dnList}</div>`:''}
+    ${bad.length?`<div class="note"><b>검증 필요 관계 ${bad.length}건</b> · 결과 확정 전 담당자 확인이 필요합니다.<br>${bad.slice(0,4).map(r=>`${label(r.u)} → ${label(r.v)} (${r.trust==='낮음'?'미검증':r.status!=='유효'?r.status:'신뢰 '+r.trust})`).join('<br>')}${bad.length>4?'<br>외 '+(bad.length-4)+'건':''}</div>`:`<div class="note ok">관련 관계 ${rels.length}건이 모두 유효기간 내 신뢰수준 높음입니다.</div>`}
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="copyrep">영향 분석 요약 복사</button><span class="foot" id="copymsg" style="align-self:center"></span></div>
+    <textarea class="rep" id="reptext" readonly hidden aria-label="영향 분석 요약"></textarea>`;
+  document.getElementById('copyrep').onclick=async()=>{
+    const msg=document.getElementById('copymsg');
+    try{ await navigator.clipboard.writeText(lastReport); msg.textContent='복사했습니다.'; }
+    catch(e){ const ta=document.getElementById('reptext'); ta.hidden=false; ta.value=lastReport; ta.select(); msg.textContent='아래 내용을 직접 복사하세요.'; }
+  };
+}
+
+/* ================= Quality view ================= */
+function renderQuality(){
+  const pct=(a,b)=>Math.round(a/b*100);
+  const svcMapped=SVC.filter(s=>(svcApps[s.id]||[]).length).length;
+  const progSvc=PRG.filter(p=>p.svcs.length).length;
+  const progNode=PRG.filter(p=>p.nodes.length).length;
+  const nodeProg=NODES.filter(n=>progsOnNode(n.id).length).length;
+  const good=REL.filter(relGood).length;
+  const k=[
+    [pct(svcMapped,SVC.length)+'%','서비스 → 앱 매핑',svcMapped+' / '+SVC.length],
+    [pct(progSvc,PRG.length)+'%','프로그램 → 서비스 매핑',progSvc+' / '+PRG.length],
+    [pct(progNode,PRG.length)+'%','프로그램 → 서버 매핑',progNode+' / '+PRG.length],
+    [pct(nodeProg,NODES.length)+'%','서버 → 프로그램 연결',nodeProg+' / '+NODES.length],
+    [pct(good,REL.length)+'%','관계 검증률',good+' / '+REL.length],
+    [REL.filter(r=>r.status==='만료'||r.status==='만료 임박').length,'유효기간 만료·임박','재검증 대상']
+  ];
+  document.getElementById('qkpis').innerHTML=k.map(([v,l,s])=>`<div class="kpi"><span class="l">${l}</span><span class="v">${v}</span><span class="s">${s}</span></div>`).join('');
+  const kinds=['서비스–앱','시스템–앱','앱–프로그램','프로그램–서버'];
+  document.getElementById('qbars').innerHTML=kinds.map(kd=>{
+    const rs=REL.filter(r=>r.k===kd), n=rs.length, h=rs.filter(r=>r.trust==='높음').length, m=rs.filter(r=>r.trust==='중간').length, l=n-h-m;
+    return `<div class="bar-row"><span>${kd}</span><span class="bar" role="img" aria-label="${kd} 높음 ${h}, 중간 ${m}, 낮음 ${l}"><span style="width:${h/n*100}%;background:var(--ok)"></span><span style="width:${m/n*100}%;background:var(--warn)"></span><span style="width:${l/n*100}%;background:var(--bad)"></span></span><span class="mono" style="text-align:right">${h}/${n}</span></div>`;
+  }).join('');
+  const srcCount={}; REL.forEach(r=>srcCount[r.src]=(srcCount[r.src]||0)+1);
+  const mxs=Math.max(...Object.values(srcCount));
+  document.getElementById('qsrc').innerHTML=Object.entries(srcCount).sort((a,b)=>b[1]-a[1]).map(([s,c])=>`<div class="bar-row"><span>${s}</span><span class="bar" role="img" aria-label="${s} ${c}건"><span style="width:${c/mxs*100}%;background:${s==='추정'?'var(--bad)':'var(--svc)'}"></span></span><span class="mono" style="text-align:right">${c}</span></div>`).join('');
+  const issues=[];
+  SVC.filter(s=>!(svcApps[s.id]||[]).length).forEach(s=>issues.push({lv:2,kind:'매핑 누락',what:`업무서비스 ${s.name} (${s.id})`,why:'연결된 애플리케이션 없음',act:'서비스–앱 매핑 등록',id:s.id}));
+  PRG.filter(p=>!p.svcs.length).forEach(p=>issues.push({lv:2,kind:'미사용 의심',what:`프로그램 ${p.name} (${p.id})`,why:'연결된 업무서비스·서버 없음',act:'사용 여부 확인 후 폐기 검토',id:p.id}));
+  NODES.filter(n=>!progsOnNode(n.id).length).forEach(n=>issues.push({lv:2,kind:'미연결 서버',what:`${n.name} (${n.host})`,why:nodeWhy(n),act:'배포 이력 확인 후 폐기 검토',id:n.id}));
+  REL.filter(r=>r.trust==='낮음').forEach(r=>issues.push({lv:2,kind:'미검증 관계',what:`${label(r.u)} → ${label(r.v)}`,why:`${r.k} · 원천 ${r.src}`,act:'담당자 검증',id:r.v}));
+  REL.filter(r=>r.trust!=='낮음'&&r.status==='만료').forEach(r=>issues.push({lv:1,kind:'유효기간 만료',what:`${label(r.u)} → ${label(r.v)}`,why:`${r.k} · ${r.verifier} · 검증 ${r.at} · 만료 ${r.to}`,act:'재검증',id:r.v}));
+  REL.filter(r=>r.trust!=='낮음'&&r.status==='만료 임박').forEach(r=>issues.push({lv:1,kind:'만료 임박',what:`${label(r.u)} → ${label(r.v)}`,why:`${r.k} · ${r.verifier} · 만료 ${r.to}`,act:'재검증 예약',id:r.v}));
+  const qi=document.getElementById('qissues');
+  qi.innerHTML='<thead><tr><th>구분</th><th>대상</th><th>내용</th><th>조치</th></tr></thead><tbody>'+issues.map(i=>`<tr class="click" tabindex="0" data-id="${i.id}"><td><span class="pill lv${i.lv}">${i.kind}</span></td><td>${i.what}</td><td class="muted">${i.why}</td><td>${i.act}</td></tr>`).join('')+'</tbody>';
+  qi.querySelectorAll('tr.click').forEach(tr=>{tr.onclick=()=>openImpact(tr.dataset.id);tr.onkeydown=e=>{if(e.key==='Enter')openImpact(tr.dataset.id);};});
+}
+
+/* ================= Boot ================= */
+function renderAll(){ renderScopeBar(); renderCrumb(); renderBusiness(); renderService(); renderSystem(); if(curView==='impact') drawGraph(); }
+initScen(); renderQuality(); renderAll(); route();
+</script>
+</body>
+</html>
