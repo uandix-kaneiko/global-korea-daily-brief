@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-/* Layout idea: one relationship dataset, five tabs (비즈니스·서비스·시스템 뷰 + 영향도 분석 + 데이터 품질). A shared scope bar carries 법인/업무역량 across views. Risk uses semantic color; KB yellow is the brand accent and the "selected" marker. */
+/* Layout idea: one relationship dataset, five tabs (비즈니스·서비스·시스템 뷰 + 영향도 분석 + 데이터 품질). A shared scope bar carries 법인/국가별 업무 across views. Risk uses semantic color; KB yellow is the brand accent and the "selected" marker. */
 :root{
   --bg:#F6F5F2; --surface:#FFFFFF; --ink:#24262A; --muted:#5B5E64; --line:#DEDBD4; --soft:#EFEDE8;
   --accent:#FFBC00; --accent-soft:#FFF4CF;
@@ -261,7 +261,7 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
 
   <div class="scope" role="group" aria-label="조회 범위">
     <label for="sc-ent">국외지점</label><select id="sc-ent"></select>
-    <label for="sc-cap">업무역량</label><select id="sc-cap"></select>
+    <label for="sc-cap">국가별 업무</label><select id="sc-cap"></select>
     <div class="crumb" id="crumb"></div>
   </div>
 
@@ -270,7 +270,7 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
     <div class="kpis" id="kpis"></div>
     <div class="grid2">
       <div class="card">
-        <div class="sec-h"><h2>국외지점 × 업무역량</h2>
+        <div class="sec-h"><h2>국외지점 × 국가별 업무</h2>
           <div class="seg" role="group" aria-label="지표"><button data-m="risk" id="m-risk">IT 위험</button><button data-m="verify" id="m-verify">관계 검증률</button></div></div>
         <div class="scroll"><table class="heat" id="heat"></table></div>
         <div class="legend" id="legend"></div>
@@ -505,8 +505,8 @@ const CASE = {
 const BY = {};
 const put=(arr,t)=>arr.forEach(x=>BY[x.id]={...x,t});
 put(ENT,'ent');put(CAP,'cap');put(SVC,'svc');put(SYS,'sys');put(APP,'app');put(PRG,'prog');put(NODES,'node');
-const TL = {ent:'국외지점',cap:'업무역량',svc:'업무서비스',sys:'시스템',app:'애플리케이션',prog:'프로그램·소스',node:'서버·노드'};
-const KL = {provides:'국가–서비스',classifies:'업무역량–서비스',realized:'서비스–앱',contains:'시스템–앱',owns:'앱–프로그램',entry:'서비스–진입 프로그램',calls:'프로그램 호출',deployed:'프로그램–서버(배포)'};
+const TL = {ent:'국외지점',cap:'국가별 업무',svc:'업무서비스',sys:'시스템',app:'애플리케이션',prog:'프로그램·소스',node:'서버·노드'};
+const KL = {provides:'국가–서비스',classifies:'국가별 업무–서비스',realized:'서비스–앱',contains:'시스템–앱',owns:'앱–프로그램',entry:'서비스–진입 프로그램',calls:'프로그램 호출',deployed:'프로그램–서버(배포)'};
 const KS = {provides:'제공',classifies:'분류',realized:'구현',contains:'포함',owns:'소유',entry:'진입',calls:'호출',deployed:'배포'};
 const ITK = ['realized','contains','owns','entry','calls','deployed'];
 const label = id => { const n=BY[id]; if(!n) return id; if(n.t==='node') return n.host; if(n.t==='app') return n.code; if(n.t==='sys') return n.code; if(n.t==='prog') return n.id; return n.name; };
@@ -525,7 +525,7 @@ function meta(trust, verifier){
 const REL=[];
 const addRel=(k,u,v,trust,src,ev,who)=>REL.push({k,u,v,trust,src,ev,...meta(trust,who)});
 ENT.forEach(e=>USE[e.id].forEach(s=>addRel('provides',e.id,s,'높음','업무정의','국가별 업무 제공 목록 2026','글로벌기획부')));
-SVC.forEach(s=>addRel('classifies',s.cap,s.id,'높음','업무분류','업무역량 분류체계 v2','EA 담당'));
+SVC.forEach(s=>addRel('classifies',s.cap,s.id,'높음','업무분류','국가별 업무 분류체계 v2','EA 담당'));
 SA.forEach(([s,a,t,src])=>addRel('realized',s,a,t,src,'업무–앱 매핑표 v3',BY[a].owner+' PL'));
 APP.forEach(a=>addRel('contains',a.sys,a.id,'높음','CMDB','CMDB 애플리케이션 CI','EA 담당'));
 PRG.forEach(p=>{
@@ -560,8 +560,8 @@ const lvRate = r => r>=90?0:r>=70?1:2;
 function maxScore(set){ let m=0; set.forEach(x=>m=Math.max(m,nodeScore(BY[x]))); return m; }
 
 /* ================= Traversal (verified-relationship based) =================
-   Down: 국가/업무역량 → 서비스 → (구현)앱 · (진입)프로그램 → (호출)프로그램 → (배포)서버
-   Up:   서버 → 배포 프로그램 → 호출자 프로그램 → 진입 서비스 → 국가·업무역량
+   Down: 국가/국가별 업무 → 서비스 → (구현)앱 · (진입)프로그램 → (호출)프로그램 → (배포)서버
+   Up:   서버 → 배포 프로그램 → 호출자 프로그램 → 진입 서비스 → 국가·국가별 업무
    only=true 이면 검증 완료(신뢰 높음·유효) 관계만 따라감 */
 function traverse(origin, only, entOverride){
   const n=BY[origin];
@@ -787,7 +787,7 @@ function renderService(){
     });
     html+='</div>';
   });
-  box.innerHTML = html || `<div class="card">선택한 범위에 해당하는 업무서비스가 없습니다. 위에서 국외지점이나 업무역량을 바꿔 보세요.</div>`;
+  box.innerHTML = html || `<div class="card">선택한 범위에 해당하는 업무서비스가 없습니다. 위에서 국외지점이나 국가별 업무를 바꿔 보세요.</div>`;
   box.querySelectorAll('.btn[data-id]').forEach(b=>b.onclick=()=>openImpact(b.dataset.id));
   box.querySelectorAll('.btn[data-case]').forEach(b=>b.onclick=openCase);
 }
@@ -836,7 +836,7 @@ function renderSystem(){
 document.getElementById('q').addEventListener('input',e=>{st.q=e.target.value;renderSystem();});
 
 /* ================= Impact view ================= */
-const COLS=[['ent','국외지점','biz'],['cap','업무역량','biz'],['svc','업무서비스','svc'],['sys','시스템','tech'],['app','애플리케이션','tech'],['prog','프로그램·소스','tech'],['node','서버·노드','tech']];
+const COLS=[['ent','국외지점','biz'],['cap','국가별 업무','biz'],['svc','업무서비스','svc'],['sys','시스템','tech'],['app','애플리케이션','tech'],['prog','프로그램·소스','tech'],['node','서버·노드','tech']];
 const SRC={ent:ENT,cap:CAP,svc:SVC,sys:SYS,app:APP,prog:PRG,node:NODES};
 const NW=164, GAP=56, NH=40, VG=8, TOP=66, LEFT=40;
 const SCEN=[
