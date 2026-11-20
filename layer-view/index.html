@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-/* Layout idea: one relationship dataset, five tabs (경영·업무·시스템 뷰 + 영향 분석 + 데이터 품질). A shared scope bar carries 법인/업무역량 across views. Risk uses semantic color; KB yellow is the brand accent and the "selected" marker. */
+/* Layout idea: one relationship dataset, five tabs (경영·업무·시스템 뷰 + 영향도 분석 + 데이터 품질). A shared scope bar carries 법인/업무역량 across views. Risk uses semantic color; KB yellow is the brand accent and the "selected" marker. */
 :root{
   --bg:#F6F5F2; --surface:#FFFFFF; --ink:#24262A; --muted:#5B5E64; --line:#DEDBD4; --soft:#EFEDE8;
   --accent:#FFBC00; --accent-soft:#FFF4CF;
@@ -217,11 +217,11 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
   </header>
 
   <nav class="tabs" aria-label="뷰 선택">
-    <a href="#business" data-v="business"><b>경영 뷰</b><span>Business · 경영진</span></a>
-    <a href="#service" data-v="service"><b>업무 뷰</b><span>Service · 현업·IT 부서장</span></a>
-    <a href="#system" data-v="system"><b>시스템 뷰</b><span>Technology · IT 조직</span></a>
+    <a href="#business" data-v="business"><b>경영 뷰</b><span>Business</span></a>
+    <a href="#service" data-v="service"><b>업무 뷰</b><span>Service</span></a>
+    <a href="#system" data-v="system"><b>시스템 뷰</b><span>Technology</span></a>
     <span class="sep" aria-hidden="true"></span>
-    <a href="#impact" data-v="impact"><b>영향 분석</b><span>Top-down · Bottom-up</span></a>
+    <a href="#impact" data-v="impact"><b>영향도 분석</b><span>Top-down · Bottom-up</span></a>
     <a href="#quality" data-v="quality"><b>데이터 품질</b><span>매핑·검증 현황</span></a>
   </nav>
 
@@ -299,7 +299,7 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
       </div>
     </div>
     <div class="card">
-      <div class="sec-h"><h2>조치 필요 항목</h2><p>누르면 영향 분석으로 이동합니다</p></div>
+      <div class="sec-h"><h2>조치 필요 항목</h2><p>누르면 영향도 분석으로 이동합니다</p></div>
       <div class="scroll"><table class="simple" id="qissues" style="min-width:900px"></table></div>
     </div>
   </section>
@@ -785,7 +785,7 @@ function renderSide(R){
   const upList = P.up.slice(0,SHOW).map(p=>pathHtml(p,'→')).join('');
   const dnList = P.down.slice(0,SHOW).map(p=>pathHtml(p,'→')).join('');
   lastReport = [
-    `[영향 분석] ${TL[n.t]} ${n.name} (${n.t==='node'?n.host:n.id})`,
+    `[영향도 분석] ${TL[n.t]} ${n.name} (${n.t==='node'?n.host:n.id})`,
     `기준일 ${fmt(REF)} · 샘플 데이터`,
     `영향 법인·지점(${R.ent.size}): ${[...R.ent].map(e=>BY[e].name).join(', ')||'-'}`,
     `업무서비스(${R.svc.size}, 중요 ${critS.length}): ${[...R.svc].map(s=>BY[s].name).join(', ')||'-'}`,
@@ -807,8 +807,8 @@ function renderSide(R){
     ${P.up.length?`<div class="paths"><h4>사업까지 경로 <span class="muted" style="font-weight:500">${P.up.length}개${P.up.length>SHOW?' 중 '+SHOW:''}</span></h4>${upList}</div>`:''}
     ${P.down.length?`<div class="paths"><h4>서버·노드까지 경로 <span class="muted" style="font-weight:500">${P.down.length>=300?'300+':P.down.length}개${P.down.length>SHOW?' 중 '+SHOW:''}</span></h4>${dnList}</div>`:''}
     ${bad.length?`<div class="note"><b>검증 필요 관계 ${bad.length}건</b> · 결과 확정 전 담당자 확인이 필요합니다.<br>${bad.slice(0,4).map(r=>`${label(r.u)} → ${label(r.v)} (${r.trust==='낮음'?'미검증':r.status!=='유효'?r.status:'신뢰 '+r.trust})`).join('<br>')}${bad.length>4?'<br>외 '+(bad.length-4)+'건':''}</div>`:`<div class="note ok">관련 관계 ${rels.length}건이 모두 유효기간 내 신뢰수준 높음입니다.</div>`}
-    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="copyrep">영향 분석 요약 복사</button><span class="foot" id="copymsg" style="align-self:center"></span></div>
-    <textarea class="rep" id="reptext" readonly hidden aria-label="영향 분석 요약"></textarea>`;
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="copyrep">영향도 분석 요약 복사</button><span class="foot" id="copymsg" style="align-self:center"></span></div>
+    <textarea class="rep" id="reptext" readonly hidden aria-label="영향도 분석 요약"></textarea>`;
   document.getElementById('copyrep').onclick=async()=>{
     const msg=document.getElementById('copymsg');
     try{ await navigator.clipboard.writeText(lastReport); msg.textContent='복사했습니다.'; }
