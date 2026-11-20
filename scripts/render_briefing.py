@@ -6,7 +6,7 @@ from zoneinfo import ZoneInfo
 from email.utils import format_datetime
 ROOT=Path(__file__).resolve().parents[1]
 BASE='https://uandix-kaneiko.github.io/global-korea-daily-brief/'
-CATEGORIES=['IT 기술','금융IT','보안','IT 장애·사고']
+CATEGORIES=['IT 기술','금융IT','디지털','보안','IT 장애·사고']
 def esc(s):return html.escape(str(s),quote=True)
 def rich(s):
  s=esc(s)
@@ -15,7 +15,7 @@ def rich(s):
 
 def sources(a):return ''.join(f'<a class="source-link" href="{esc(s["url"])}" target="_blank" rel="noopener noreferrer">{esc(s["name"])}</a>' for s in a['sources'])
 def category_icon(n):
- shapes={1:'<rect x="7" y="7" width="18" height="18" rx="3"/><path d="M12 1v6m8-6v6M12 25v6m8-6v6M1 12h6m-6 8h6m18-8h6m-6 8h6"/><rect x="12" y="12" width="8" height="8" rx="1"/>',2:'<path d="M3 12 16 4l13 8M5 27h22M7 14v9m9-9v9m9-9v9M3 29h26"/><path d="M4 12h24"/>',3:'<path d="m16 3 11 4v9c0 7-11 13-11 13S5 23 5 16V7Z"/><path d="m11 16 4 4 7-8"/>',4:'<path d="M3 17h6l4-9 6 17 4-10h6"/><path d="M7 5H4v24h24v-3"/>'}
+ shapes={5:'<rect x="8" y="2" width="16" height="28" rx="3"/><path d="M13 6h6M14 26h4m-6-10 3 3 6-7"/>',1:'<rect x="7" y="7" width="18" height="18" rx="3"/><path d="M12 1v6m8-6v6M12 25v6m8-6v6M1 12h6m-6 8h6m18-8h6m-6 8h6"/><rect x="12" y="12" width="8" height="8" rx="1"/>',2:'<path d="M3 12 16 4l13 8M5 27h22M7 14v9m9-9v9m9-9v9M3 29h26"/><path d="M4 12h24"/>',3:'<path d="m16 3 11 4v9c0 7-11 13-11 13S5 23 5 16V7Z"/><path d="m11 16 4 4 7-8"/>',4:'<path d="M3 17h6l4-9 6 17 4-10h6"/><path d="M7 5H4v24h24v-3"/>'}
  return '<span class="category-icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">'+shapes[n]+'</svg></span>'
 def archive_dates():
  dates={f.stem:f'archive/{f.name}' for f in (ROOT/'archive').glob('????-??-??.html')}
@@ -47,7 +47,7 @@ def render(date):
  js=(ROOT/'templates/decision-board.js').read_text()
  weekday=['MON','TUE','WED','THU','FRI','SAT','SUN'][datetime.date.fromisoformat(date).weekday()]
  out=[f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0C0B09"><title>{esc(brand)} · {short}</title><meta name="description" content="{esc(brief['summary'])}"><meta property="og:title" content="{esc(brand)} · {short}"><meta property="og:description" content="{esc(brief['summary'])}"><meta property="og:type" content="article"><meta property="og:url" content="{BASE}global-tech-daily-{date}.html"><link rel="alternate" type="application/rss+xml" title="{esc(brand)}" href="{BASE}feed.xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><script>document.documentElement.classList.add('js');</script><style>{style}</style></head><body><a class="skip" href="#main">본문으로 이동</a>''']
- out.append(f'''<header class="topbar"><div class="top-inner"><a class="wordmark" href="#main" aria-label="{esc(brand)} 처음으로"><strong>{esc(brand)}</strong></a><span class="date-pill mono">v{short} · {weekday}</span><div class="top-actions"><a class="utility" href="{BASE}archive/index.html">지난 브리핑</a><button type="button" class="utility font-button" id="sizeToggle" aria-label="글자 크기 키우기" aria-pressed="false">가+</button></div></div></header><main id="main"><section class="lead" id="lead" aria-labelledby="leadTitle"><div class="hero"><div class="hero-copy"><div class="hero-meta"><span class="mono">{len(A)}개 이슈 · {len(deep)}개 심층분석</span></div><h1 id="leadTitle">{rich(brief['headline'])}</h1><p class="hero-desc">{esc(brief['summary'])}</p><div class="hero-cta"><a class="button primary" href="#board">분야별 브리핑 보기</a><button type="button" class="button" data-show-all>전체 기사 {len(A)}건</button><button type="button" class="button" data-open="brief">핵심 브리핑</button></div></div></div><div class="stat-grid">''')
+ out.append(f'''<header class="topbar"><div class="top-inner"><a class="wordmark" href="#main" aria-label="{esc(brand)} 처음으로"><strong>{esc(brand)}</strong></a><span class="date-pill mono">v{short} · {weekday}</span><div class="top-actions"><button type="button" class="utility motion-button" id="motionToggle" aria-pressed="false" aria-label="화면 모션 켜기">모션 끔</button><a class="utility" href="{BASE}archive/index.html">지난 브리핑</a><button type="button" class="utility font-button" id="sizeToggle" aria-label="글자 크기 키우기" aria-pressed="false">가+</button></div></div></header><main id="main"><section class="lead" id="lead" aria-labelledby="leadTitle"><div class="hero"><div class="hero-copy"><div class="hero-meta"><span class="mono">{len(A)}개 이슈 · {len(deep)}개 심층분석</span></div><h1 id="leadTitle">{rich(brief['headline'])}</h1><p class="hero-desc">{esc(brief['summary'])}</p><div class="hero-cta"><a class="button primary" href="#board">분야별 브리핑 보기</a><button type="button" class="button" data-show-all>전체 기사 {len(A)}건</button><button type="button" class="button" data-open="brief">핵심 브리핑</button></div></div></div><div class="stat-grid">''')
  for L in lanes:
   out.append(f'<a class="stat" href="#decision-{L["id"]}" data-category-jump="{L["id"]}"><span class="stat-top">{category_icon(L["id"])}<span class="stat-label">{esc(L["title"])}</span></span><span class="stat-value mono">{counts[L["title"]]}<small>건</small></span><span class="stat-note">{esc(L["description"])}</span></a>')
  out.append(f'</div></section><section class="board" id="board" aria-labelledby="boardTitle"><span id="watch"></span><div class="board-head"><div class="board-heading"><div class="board-title"><h2 id="boardTitle">분야별 브리핑</h2><span class="board-meta mono">전체 기사 {len(A)} · Watch {len(data["watch"])} · 일정 {len(data["followups"])} · 인사이트 {len(data["insights"])}</span></div></div><div class="segmented" role="group" aria-label="분야 선택"><button type="button" data-lane="0" aria-pressed="true">전체</button>')
@@ -95,7 +95,7 @@ def render(date):
   for k,label in [('fact','사실'),('impact','영향 · 분석'),('lesson','시사점'),('action','실행과제')]:
    if a.get(k):out.append(f'<h3>{label}</h3><p>{esc(a[k])}</p>')
   out.append(f'<div class="evidence-links">{sources(a)}</div></details>')
- out.append(f'</section></main><footer class="footer" id="footer"><div class="footer-inner"><span class="footer-note"><strong>{esc(brand)}</strong> — IT 기술 · 금융IT · 보안 · IT 장애·사고</span><div class="footer-links mono"><a href="{BASE}archive/index.html">archive</a><a href="{BASE}feed.xml">rss</a><a href="#main">top</a></div></div></footer><dialog id="articleDialog" aria-labelledby="dialogTitle"><div class="dialog-bar"><span id="dialogCategory">심층분석</span><button type="button" class="close" id="closeDialog" aria-label="기사 닫기">×</button></div><div class="dialog-body" id="dialogBody"></div></dialog>')
+ out.append(f'</section></main><footer class="footer" id="footer"><div class="footer-inner"><span class="footer-note"><strong>{esc(brand)}</strong> — IT 기술 · 금융IT · 디지털 · 보안 · IT 장애·사고</span><div class="footer-links mono"><a href="{BASE}archive/index.html">archive</a><a href="{BASE}feed.xml">rss</a><a href="#main">top</a></div></div></footer><dialog id="articleDialog" aria-labelledby="dialogTitle"><div class="dialog-bar"><span id="dialogCategory">심층분석</span><button type="button" class="close" id="closeDialog" aria-label="기사 닫기">×</button></div><div class="dialog-body" id="dialogBody"></div></dialog>')
  config=json.dumps(data,ensure_ascii=False).replace('</','<\\/')
  out.append(f'<script type="application/json" id="briefingData">{config}</script><script>{js}</script></body></html>')
  page='\n'.join(out)
@@ -106,7 +106,7 @@ def render(date):
  prior=[ET.tostring(i) for i in ch.findall('item') if i.findtext('link')!=url]
  current=[i for i in ch.findall('item') if i.findtext('link')==url];item=current[0] if current else ET.Element('item')
  for i in current:ch.remove(i)
- title=f'Tech & Global News Daily {short} | IT 기술·금융IT·보안·IT 장애 및 사고'
+ title=f'Tech & Global News Daily {short} | IT 기술·금융IT·디지털·보안·IT 장애 및 사고'
  vals={'title':title,'link':url,'guid':url,'description':f'{brief["summary"]} 심층분석 {len(deep)}건·전체 뉴스 {len(A)}건.'}
  for k,v in vals.items():
   e=item.find(k)

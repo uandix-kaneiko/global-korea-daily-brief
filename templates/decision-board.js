@@ -56,3 +56,28 @@ function setLarge(on){document.body.classList.toggle('large-type',on);$('#sizeTo
 try{setLarge(localStorage.getItem('tg-reading-large')==='1');}catch{}
 $('#sizeToggle').addEventListener('click',()=>{const on=!document.body.classList.contains('large-type');setLarge(on);try{localStorage.setItem('tg-reading-large',on?'1':'0');}catch{}});
 renderLane();renderFilters();if(category!=='전체')allPanel.open=true;syncRoute();
+
+// Optional decorative motion; reading layout and article content stay fixed.
+const motionPreference=window.matchMedia('(prefers-reduced-motion: reduce)');
+const motionButton=$('#motionToggle');let motionWanted=true;const revealAnimations=new Set();
+try{motionWanted=localStorage.getItem('tg-motion')!=='off';}catch{}
+function updateMotion(){
+ const on=motionWanted&&!motionPreference.matches;
+ document.documentElement.classList.toggle('motion-on',on);
+ motionButton.disabled=motionPreference.matches;
+ motionButton.textContent=motionPreference.matches?'모션 줄임':on?'모션 켬':'모션 끔';
+ motionButton.setAttribute('aria-pressed',String(on));
+ motionButton.setAttribute('aria-label',motionPreference.matches?'기기 설정에 따라 모션 줄임':on?'화면 모션 끄기':'화면 모션 켜기');
+ if(!on){revealAnimations.forEach(a=>a.cancel());revealAnimations.clear();}
+}
+motionButton.addEventListener('click',()=>{motionWanted=!motionWanted;updateMotion();try{localStorage.setItem('tg-motion',motionWanted?'on':'off');}catch{}});
+motionPreference.addEventListener('change',updateMotion);updateMotion();
+if('IntersectionObserver'in window){
+ const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{
+  if(!entry.isIntersecting)return;observer.unobserve(entry.target);
+  if(!document.documentElement.classList.contains('motion-on'))return;
+  const a=entry.target.animate([{opacity:.3,transform:'translateY(14px)'},{opacity:1,transform:'translateY(0)'}],{duration:650,easing:'cubic-bezier(.22,1,.36,1)'});
+  revealAnimations.add(a);a.onfinish=()=>revealAnimations.delete(a);
+ });},{threshold:.06});
+ document.querySelectorAll('.decision-card,.all-panel').forEach(el=>observer.observe(el));
+}

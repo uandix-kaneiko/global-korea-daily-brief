@@ -1,12 +1,12 @@
 # Tech & Global News Daily
 
-공개자료 기반의 IT 기술·금융IT·보안·IT 장애 및 사고 전문 브리핑입니다.
+공개자료 기반의 IT 기술·금융IT·디지털·보안·IT 장애 및 사고 전문 브리핑입니다.
 
 - [최신 브리핑](https://uandix-kaneiko.github.io/global-korea-daily-brief/latest.html)
 - [지난 브리핑](https://uandix-kaneiko.github.io/global-korea-daily-brief/archive/index.html)
 - [RSS](https://uandix-kaneiko.github.io/global-korea-daily-brief/feed.xml)
 
-블랙·골드 화면에서 네 분야별 기사·실행과제·사고 후속·인사이트를 제공합니다. 검색, 큐브와 인텔리전스 문구는 사용하지 않습니다.
+블랙·골드 화면에서 다섯 분야별 기사·실행과제·사고 후속·인사이트를 제공합니다. 검색, 큐브와 인텔리전스 문구는 사용하지 않습니다.
 
 ## 발행
 
