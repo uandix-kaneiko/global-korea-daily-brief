@@ -364,12 +364,10 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
 /* ================= Sample data (fictional) ================= */
 const REF = new Date(Date.UTC(2026,10,20));
 const BR6 = ['E-NY','E-LDN','E-HK','E-SG','E-TKO','E-VN'];
-const ALL8 = BR6.concat(['E-KH','E-ID']);
 const ENT = [
   {id:'E-NY',name:'뉴욕지점',kind:'지점'},{id:'E-LDN',name:'런던지점',kind:'지점'},
   {id:'E-HK',name:'홍콩지점',kind:'지점'},{id:'E-SG',name:'싱가포르지점',kind:'지점'},
-  {id:'E-TKO',name:'도쿄지점',kind:'지점'},{id:'E-VN',name:'베트남(호치민)',kind:'지점'},
-  {id:'E-KH',name:'KB PRASAC',kind:'현지법인'},{id:'E-ID',name:'KBI',kind:'현지법인'}
+  {id:'E-TKO',name:'도쿄지점',kind:'지점'},{id:'E-VN',name:'베트남(호치민)',kind:'지점'}
 ];
 const CAP = [
   {id:'CAP-DP',name:'수신'},{id:'CAP-LN',name:'여신'},{id:'CAP-DG',name:'비대면'},
@@ -399,9 +397,7 @@ const SYS = [
   {id:'SYS-CH',code:'GCH',name:'글로벌 채널시스템',dc:'서울 주센터'},
   {id:'SYS-FX',code:'GFX',name:'외환시스템',dc:'서울 주센터'},
   {id:'SYS-FEP',code:'FEP',name:'대외계시스템',dc:'서울 주센터'},
-  {id:'SYS-DW',code:'GDW',name:'정보계시스템',dc:'서울 주센터'},
-  {id:'SYS-PRS',code:'LSS',name:'PRASAC 여신시스템',dc:'프놈펜 센터'},
-  {id:'SYS-KBI',code:'KBC',name:'KBI 코어뱅킹시스템',dc:'자카르타 센터'}
+  {id:'SYS-DW',code:'GDW',name:'정보계시스템',dc:'서울 주센터'}
 ];
 const APP = [
   {id:'APP-GBS-LN',code:'GBSLN',name:'글로벌뱅킹 여신',sys:'SYS-GBS',ents:BR6,owner:'글로벌IT 여신파트'},
@@ -410,21 +406,19 @@ const APP = [
   {id:'APP-GMB',code:'GCHMB',name:'글로벌 모바일뱅킹',sys:'SYS-CH',ents:['E-VN'],owner:'글로벌IT 채널파트'},
   {id:'APP-GIB',code:'GCHIB',name:'글로벌 인터넷뱅킹',sys:'SYS-CH',ents:BR6,owner:'글로벌IT 채널파트'},
   {id:'APP-FX',code:'GFXRM',name:'외환·송금',sys:'SYS-FX',ents:BR6,owner:'글로벌IT 외환파트'},
-  {id:'APP-FEP',code:'FEPGW',name:'대외 게이트웨이',sys:'SYS-FEP',ents:BR6.concat(['E-ID']),owner:'글로벌IT 대외계파트'},
-  {id:'APP-DW',code:'GDWET',name:'정보계 적재',sys:'SYS-DW',ents:ALL8,owner:'글로벌IT 정보계파트'},
-  {id:'APP-RPT',code:'GDWRP',name:'규제보고',sys:'SYS-DW',ents:ALL8,owner:'글로벌IT 정보계파트'},
-  {id:'APP-PRS-LSS',code:'LSSLN',name:'PRASAC 여신',sys:'SYS-PRS',ents:['E-KH'],owner:'PRASAC IT'},
-  {id:'APP-KBI-CORE',code:'KBCCR',name:'KBI 코어',sys:'SYS-KBI',ents:['E-ID'],owner:'KBI IT'}
+  {id:'APP-FEP',code:'FEPGW',name:'대외 게이트웨이',sys:'SYS-FEP',ents:BR6,owner:'글로벌IT 대외계파트'},
+  {id:'APP-DW',code:'GDWET',name:'정보계 적재',sys:'SYS-DW',ents:BR6,owner:'글로벌IT 정보계파트'},
+  {id:'APP-RPT',code:'GDWRP',name:'규제보고',sys:'SYS-DW',ents:BR6,owner:'글로벌IT 정보계파트'}
 ];
 const SA = [ // service → application: [service, app, trust, source]
-  ['SV-LN-01','APP-LOS','높음','정적분석'],['SV-LN-01','APP-GMB','높음','APM'],['SV-LN-01','APP-GIB','중간','APM'],['SV-LN-01','APP-PRS-LSS','높음','담당자'],
-  ['SV-LN-02','APP-LOS','높음','정적분석'],['SV-LN-02','APP-PRS-LSS','높음','담당자'],
-  ['SV-LN-03','APP-GBS-LN','높음','정적분석'],['SV-LN-03','APP-FEP','높음','APM'],['SV-LN-03','APP-PRS-LSS','높음','담당자'],['SV-LN-03','APP-KBI-CORE','중간','담당자'],
-  ['SV-LN-04','APP-GBS-LN','높음','정적분석'],['SV-LN-04','APP-PRS-LSS','높음','담당자'],['SV-LN-04','APP-KBI-CORE','중간','담당자'],
-  ['SV-LN-05','APP-GBS-LN','높음','정적분석'],['SV-LN-05','APP-GMB','높음','APM'],['SV-LN-05','APP-PRS-LSS','높음','담당자'],
+  ['SV-LN-01','APP-LOS','높음','정적분석'],['SV-LN-01','APP-GMB','높음','APM'],['SV-LN-01','APP-GIB','중간','APM'],
+  ['SV-LN-02','APP-LOS','높음','정적분석'],
+  ['SV-LN-03','APP-GBS-LN','높음','정적분석'],['SV-LN-03','APP-FEP','높음','APM'],
+  ['SV-LN-04','APP-GBS-LN','높음','정적분석'],
+  ['SV-LN-05','APP-GBS-LN','높음','정적분석'],['SV-LN-05','APP-GMB','높음','APM'],
   ['SV-LN-06','APP-GBS-LN','높음','정적분석'],['SV-LN-06','APP-DW','낮음','추정'],
-  ['SV-DP-01','APP-GBS-DP','높음','정적분석'],['SV-DP-01','APP-GMB','높음','APM'],['SV-DP-01','APP-KBI-CORE','중간','담당자'],
-  ['SV-DP-02','APP-GBS-DP','높음','정적분석'],['SV-DP-02','APP-FEP','높음','APM'],['SV-DP-02','APP-KBI-CORE','중간','담당자'],
+  ['SV-DP-01','APP-GBS-DP','높음','정적분석'],['SV-DP-01','APP-GMB','높음','APM'],
+  ['SV-DP-02','APP-GBS-DP','높음','정적분석'],['SV-DP-02','APP-FEP','높음','APM'],
   ['SV-DG-01','APP-GMB','높음','CMDB'],['SV-DG-02','APP-GIB','높음','CMDB'],
   ['SV-FX-01','APP-FX','높음','정적분석'],['SV-FX-01','APP-FEP','높음','APM'],['SV-FX-02','APP-FX','높음','정적분석'],
   ['SV-PY-01','APP-FEP','중간','APM'],
@@ -455,10 +449,6 @@ const PRG = [
   P({id:'PG-FX-RMT-010',name:'해외송금 처리',apps:['APP-FX'],svcs:['SV-FX-01','SV-FX-02'],calls:[['PG-COM-DT-001','중간','정적분석(공통 라이브러리 버전 불일치)'],['PG-FEP-ISO-200']],nodes:[['ND-GBSAP02'],['ND-FEPGW01']],repo:'fx/remittance',ver:'v2.4.0'}),
   P({id:'PG-DW-ETL-500',name:'정보계 적재 ETL',kind:'배치잡',apps:['APP-DW'],svcs:['SV-LN-06','SV-IF-01','SV-IF-02'],entry:'중간',nodes:[['ND-DWETL01'],['ND-GBSBT01','중간','배포이력(공용 배치서버 미등록)'],['ND-DWDB01']],repo:'dw/etl',ver:'v3.0.7'}),
   P({id:'PG-RPT-REG-010',name:'규제보고 생성',apps:['APP-RPT'],svcs:['SV-IF-01'],nodes:[['ND-DWDB01']],repo:'dw/reg-report',ver:'v1.6.2'}),
-  P({id:'PG-PRS-LN-010',name:'PRASAC 여신 원장',apps:['APP-PRS-LSS'],svcs:['SV-LN-01','SV-LN-02','SV-LN-03','SV-LN-05'],nodes:[['ND-PRSAP01'],['ND-PRSDB01']],repo:'prasac/lss',ver:'v2.2.0'}),
-  P({id:'PG-PRS-INT-030',name:'PRASAC 이자계산',apps:['APP-PRS-LSS'],svcs:['SV-LN-04','SV-LN-05'],nodes:[['ND-PRSAP01'],['ND-PRSDB01']],repo:'prasac/lss',ver:'v2.2.0'}),
-  P({id:'PG-PRS-BAT-120',name:'PRASAC 여신 배치',kind:'배치잡',apps:['APP-PRS-LSS'],svcs:['SV-LN-03','SV-LN-04','SV-LN-05'],entry:'중간',nodes:[['ND-PRSAP01'],['ND-PRSDB01']],repo:'prasac/lss-batch',ver:'v1.4.0'}),
-  P({id:'PG-KBI-CORE-001',name:'KBI 코어 원장',apps:['APP-KBI-CORE'],svcs:['SV-LN-03','SV-LN-04','SV-DP-01','SV-DP-02'],entry:'중간',nodes:[['ND-KBICR01']],repo:'kbi/core',ver:'v9.1.0'})
 ];
 const NODES = [
   {id:'ND-GBSAP01',host:'kgbsap01p',name:'GBS AP 1호기',role:'AP(WAS)',cluster:'GBS-AP 클러스터 · Node1',os:'Linux',dc:'서울 주센터',eos:'2028-06',vulns:1,inc:0},
@@ -473,16 +463,11 @@ const NODES = [
   {id:'ND-CHWEB02',host:'kgchwb02p',name:'채널 WEB 2호기',role:'WEB',cluster:'채널 WEB · Node2',os:'Linux',dc:'서울 주센터',eos:'2029-03',vulns:1,inc:0},
   {id:'ND-DWDB01',host:'kgdwdb01p',name:'정보계 DW',role:'DB',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2027-02',vulns:1,inc:0},
   {id:'ND-DWETL01',host:'kgdwet01p',name:'정보계 ETL',role:'배치',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2027-09',vulns:0,inc:1},
-  {id:'ND-PRSAP01',host:'pkhlsap01p',name:'PRASAC 여신 AP',role:'AP',cluster:'단일 노드',os:'Linux',dc:'프놈펜 센터',eos:'2026-12',vulns:2,inc:1},
-  {id:'ND-PRSDB01',host:'pkhlsdb01p',name:'PRASAC 여신 DB',role:'DB',cluster:'단일 노드',os:'Linux',dc:'프놈펜 센터',eos:'2027-08',vulns:1,inc:0},
-  {id:'ND-KBICR01',host:'idkbcr01p',name:'KBI 코어',role:'AP·DB',cluster:'단일 노드',os:'Unix',dc:'자카르타 센터',eos:'2028-01',vulns:0,inc:1},
   {id:'ND-GBSAP90',host:'kgbsap90p',name:'구 여신 AP',role:'AP',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2025-12',vulns:4,inc:0}
 ];
 const USE = {};
 ['E-NY','E-LDN','E-HK','E-SG','E-TKO'].forEach(e=>USE[e]=['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06','SV-DP-01','SV-DP-02','SV-DG-02','SV-FX-01','SV-FX-02','SV-IF-01','SV-IF-02']);
 USE['E-VN'] = SVC.map(s=>s.id);
-USE['E-KH'] = ['SV-LN-01','SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-IF-01'];
-USE['E-ID'] = ['SV-LN-03','SV-LN-04','SV-DP-01','SV-DP-02','SV-PY-01','SV-IF-01'];
 
 /* ===== E2E case: global loan interest calculation (GBS) ===== */
 const CASE = {
@@ -717,7 +702,7 @@ function renderBusiness(){
   const good=ITREL.filter(relGood).length;
   const warnNodes=NODES.filter(a=>nodeScore(a)>=40).length;
   const k=[
-    [ENT.length,'법인·지점','지점 6 · 현지법인 2'],
+    [ENT.length,'법인·지점','해외 지점'],
     [SVC.length,'업무서비스','중요 서비스 '+crit],
     [SYS.length,'시스템','애플리케이션 '+APP.length],
     [PRG.length,'프로그램·소스','모듈·배치·IF·DB객체'],
@@ -861,7 +846,7 @@ const SCEN=[
   ['IF-LN-RATE-01','지연: 기준금리 수신 IF'],
   ['PG-COM-DT-001','취약점: 영업일 공통모듈'],
   ['CAP-LN','Top-down: 여신'],
-  ['E-KH','Top-down: KB PRASAC']
+  ['E-VN','Top-down: 베트남(호치민)']
 ];
 function initImpactControls(){
   const box=document.getElementById('scen');
