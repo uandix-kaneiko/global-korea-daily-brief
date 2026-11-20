@@ -1,12 +1,12 @@
 # Tech & Global News Daily
 
-공개 금융·경제·은행·지급결제·IT 기술·AI·클라우드·사이버보안 뉴스를 다루는 경영진 브리핑입니다.
+공개자료 기반의 IT 기술·금융IT·보안·IT 장애 및 사고 전문 브리핑입니다.
 
 - [최신 브리핑](https://uandix-kaneiko.github.io/global-korea-daily-brief/latest.html)
 - [지난 브리핑](https://uandix-kaneiko.github.io/global-korea-daily-brief/archive/index.html)
 - [RSS](https://uandix-kaneiko.github.io/global-korea-daily-brief/feed.xml)
 
-업로드된 블랙·골드 시안을 바탕으로 핵심 메시지, 3D TG 비주얼, 세 가지 판단 보드와 분야별 전체 기사를 제공합니다.
+블랙·골드 화면에서 네 분야별 기사·실행과제·사고 후속·인사이트를 제공합니다. 검색, 큐브와 인텔리전스 문구는 사용하지 않습니다.
 
 ## 발행
 
