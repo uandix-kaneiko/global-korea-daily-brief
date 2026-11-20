@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-/* Layout idea: one relationship dataset, five tabs (경영·업무·시스템 뷰 + 영향도 분석 + 데이터 품질). A shared scope bar carries 법인/업무역량 across views. Risk uses semantic color; KB yellow is the brand accent and the "selected" marker. */
+/* Layout idea: one relationship dataset, five tabs (비즈니스·서비스·시스템 뷰 + 영향도 분석 + 데이터 품질). A shared scope bar carries 법인/업무역량 across views. Risk uses semantic color; KB yellow is the brand accent and the "selected" marker. */
 :root{
   --bg:#F6F5F2; --surface:#FFFFFF; --ink:#24262A; --muted:#5B5E64; --line:#DEDBD4; --soft:#EFEDE8;
   --accent:#FFBC00; --accent-soft:#FFF4CF;
@@ -217,8 +217,8 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
   </header>
 
   <nav class="tabs" aria-label="뷰 선택">
-    <a href="#business" data-v="business"><b>경영 뷰</b><span>Business</span></a>
-    <a href="#service" data-v="service"><b>업무 뷰</b><span>Service</span></a>
+    <a href="#business" data-v="business"><b>비즈니스 뷰</b><span>Business</span></a>
+    <a href="#service" data-v="service"><b>서비스 뷰</b><span>Service</span></a>
     <a href="#system" data-v="system"><b>시스템 뷰</b><span>Technology</span></a>
     <span class="sep" aria-hidden="true"></span>
     <a href="#impact" data-v="impact"><b>영향도 분석</b><span>Top-down · Bottom-up</span></a>
@@ -248,7 +248,7 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
       </div>
     </div>
     <div class="card">
-      <div class="sec-h"><h2>법인·지점별 IT 현황</h2><p>행을 누르면 업무 뷰로 이동합니다</p></div>
+      <div class="sec-h"><h2>법인·지점별 IT 현황</h2><p>행을 누르면 서비스 뷰로 이동합니다</p></div>
       <div class="scroll"><table class="simple" id="entsum" style="min-width:820px"></table></div>
     </div>
   </section>
