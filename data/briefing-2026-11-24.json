@@ -1,0 +1,492 @@
+{
+  "date": "2026-11-24",
+  "display_date": "2026.11.24",
+  "edition": "오전 브리핑",
+  "brand": "Tech & Global News Daily",
+  "articles": [
+    {
+      "id": 1,
+      "cat": "보안",
+      "title": "상시 취약점 신고제 시범서 202건 조치…2027년 제도화 추진",
+      "published": "11.23",
+      "status": "시범 완료",
+      "summary": "정부는 15개 기업·기관의 시범사업에서 유효 취약점 202건을 확인해 모두 조치했다고 발표했습니다. 상시 제도는 내년 추진 단계입니다.",
+      "board_fact": "정부는 15개 기업·기관의 시범사업에서 유효 취약점 202건을 확인해 모두 조치했다고 발표했습니다. 상시 제도는 내년 추진 단계입니다.",
+      "fact": "11월 23일 정부 성과공유회에 대한 연합뉴스·뉴시스 보도에 따르면 화이트해커 698명이 6월 29일부터 약 4주간 1343건을 신고했고 이 중 202건이 유효 판정을 받았다. 기업·기관은 패치 등을 완료했고 시범 탐색에 따른 서비스 장애는 없었다고 정부는 설명했다. 사전 허용 범위·윤리교육·보안서약을 적용한 시범이며, 2027년 법·제도적 기반과 신고 분석 지원체계 마련을 추진한다.",
+      "impact": "분석: 운영 서비스의 외부 신고를 조치로 연결하는 체계가 중요해졌다. 시범 결과와 향후 제도 시행을 구별해야 한다.",
+      "lesson": "금융 서비스는 탐색 허용 범위, 개인정보 보호, 신고 접수부터 재점검까지의 책임을 함께 설계해야 한다.",
+      "action": "보안 신고 창구·담당자·처리 기한을 정하고 안전한 점검 범위와 패치 후 재검증 절차를 문서화한다.",
+      "deep": true,
+      "meta": "2026.11.23",
+      "sources": [
+        {
+          "name": "연합뉴스 · 정부 성과 발표 취재",
+          "url": "https://www.yna.co.kr/amp/view/AKR20261123048400017"
+        },
+        {
+          "name": "뉴시스 · 시범 범위·일정 취재",
+          "url": "https://www.newsis.com/view/NISX20261123_0003878728"
+        }
+      ],
+      "source_short": "연합뉴스 · 정부 성과 발표 취재"
+    },
+    {
+      "id": 2,
+      "cat": "IT 장애·사고",
+      "title": "Cloudflare Workers API·대시보드 정보 지연 조사…가동 중 Workers는 영향 없음",
+      "published": "11.23",
+      "status": "조사 중",
+      "summary": "Cloudflare는 Workers 배포·설정 정보가 늦거나 서로 다르게 표시될 수 있다고 공지했습니다. 이미 운영 중인 Workers는 영향 대상이 아니라고 밝혔습니다.",
+      "board_fact": "Cloudflare는 Workers 배포·설정 정보가 늦거나 서로 다르게 표시될 수 있다고 공지했습니다. 이미 운영 중인 Workers는 영향 대상이 아니라고 밝혔습니다.",
+      "fact": "공식 상태 페이지는 11월 23일 13:52 UTC(한국 22:52)에 Workers API와 대시보드의 Workers 설정 문제를 조사한다고 게시했다. 최근 배포·설정 변경이 즉시 표시되지 않거나 오래된 정보가 보일 수 있다. 11월 24일 오전 확인 시 최신 공지는 조사 중이며 복구 시각과 원인은 제시되지 않았다. 가동 중인 프로덕션 Workers는 영향을 받지 않는다고 명시했다.",
+      "impact": "분석: 관리 화면의 지연으로 배포 성공 여부 판단과 변경 이력 확인에 혼선이 생길 수 있다. 서비스 실행 경로와 관리 경로를 따로 확인할 필요가 있다.",
+      "lesson": "금융 API 운영은 화면 표시만으로 재배포를 결정하지 말고 실제 버전·응답과 변경 작업 상태를 대조해야 한다.",
+      "action": "중복 배포를 피하고 배포 ID·설정 버전·실제 응답을 대조한다. 공식 복구 공지 후 관리 화면과 실행 상태의 일치를 다시 확인한다.",
+      "deep": true,
+      "meta": "2026.11.23",
+      "sources": [
+        {
+          "name": "Cloudflare · Workers API 공식 장애 기록",
+          "url": "https://www.cloudflarestatus.com/incidents/00dp7cliyqqt"
+        }
+      ],
+      "source_short": "Cloudflare · Workers API 공식 장애 기록"
+    },
+    {
+      "id": 3,
+      "cat": "보안",
+      "title": "Datadog: 클라우드 취약점 중앙값 4→16…AI 접근 키도 관리 대상",
+      "published": "11.23",
+      "status": "보고서",
+      "summary": "11월 보고서는 분석 대상 클라우드 서비스의 고위험 취약점 중앙값이 2월 4개에서 11월 16개로 늘었다고 설명합니다. 장기 AI API 키 위험도 짚었습니다.",
+      "board_fact": "11월 보고서는 분석 대상 클라우드 서비스의 고위험 취약점 중앙값이 2월 4개에서 11월 16개로 늘었다고 설명합니다. 장기 AI API 키 위험도 짚었습니다.",
+      "fact": "Datadog의 State of Cloud Security 2026 원문과 11월 23일 국내 보도를 확인했다. 고객 표본 수천 조직을 분석했으며 일반 지표는 주로 9월 기준, 취약점 추이는 2~11월이다. 높음·심각 등급 취약점의 서비스별 중앙값이 4배가 됐다. AI 서비스 접근용 장기 키와 CI/CD에 남은 정적 자격증명 위험을 지적한다. 표본 결과를 모든 기업의 침해 증가율로 해석할 수는 없다.",
+      "impact": "분석: 모델 도입과 함께 접근 권한·의존성·빌드 경로가 보안 운영의 대상이 된다. 취약점 개수는 실제 침해 건수와 다른 지표다.",
+      "lesson": "OIDC 도입 여부만 확인할 게 아니라 배포 파이프라인에 남아 있는 장기 키도 찾아야 한다.",
+      "action": "AI·클라우드 API 키의 소유자·권한·만료를 확인하고 지원되는 경로는 단기 워크로드 신원으로 전환한다. 의존성 변경 검토와 패치 우선순위를 정한다.",
+      "deep": true,
+      "meta": "2026.11.23",
+      "sources": [
+        {
+          "name": "Datadog · 2026 클라우드 보안 원문",
+          "url": "https://www.datadoghq.com/state-of-cloud-security/"
+        },
+        {
+          "name": "데일리시큐 · 11월 23일 보도",
+          "url": "https://www.dailysecu.com/news/articleView.html?idxno=209665"
+        }
+      ],
+      "source_short": "Datadog · 2026 클라우드 보안 원문"
+    },
+    {
+      "id": 4,
+      "cat": "IT 기술",
+      "title": "티베로7, Nutanix AHV서 TAS·TAC 구성 검증…HCI 선택지 확대",
+      "published": "11.23",
+      "status": "호환성 검증",
+      "summary": "티베로는 AHV 환경의 고가용성 DB 구성과 VM 운영 항목을 검증했다고 발표했습니다. 업무별 성능·복구 목표 충족은 별도 평가할 과제입니다.",
+      "board_fact": "티베로는 AHV 환경의 고가용성 DB 구성과 VM 운영 항목을 검증했다고 발표했습니다. 업무별 성능·복구 목표 충족은 별도 평가할 과제입니다.",
+      "fact": "티베로 공식 발표는 Nutanix Ready AHV 검증과 호환성 매트릭스 등재를 알렸다. TAS-TAC 구성에서 공유 디스크와 노드 통신을 확인하고 단일·클러스터 환경의 자원 변경, VM 이동·복제·스냅샷을 점검했다. 기존 주요 클라우드에 이어 HCI 지원 범위를 넓힌 것으로, 개별 금융 업무의 성능이나 복구 시간 수치는 공개하지 않았다.",
+      "impact": "분석: 가상화 전환 시 DB 고가용성 구조의 선택 범위가 늘어난다. 인증 범위와 업무의 가용성 요구를 대조해야 한다.",
+      "lesson": "금융IT는 공유 스토리지·클러스터 통신·백업 정합성까지 포함한 장애 시험이 필요하다.",
+      "action": "대상 버전과 지원 구성을 확인하고 노드·스토리지 장애, VM 이동, 백업 복원에 대한 데이터 정합성과 복구 시간을 측정한다.",
+      "deep": true,
+      "meta": "2026.11.23",
+      "sources": [
+        {
+          "name": "티베로 · 공식 호환성 발표",
+          "url": "https://www.tibero.com/ko/boards/press/9944"
+        },
+        {
+          "name": "ZDNet Korea · 검증 구성 취재",
+          "url": "https://zdnet.co.kr/view/?no=20261123111515"
+        }
+      ],
+      "source_short": "티베로 · 공식 호환성 발표"
+    },
+    {
+      "id": 5,
+      "cat": "IT 기술",
+      "title": "래블업·Insight, 미국 Backend.AI 공급 협력…이기종 가속기 운영 지원",
+      "published": "11.23",
+      "status": "공급 계약",
+      "summary": "래블업 USA가 Insight와 미국 기업 시장 공급 계약을 체결했습니다. 자체 인프라의 AI 운영·확장을 지원하는 협력입니다.",
+      "board_fact": "래블업 USA가 Insight와 미국 기업 시장 공급 계약을 체결했습니다. 자체 인프라의 AI 운영·확장을 지원하는 협력입니다.",
+      "fact": "11월 23일 래블업은 Backend.AI 공급 계약을 발표했다. 회사는 GPU 자원 관리와 모델 운영을 통합하고 AMD·Intel·NVIDIA 가속기에서 동일 개발·학습·배포 흐름을 지원한다고 설명한다. 우선 중견기업에 집중하고 대형 데이터센터로 확대할 계획이다. 이번 계약 자체를 고객별 상용 구축 완료나 비용 절감 실적으로 볼 수는 없다.",
+      "impact": "분석: 자체 AI 인프라를 검토하는 조직은 플랫폼 기능과 현지 운영 지원을 함께 평가할 수 있다.",
+      "lesson": "금융IT에서는 이기종 지원 여부 외에 워크로드 격리·데이터 위치·장애 복구의 실제 조건을 확인해야 한다.",
+      "action": "대표 모델로 가속기별 호환성과 성능을 비교하고 테넌트 격리·할당량·로그·지원 응답 체계를 도입 조건에 포함한다.",
+      "deep": true,
+      "meta": "2026.11.23",
+      "sources": [
+        {
+          "name": "래블업 · 공식 공급 계약 발표",
+          "url": "https://www.lablup.com/ko/press/2026-11-lablup-enters-us-enterprise-market-with-insight"
+        },
+        {
+          "name": "ZDNet Korea · 공급 범위 보도",
+          "url": "https://zdnet.co.kr/view/?no=20261123102914"
+        }
+      ],
+      "source_short": "래블업 · 공식 공급 계약 발표"
+    },
+    {
+      "id": 6,
+      "cat": "금융IT",
+      "title": "TIPS Clone, 서발칸 5개국 가동…알바니아 IPSA 실시간 이체 개시",
+      "published": "11.23",
+      "status": "가동",
+      "summary": "이탈리아 중앙은행은 TIPS Clone의 5개국 운영을 알렸습니다. 알바니아는 IPSA를 통해 연중무휴 국내 즉시이체를 시작했다고 발표했습니다.",
+      "board_fact": "이탈리아 중앙은행은 TIPS Clone의 5개국 운영을 알렸습니다. 알바니아는 IPSA를 통해 연중무휴 국내 즉시이체를 시작했다고 발표했습니다.",
+      "fact": "11월 23일 이탈리아 중앙은행과 알바니아 중앙은행 발표를 확인했다. 보스니아헤르체고비나·몬테네그로는 7월 20일, 알바니아·코소보·북마케도니아는 11월 합류했다. 플랫폼은 TIPS 기술을 사용하지만 독립 운영된다. 자국 통화는 중앙은행 화폐, 유로는 상업은행 화폐로 결제한다. 알바니아 IPSA는 24시간 국내 이체와 수초 내 입금을 제공하며 앱에서 4만 레크 이하 즉시이체는 무료라고 공지했다.",
+      "impact": "분석: 지역 공통 기술 기반이 확대되지만 통화별 결제 자산과 각국 서비스 조건은 다르다.",
+      "lesson": "상시 결제망 연결은 야간·휴일의 유동성·대사·예외처리까지 함께 설계해야 한다.",
+      "action": "해당 지역 업무는 참여 은행·지원 통화·한도·정산 구조를 확인하고 24시간 모니터링과 중복·반환 처리 시나리오를 점검한다.",
+      "deep": true,
+      "meta": "2026.11.23",
+      "sources": [
+        {
+          "name": "이탈리아 중앙은행 · 공식 가동 발표",
+          "url": "https://www.bancaditalia.it/media/notizia/governor-fabio-panetta-launches-tips-clone/"
+        },
+        {
+          "name": "알바니아 중앙은행 · IPSA 개시 공지",
+          "url": "https://www.bankofalbania.org/Press/Press_Releases/Document_Title_48250_1.html"
+        }
+      ],
+      "source_short": "이탈리아 중앙은행 · 공식 가동 발표"
+    },
+    {
+      "id": 7,
+      "cat": "금융IT",
+      "title": "Mastercard·Antom, AI 대리결제 실거래와 기업 구매 통제 시범 공개",
+      "published": "11.19 · 후속/심층",
+      "status": "실거래·시범",
+      "summary": "소비자 승인 의도를 기록한 커피 구매와 기업 AI의 디지털 서비스 구매 시범을 공개했습니다. 승인·한도·감사 기록이 핵심입니다.",
+      "board_fact": "소비자 승인 의도를 기록한 커피 구매와 기업 AI의 디지털 서비스 구매 시범을 공개했습니다. 승인·한도·감사 기록이 핵심입니다.",
+      "fact": "Mastercard가 19일 배포한 원문과 23일 The Paypers 후속 보도에 따르면 소비자 거래는 사전 승인 의도를 Verifiable Intent로 기록한 Agent Pay 결제다. 별도 싱가포르 AP4M 시범은 기업이 정한 권한·정책·한도 내 디지털 서비스 구매를 시험했다. 이 두 사례를 모든 가맹점에 대한 전면 상용화로 확대 해석하지 않는다.",
+      "impact": "분석: AI 구매의 실행 가능성과 함께 위임 범위를 결제 시점에 강제하는 구조가 중요해진다.",
+      "lesson": "에이전트 신원, 소비자·기업의 승인 증거, 결제 권한은 별도 관리할 필요가 있다.",
+      "action": "위임 금액·대상·기간, 취소와 재승인, 중복 결제 방지, 감사 증거를 설계하고 통제 실패 시 거래가 차단되는지 시험한다.",
+      "deep": true,
+      "meta": "2026.11.19 · 후속/심층",
+      "sources": [
+        {
+          "name": "Mastercard · 공식 배포문(PR Newswire)",
+          "url": "https://www.prnewswire.com/apac/news-releases/mastercard-and-ant-international-advance-trusted-agentic-commerce-in-asia-pacific-302943668.html"
+        },
+        {
+          "name": "The Paypers · 23일 후속 보도",
+          "url": "https://thepaypers.com/payments/news/mastercard-ant-international-test-ai-agent-payments-in-apac"
+        }
+      ],
+      "source_short": "Mastercard · 공식 배포문(PR Newswire)"
+    },
+    {
+      "id": 8,
+      "cat": "디지털",
+      "title": "우리은행, Nium 선택…앱 내 20개 송금 경로 연계 계획",
+      "published": "11.18 · 후속/심층",
+      "status": "파트너 선정",
+      "summary": "Nium은 우리은행 앱에서 아시아태평양·유럽·미국을 잇는 개인 간 송금을 지원할 예정이라고 발표했습니다. 제공 개시일은 원문에 명시되지 않았습니다.",
+      "board_fact": "Nium은 우리은행 앱에서 아시아태평양·유럽·미국을 잇는 개인 간 송금을 지원할 예정이라고 발표했습니다. 제공 개시일은 원문에 명시되지 않았습니다.",
+      "fact": "Nium의 18일 공식 발표는 우리은행 브랜드 안에서 제공할 화이트라벨 해외송금 기반 선정을 알렸다. 20개 송금 경로의 실시간 지급, 디지털 지갑 수취와 거래 전 과정 추적 등을 설명한다. 경로 20개를 국가 20개로 바꾸어 읽지 않는다. 이 발표만으로 모든 경로가 고객에게 이미 개통됐다고 단정할 수 없다.",
+      "impact": "분석: 고객은 은행 앱을 유지하면서 외부 지급망을 이용할 수 있다. 앱과 지급사 간 상태 전달 품질이 고객 경험에 영향을 준다.",
+      "lesson": "완료·심사·지연·실패 상태와 수취 방식별 소요 시간을 고객이 이해하도록 표시해야 한다.",
+      "action": "실제 개통 공지와 지원 경로를 확인하고 수수료·환율·수취 금액·추적·환불·상담 연결을 종단 간 시험한다.",
+      "deep": true,
+      "meta": "2026.11.18 · 후속/심층",
+      "sources": [
+        {
+          "name": "Nium · 우리은행 파트너 선정 발표",
+          "url": "https://www.nium.com/newsroom/woori-bank-selects-nium-to-power-cross-border-p2p-payouts"
+        },
+        {
+          "name": "Fintech News Singapore · 19일 보도",
+          "url": "https://fintechnews.sg/141803/payments/woori-bank-nium-remittances/"
+        }
+      ],
+      "source_short": "Nium · 우리은행 파트너 선정 발표"
+    },
+    {
+      "id": 9,
+      "cat": "디지털",
+      "title": "Klarna, Adyen의 AI 결제 화면에 합류…구매마다 이용자 최종 확인",
+      "published": "11.20 · 후속/심층",
+      "status": "제공 발표",
+      "summary": "Klarna는 Adyen Agentic에 비카드 결제 선택지를 제공한다고 발표했습니다. AI가 결제를 진행하더라도 이용자가 구매를 검토·확인합니다.",
+      "board_fact": "Klarna는 Adyen Agentic에 비카드 결제 선택지를 제공한다고 발표했습니다. AI가 결제를 진행하더라도 이용자가 구매를 검토·확인합니다.",
+      "fact": "20일 Klarna 공식 발표는 기존 Adyen 가맹점의 Klarna 결제 옵션을 AI 체크아웃에서도 활성화할 수 있다고 설명했다. 공개 payment handler 규격을 이용했으며 해당 가맹점의 기존 일시불·분할·금융 옵션을 제시한다. 구매 완료 전 고객이 매번 확인한다. 실제 지원 범위와 조건은 가맹점·결제 상품에 따라 확인해야 한다.",
+      "impact": "분석: 에이전트 구매의 고객 접점이 카드 외 결제 선택과 최종 동의까지 확장된다.",
+      "lesson": "금융 서비스의 AI 경험은 추천·실행을 연결하되 금액과 약정 조건에 대한 명확한 동의가 필요하다.",
+      "action": "최종 금액·결제 방식·약정 조건을 승인 화면에서 확인하고 재시도·취소·반환 시 승인과 주문 상태가 일치하는지 시험한다.",
+      "deep": true,
+      "meta": "2026.11.20 · 후속/심층",
+      "sources": [
+        {
+          "name": "Klarna · 공식 제공 발표",
+          "url": "https://investors.klarna.com/News--Events/news/news-details/2026/Adyen-Merchants-Can-Now-Offer-Klarna-in-AI-Agent-Checkout/default.aspx"
+        },
+        {
+          "name": "The Paypers · 23일 후속 보도",
+          "url": "https://thepaypers.com/payments/news/adyen-adds-klarna-as-a-non-card-method-for-ai-agent-checkout"
+        }
+      ],
+      "source_short": "Klarna · 공식 제공 발표"
+    },
+    {
+      "id": 10,
+      "cat": "디지털",
+      "title": "UAE talabat, LuLu Exchange 송금 내장…앱 접점과 금융 처리 책임 분리",
+      "published": "11.21 · 후속/심층",
+      "status": "서비스 제공",
+      "summary": "생활 앱 안에 해외송금이 들어왔습니다. 공식 약관은 KYC·송금 처리를 LuLu Exchange가 수행하며 talabat은 고객 자금을 취급하지 않는다고 구분합니다.",
+      "board_fact": "생활 앱 안에 해외송금이 들어왔습니다. 공식 약관은 KYC·송금 처리를 LuLu Exchange가 수행하며 talabat은 고객 자금을 취급하지 않는다고 구분합니다.",
+      "fact": "21일 공개 보도와 talabat 공식 약관을 확인했다. 송금은 LuLu Exchange가 제공하며 고객 확인·승인을 담당한다. 11월 10~30일 프로모션은 해당 기능에 접근 가능한 UAE 거주 성인 등 조건을 둔다. 플랫폼 수수료 면제에도 환율·중개은행 비용 등은 적용될 수 있다. 보도 간 목적지 수가 달라 국가 수는 단정하지 않는다.",
+      "impact": "분석: 생활 앱에서 금융 거래를 시작할 때 제공자·수수료·처리 상태와 민원 책임을 명확히 보여줄 필요가 있다.",
+      "lesson": "임베디드 금융은 화면의 일관성과 함께 금융 처리 주체·개인정보 전달 범위의 명확성이 중요하다.",
+      "action": "KYC 연결과 결과 전달, 전체 비용, 지연·거절·환불 경로를 점검하고 혜택은 거래 완료 조건과 함께 안내한다.",
+      "deep": true,
+      "meta": "2026.11.21 · 후속/심층",
+      "sources": [
+        {
+          "name": "talabat · 공식 송금·프로모션 약관",
+          "url": "https://www.talabat.com/uae/terms?f=1"
+        },
+        {
+          "name": "Tbreak · 21일 서비스 보도",
+          "url": "https://tbreak.com/talabat-send-money-abroad-lulu-exchange/"
+        }
+      ],
+      "source_short": "talabat · 공식 송금·프로모션 약관"
+    },
+    {
+      "id": 11,
+      "cat": "IT 장애·사고",
+      "title": "Cloudflare 프랑크푸르트 경유 일부 지연, 10분 후 해결 기록",
+      "published": "11.23",
+      "status": "해결",
+      "summary": "공식 기록은 프랑크푸르트에 도달하는 일부 고객의 지연을 04:18~04:28 UTC로 한정합니다. Workers 관리 정보 문제와 별개 사건입니다.",
+      "board_fact": "공식 기록은 프랑크푸르트에 도달하는 일부 고객의 지연을 04:18~04:28 UTC로 한정합니다. Workers 관리 정보 문제와 별개 사건입니다.",
+      "fact": "Cloudflare는 23일 04:18~04:28 UTC(한국 13:18~13:28) 프랑크푸르트 경유 일부 고객의 지연 증가를 알렸다. 해결 시각은 04:28, 공지 등록은 04:52 UTC다. 원인·피해 고객 수는 이 기록에 제시되지 않았다.",
+      "impact": "분석: 지역 경유 지연과 전체 서비스 중단은 영향 범위가 다르다.",
+      "lesson": "고객 위치뿐 아니라 실제 요청이 경유한 지점과 지연 분포를 확인해야 한다.",
+      "action": "해당 시간대 경로별 지연·타임아웃과 결제 재시도·중복 처리 여부를 대조한다.",
+      "deep": false,
+      "meta": "2026.11.23",
+      "sources": [
+        {
+          "name": "Cloudflare · 프랑크푸르트 공식 기록",
+          "url": "https://www.cloudflarestatus.com/incidents/nosp2iizzvc7"
+        }
+      ],
+      "source_short": "Cloudflare · 프랑크푸르트 공식 기록"
+    }
+  ],
+  "highlights": [],
+  "deep_order": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "followups": [
+    {
+      "label": "복구 공지",
+      "title": "Workers 관리 상태와 실제 배포 버전 대조",
+      "body": "복구 선언·원인 공개 여부와 설정 정보 정합성을 확인합니다.",
+      "article": 2
+    },
+    {
+      "label": "제도화 일정",
+      "title": "상시 신고제의 법적 보호·지원 체계",
+      "body": "2027년 추진 일정과 기업의 신고 분석·조치 지원 범위를 확인합니다.",
+      "article": 1
+    },
+    {
+      "label": "개통 조건",
+      "title": "우리은행 송금의 실제 이용 가능 경로",
+      "body": "정식 개통일·지원 수취 수단·거래 상태 추적 안내를 확인합니다.",
+      "article": 8
+    }
+  ],
+  "insights": [
+    {
+      "title": "호환성 다음은 운영 증거",
+      "body": "DB 복구 시간·정합성과 AI 워크로드 격리·할당·지원 조건을 실제 환경에서 시험합니다."
+    },
+    {
+      "title": "상시 결제에는 상시 통제가 필요",
+      "body": "24시간 지급망은 유동성·대사·예외처리를 운영 시간 전체로 확장합니다."
+    },
+    {
+      "title": "대리결제는 위임 범위를 증명한다",
+      "body": "누가 무엇을 얼마까지 승인했는지 거래 시점에 검증할 수 있어야 합니다."
+    },
+    {
+      "title": "금융 접점의 확장과 책임 안내",
+      "body": "은행 앱·AI 체크아웃·생활 앱의 화면이 달라도 처리 주체·동의·완료 상태가 명확해야 합니다."
+    },
+    {
+      "title": "신고 창구와 접근 키의 소유자를 정한다",
+      "body": "외부 신고의 조치·재점검 책임을 지정하고 AI·배포 경로의 장기 키도 만료와 최소 권한을 관리합니다."
+    },
+    {
+      "title": "표시 지연과 실행 장애를 구분한다",
+      "body": "관리 화면의 최신성과 실제 배포 버전을 대조합니다. 지역 지연은 요청 경로와 시간대로 영향을 추적합니다."
+    }
+  ],
+  "watch": [
+    {
+      "article": 2,
+      "name": "Cloudflare Workers API",
+      "state": "조사 중",
+      "tone": "open",
+      "fact": "Cloudflare는 Workers 배포·설정 정보가 늦거나 서로 다르게 표시될 수 있다고 공지했습니다. 이미 운영 중인 Workers는 영향 대상이 아니라고 밝혔습니다.",
+      "action": "중복 배포를 피하고 배포 ID·설정 버전·실제 응답을 대조한다. 공식 복구 공지 후 관리 화면과 실행 상태의 일치를 다시 확인한다."
+    },
+    {
+      "article": 11,
+      "name": "Cloudflare Frankfurt",
+      "state": "해결",
+      "tone": "done",
+      "fact": "공식 기록은 프랑크푸르트에 도달하는 일부 고객의 지연을 04:18~04:28 UTC로 한정합니다. Workers 관리 정보 문제와 별개 사건입니다.",
+      "action": "해당 시간대 경로별 지연·타임아웃과 결제 재시도·중복 처리 여부를 대조한다."
+    }
+  ],
+  "decision_board": [
+    {
+      "id": 1,
+      "title": "IT 기술",
+      "description": "DB 고가용성·자체 AI 인프라 운영",
+      "action": "호환성 검증 범위를 확인하고 업무별 장애·복원·격리 시험으로 도입 조건을 구체화합니다.",
+      "evidence": [
+        4,
+        5
+      ],
+      "watch": [],
+      "followups": [],
+      "insights": [
+        0
+      ]
+    },
+    {
+      "id": 2,
+      "title": "금융IT",
+      "description": "상시 결제망·AI 구매 권한",
+      "action": "가동 중인 결제망의 정산 구조와 AI 구매 실증의 승인·한도·감사 통제를 구분해 검토합니다.",
+      "evidence": [
+        6,
+        7
+      ],
+      "watch": [],
+      "followups": [],
+      "insights": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 5,
+      "title": "디지털",
+      "description": "은행 앱·AI 체크아웃·생활 앱",
+      "action": "개통·이용 조건, 고객 승인, 금융 처리 주체와 실패·환불 상태를 화면에서 명확히 안내합니다.",
+      "evidence": [
+        8,
+        9,
+        10
+      ],
+      "watch": [],
+      "followups": [
+        2
+      ],
+      "insights": [
+        3
+      ]
+    },
+    {
+      "id": 3,
+      "title": "보안",
+      "description": "취약점 신고·AI 및 클라우드 신원",
+      "action": "신고 접수부터 재점검까지 책임을 정하고 AI·배포 경로에 남아 있는 장기 키와 권한을 확인합니다.",
+      "evidence": [
+        1,
+        3
+      ],
+      "watch": [],
+      "followups": [
+        1
+      ],
+      "insights": [
+        4
+      ]
+    },
+    {
+      "id": 4,
+      "title": "IT 장애·사고",
+      "description": "관리 정보 지연·지역 네트워크 복구",
+      "action": "Workers 관리 정보 지연과 Frankfurt 경유 지연을 구분합니다. 실제 응답·버전·재시도 기록으로 영향을 대조합니다.",
+      "evidence": [
+        2,
+        11
+      ],
+      "watch": [
+        2,
+        11
+      ],
+      "followups": [
+        0
+      ],
+      "insights": [
+        5
+      ]
+    }
+  ],
+  "brief": {
+    "headline": "확장의 다음 조건,<br><em>운영과 승인을 증명한다.</em>",
+    "summary": "상시 취약점 신고제는 발견을 조치·재점검으로 연결할 운영 체계를 요구합니다. DB·AI 인프라는 호환성 다음의 복구·격리를, 즉시이체·AI 구매는 정산 구조와 승인 증거를 확인해야 합니다. Cloudflare는 Workers 실행과 관리 정보의 영향을 나눠 판단할 사안입니다.",
+    "points": [
+      {
+        "title": "발견에서 조치 완료까지",
+        "body": "취약점 신고·패치·재점검의 책임 연결",
+        "article": 1
+      },
+      {
+        "title": "결제망과 AI 구매의 운영 조건",
+        "body": "상시 정산·위임 한도·고객 승인 확인",
+        "article": 6
+      },
+      {
+        "title": "관리 지연과 실행 영향 구분",
+        "body": "Workers 배포 정보와 실제 응답 대조",
+        "article": 2
+      }
+    ],
+    "detail": {
+      "title": "기술의 적용 범위를 운영·승인·복구 증거로 판단한다",
+      "summary": "상시 취약점 신고제는 발견을 조치·재점검으로 연결할 운영 체계를 요구합니다. DB·AI 인프라는 호환성 다음의 복구·격리를, 즉시이체·AI 구매는 정산 구조와 승인 증거를 확인해야 합니다. Cloudflare는 Workers 실행과 관리 정보의 영향을 나눠 판단할 사안입니다.",
+      "fact": "정부는 취약점 신고 시범의 조치 결과를 발표했다. 티베로는 HCI 고가용성 구성을 검증했고 래블업은 미국 공급 협력을 발표했다. TIPS Clone은 5개국 운영을 알렸다. AI 대리결제는 실거래·시범과 제공 발표를 구분해야 한다. Cloudflare Workers 공지는 관리 정보의 지연을 다룬다.",
+      "impact": "분석: 기술 적용의 확장은 자산·권한·배포·거래 상태를 확인할 지점을 늘린다. 각 발표의 적용 단계와 각 사고의 원인을 개별 근거로 판단해야 한다.",
+      "lesson": "발표나 호환성만으로 업무 성능·복구 목표 충족을 가정하지 않는다. 금융 거래의 승인과 처리 완료는 각각 증거를 남긴다.",
+      "action": "취약점 재점검 책임, DB 복구 시험, AI 자원 격리, 결제 승인 한도와 대사, 배포 버전 확인을 담당 업무별로 점검한다.",
+      "related": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  }
+}
