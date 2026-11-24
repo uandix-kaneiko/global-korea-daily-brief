@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>글로벌 통합관리체계 추진계획</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;500;600&family=Inter:wght@400;600&family=Noto+Sans+KR:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 경영진 보고서. 결론 먼저, 차분한 본문, 모든 사실과 빈칸을 그대로.
+   IDEA: 계층을 겹쳐 쌓은 아키텍처 도면 한 장 — 서버에서 실적까지 한 줄로 꿰는 경로.
+   PICTURE: 네 장의 판(비즈니스·서비스·애플리케이션·기술)과 로즈색 영향도 경로.
+   COLOUR and TYPE: 플럼 블랙 바탕, 흰 글자, 로즈 강조, 더스크 보조 / Inter Tight 300 큰 제목 + Noto Sans KR 본문.
+   LAYOUT: 첫 화면은 제목·핵심 수치와 도면, 이어서 보고 요지, 섹션 링크 한 줄, 본문 15장, 붙임. */
+:root{color-scheme:dark;--bg:#1a0f1f;--panel:#24172a;--panel2:#2c1d33;--ink:#f6eef4;--mute:#b9a9bd;--rose:#ff8fa3;--dusk:#8f7aa8;--line:rgba(246,238,244,.13)}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:96px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.7 Inter,"Noto Sans KR",system-ui,sans-serif;overflow-x:clip;word-break:keep-all}
+a{color:var(--rose)}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+.kick{color:var(--mute);font-size:14px;margin:0 0 14px}
+h1{font:300 clamp(34px,4.6vw,52px)/1.1 "Inter Tight","Noto Sans KR",sans-serif;margin:0 0 10px;text-wrap:balance;letter-spacing:-.01em}
+.sub{font:500 clamp(18px,2vw,22px)/1.4 "Inter Tight","Noto Sans KR",sans-serif;color:var(--mute);margin:0 0 6px}
+.tag{color:var(--rose);margin:0 0 26px;font-size:15.5px}
+.figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-radius:14px;overflow:hidden;margin:0 0 20px}
+.figs div{background:var(--panel);padding:14px 14px 12px}
+.figs b{font:300 clamp(32px,3.4vw,44px)/1 "Inter Tight",sans-serif;color:var(--ink)}
+.figs span{font-size:14px;color:var(--ink)}.figs small{display:block;font-size:13px;color:var(--mute);line-height:1.45;margin-top:4px}
+dl.meta{display:grid;grid-template-columns:auto minmax(0,1fr) auto minmax(0,1fr);gap:4px 14px;margin:0;font-size:14px}
+dl.meta dt{color:var(--mute)}dl.meta dd{margin:0}
+.pic svg{width:100%;height:auto;display:block}
+.trace{animation:dash 1.6s linear infinite}@keyframes dash{to{stroke-dashoffset:-20}}
+@media(prefers-reduced-motion:reduce){.trace{animation:none}html{scroll-behavior:auto}}
+.lead{padding-top:0}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,2.4vw,30px);max-width:1240px;margin:0 auto}
+.box h3{font:600 19px/1.3 "Inter Tight","Noto Sans KR",sans-serif;margin:0 0 10px;color:var(--rose)}
+nav.toc{position:relative;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-block:1px solid var(--line)}
+nav.toc .scroll{display:flex;gap:6px;overflow-x:auto;padding:10px max(5vw,16px);max-width:1340px;margin:0 auto;scrollbar-width:thin}
+nav.toc a{flex:none;color:var(--mute);text-decoration:none;font-size:14px;padding:10px 12px;border-radius:999px;min-height:44px;display:flex;align-items:center}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--ink);background:var(--panel2);outline:none}
+nav.toc a.on{color:var(--bg);background:var(--rose)}
+@media(min-width:900px){nav.toc{position:sticky;top:0}}
+main .wrap{max-width:980px}
+section{padding:clamp(22px,3vw,40px) 0;border-bottom:1px solid var(--line)}
+section h2{font:500 clamp(24px,2.6vw,32px)/1.2 "Inter Tight","Noto Sans KR",sans-serif;margin:0 0 18px;text-wrap:balance}
+h4{font:600 17px/1.4 "Noto Sans KR",sans-serif;margin:22px 0 8px;color:var(--ink)}
+p{margin:0 0 10px;max-width:72ch}
+p.b{position:relative;padding-left:1.5em;margin:0 0 7px}
+p.b::before{position:absolute;left:0;color:var(--dusk)}
+p.b0::before{content:"□";color:var(--rose)}p.b1{margin-left:1.2em}p.b1::before{content:"○"}p.b2{margin-left:2.4em;color:var(--mute);font-size:15px}p.b2::before{content:"-"}
+p.hd{margin-top:18px}
+.box p.b0{margin-left:0}
+p.note{color:var(--mute);font-size:14px;margin-top:8px}
+p.src{font-size:14px}p.src a{overflow-wrap:anywhere}
+.tw{overflow-x:auto;margin:12px 0 14px;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.55;table-layout:fixed}
+th{background:var(--panel2);color:var(--ink);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top;color:#e9dfe8}
+td.k{background:rgba(143,122,168,.12);color:var(--ink)}td.c,th:first-child{text-align:center}
+tbody tr:hover td{background:rgba(255,143,163,.06)}
+.att{background:var(--panel);border-block:1px solid var(--line)}
+.att .kick{color:var(--rose);font-weight:600}
+.att h1{font-size:clamp(28px,3.4vw,40px)}
+footer{color:var(--mute);font-size:13.5px}
+@media(max-width:900px){.hero .wrap{grid-template-columns:minmax(0,1fr)}.pic{max-width:560px}}
+@media(max-width:600px){.figs{grid-template-columns:repeat(2,minmax(0,1fr))}dl.meta{grid-template-columns:auto minmax(0,1fr)}
+ table{font-size:13px;table-layout:auto}colgroup{display:none}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-top:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 12px;padding-inline-start:calc(7.5em + 12px);text-align:start!important}.stack td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7.5em;white-space:normal;color:var(--mute)}.stack td:empty{display:none}td.k{background:none}}
+
+figure.viz{margin:18px 0 24px;padding:clamp(16px,2.4vw,26px);background:var(--panel);border:1px solid var(--line);border-radius:16px}
+figure.viz figcaption{color:var(--mute);font-size:14px;margin-top:14px}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.nd{flex:1 1 130px;background:var(--panel2);border:1px solid var(--line);border-top:3px solid var(--dusk);border-radius:10px;padding:10px 12px;line-height:1.35}
+.nd b{display:block;font-size:15px}.nd span{display:block;font-size:13px;color:var(--mute);margin-top:3px}
+.nd.b{border-top-color:#ff8fa3}.nd.s{border-top-color:#c79ad8}.nd.a{border-top-color:#8f7aa8}.nd.t{border-top-color:#6f6a9a}
+.nd.ok{border-top-color:#7fd6a8;background:rgba(127,214,168,.08)}.nd.warn{border-top-color:#f2c46d;background:rgba(242,196,109,.08)}
+.ar{flex:0 0 18px;align-self:center;height:2px;background:var(--dusk);position:relative}.ar::after{content:"";position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left:7px solid var(--dusk);border-right:0}
+.rail{margin-top:12px;padding:9px 12px;border:1px dashed var(--line);border-radius:10px;color:var(--mute);font-size:13.5px;text-align:center}
+.cmp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:16px}
+.side.on .flow{flex-wrap:nowrap}.side.on .nd{flex:1 1 0;padding:10px}.side.on .ar{flex-basis:12px}
+.side{padding:14px;border-radius:12px;border:1px solid var(--line)}.side.on{border-color:rgba(255,143,163,.45);background:rgba(255,143,163,.05)}
+.vh{font-weight:600;margin:0 0 10px}.side.on .vh{color:var(--rose)}.vc{color:var(--mute);font-size:14px;margin:12px 0 0}
+.silo{display:flex;gap:8px;align-items:stretch}.cut{flex:0 0 auto;align-self:center;font-size:12.5px;color:#f2c46d;writing-mode:horizontal-tb;padding:0 2px;border-inline:2px dashed #f2c46d55}
+.judge{display:grid;gap:14px}.jr{padding:12px;border-radius:12px;border:1px solid var(--line)}.jr.dash{border-style:dashed}.jl{margin:10px 0 0;font-size:14px;color:var(--mute)}.jl b{color:var(--ink)}
+.quadw{display:grid;gap:6px;max-width:620px}
+.ya{color:var(--mute);font-size:13px}
+.xa{color:var(--mute);font-size:13px;text-align:right}
+.quad{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.q{padding:18px 14px;border-radius:10px;min-height:96px;display:flex;flex-direction:column;justify-content:center}
+.q b{font-size:16px}.q span{font-size:13px;color:var(--mute);margin-top:4px}
+.q1{background:rgba(255,143,163,.22);border:1px solid rgba(255,143,163,.6)}.q2{background:rgba(242,196,109,.14);border:1px solid rgba(242,196,109,.45)}.q3{background:rgba(246,238,244,.04);border:1px solid var(--line)}.q4{background:rgba(143,122,168,.16);border:1px solid rgba(143,122,168,.45)}
+.gantt{display:grid;gap:8px;overflow-x:auto}
+.gh,.gr{display:grid;grid-template-columns:7.5em minmax(0,1fr);align-items:center;gap:10px;min-width:560px}
+.gh{grid-template-columns:7.5em repeat(5,minmax(0,1fr));color:var(--mute);font-size:13px}
+.gb{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+.gb i{font-style:normal;font-size:13px;background:rgba(255,143,163,.2);border:1px solid rgba(255,143,163,.55);border-radius:8px;padding:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gb i.open{background:repeating-linear-gradient(135deg,rgba(143,122,168,.25) 0 8px,rgba(143,122,168,.1) 8px 16px);border-color:rgba(143,122,168,.6)}
+.gb em{font-style:normal;font-size:13px;color:var(--rose);font-weight:600;padding-left:4px}
+.gr b{font-size:14px}.gb i small{display:none;font-size:inherit;color:var(--mute)}
+@media(max-width:700px){.cmp{grid-template-columns:minmax(0,1fr)}.flow,.side.on .flow{flex-direction:column;flex-wrap:nowrap}.nd,.side.on .nd{flex:none}.gh{display:none}.gr{grid-template-columns:minmax(0,1fr);min-width:0;gap:6px}.gb{grid-template-columns:minmax(0,1fr)}.gb i,.gb em{grid-column:auto!important;white-space:normal}.gantt{overflow:visible}.gb i small{display:inline}.ar{width:2px;height:16px;flex:0 0 16px;align-self:center}.ar::after{right:-4px;top:auto;bottom:-2px;border:5px solid transparent;border-top:7px solid var(--dusk);border-bottom:0}.silo{flex-direction:column}.cut{border-inline:0;border-block:2px dashed #f2c46d55;padding:2px 0;text-align:center}}
+
+/* 3D finish */
+figure.viz{background:linear-gradient(160deg,#2b1c32,#1f1325);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 18px 40px rgba(0,0,0,.35)}
+.nd{background:linear-gradient(180deg,#3d2a46,#2a1b31);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 5px 0 #120914,0 12px 22px rgba(0,0,0,.45);transform:translateY(-3px)}
+.nd.ok{background:linear-gradient(180deg,#24463a,#1a2f28)}.nd.warn{background:linear-gradient(180deg,#4a3b20,#2f2616)}
+.q{box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 6px 0 rgba(0,0,0,.45),0 14px 26px rgba(0,0,0,.4);transform:translateY(-3px)}
+.q1{background:linear-gradient(160deg,rgba(255,143,163,.42),rgba(255,143,163,.16))}.q2{background:linear-gradient(160deg,rgba(242,196,109,.3),rgba(242,196,109,.1))}.q3{background:linear-gradient(160deg,rgba(246,238,244,.1),rgba(246,238,244,.03))}.q4{background:linear-gradient(160deg,rgba(143,122,168,.34),rgba(143,122,168,.12))}
+.gb i{background:linear-gradient(180deg,rgba(255,143,163,.42),rgba(255,143,163,.18));box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 3px 0 rgba(0,0,0,.45),0 8px 14px rgba(0,0,0,.35)}
+.figs div{background:linear-gradient(180deg,#2e1f35,#24172a);box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.box{background:linear-gradient(170deg,#2b1c32,#22152a);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 18px 40px rgba(0,0,0,.35)}
+.why2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.wp{padding:14px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.12)}.wp.on{border-color:rgba(255,143,163,.45);background:rgba(255,143,163,.05)}
+.wp.on .vh{color:var(--rose)}
+.wst{width:100%;height:auto;display:block;margin:4px 0 8px}
+.wst .ln{fill:#f6eef4;font:600 17px "Noto Sans KR",sans-serif}.wst .ls{fill:#c8b8cc;font:400 13.5px "Noto Sans KR",sans-serif}
+.wst .brk line{stroke:#f2c46d;stroke-width:2;stroke-dasharray:4 4}.wst .brk text{fill:#f2c46d;font:700 15px sans-serif}
+.qa{border-radius:10px;padding:10px 12px;display:grid;gap:2px;box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 4px 0 rgba(0,0,0,.4)}
+.qa b{font-size:15px}.qa span{font-size:13.5px;color:var(--mute)}
+.q-bad{background:linear-gradient(180deg,rgba(242,196,109,.18),rgba(242,196,109,.06));border:1px solid rgba(242,196,109,.4)}
+.q-ok{background:linear-gradient(180deg,rgba(255,143,163,.24),rgba(255,143,163,.08));border:1px solid rgba(255,143,163,.5)}
+@media(max-width:700px){.why2{grid-template-columns:minmax(0,1fr)}.wst .ln{font-size:22px}.wst .ls{font-size:17px}}
+
+/* strong 3D */
+.nd{transform:translate(-4px,-4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),1px 1px 0 #140a18,2px 2px 0 #140a18,3px 3px 0 #140a18,4px 4px 0 #140a18,5px 5px 0 #140a18,6px 6px 0 #140a18,7px 7px 0 #140a18,12px 16px 22px rgba(0,0,0,.55);background:linear-gradient(165deg,#4a3454 0%,#2d1d35 70%)}
+.nd.b{background:linear-gradient(165deg,#7a3f55,#3a2033)}.nd.s{background:linear-gradient(165deg,#5e3b6c,#33203c)}.nd.a{background:linear-gradient(165deg,#4a3a68,#2a2040)}.nd.t{background:linear-gradient(165deg,#3a3c66,#22223e)}
+.nd.ok{background:linear-gradient(165deg,#2f6a54,#173a2e);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),1px 1px 0 #0b1e17,2px 2px 0 #0b1e17,3px 3px 0 #0b1e17,4px 4px 0 #0b1e17,5px 5px 0 #0b1e17,6px 6px 0 #0b1e17,7px 7px 0 #0b1e17,12px 16px 22px rgba(0,0,0,.55)}
+.nd.warn{background:linear-gradient(165deg,#6e5626,#3a2d14);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),1px 1px 0 #1f170a,2px 2px 0 #1f170a,3px 3px 0 #1f170a,4px 4px 0 #1f170a,5px 5px 0 #1f170a,6px 6px 0 #1f170a,7px 7px 0 #1f170a,12px 16px 22px rgba(0,0,0,.55)}
+.flow{gap:14px;padding:4px 8px 10px 4px}
+.quadw{perspective:1100px}
+.quad{transform:rotateX(24deg);transform-origin:50% 100%;gap:12px;padding:6px 10px 14px 6px}
+.q{transform:translate(-4px,-4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),1px 1px 0 rgba(10,4,12,.95),2px 2px 0 rgba(10,4,12,.95),3px 3px 0 rgba(10,4,12,.95),4px 4px 0 rgba(10,4,12,.95),5px 5px 0 rgba(10,4,12,.95),6px 6px 0 rgba(10,4,12,.95),7px 7px 0 rgba(10,4,12,.95),8px 8px 0 rgba(10,4,12,.95),9px 9px 0 rgba(10,4,12,.95),14px 18px 26px rgba(0,0,0,.6)}
+.q1{background:linear-gradient(160deg,#b4506a,#6b2a3e)}.q2{background:linear-gradient(160deg,#8a6a2c,#4c3a17)}.q3{background:linear-gradient(160deg,#4a3d50,#2c222f)}.q4{background:linear-gradient(160deg,#6a5490,#3a2d52)}
+.gb{gap:8px;padding:2px 8px 8px 2px}
+.gb i{transform:translate(-3px,-3px);background:linear-gradient(180deg,#d2687f 0%,#9a3f56 55%,#7a2f44 100%);border:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),1px 1px 0 #3a1520,2px 2px 0 #3a1520,3px 3px 0 #3a1520,4px 4px 0 #3a1520,5px 5px 0 #3a1520,8px 10px 14px rgba(0,0,0,.5)}
+.gb i.open{background:repeating-linear-gradient(135deg,#5d4a76 0 8px,#45375a 8px 16px);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),1px 1px 0 #1d1528,2px 2px 0 #1d1528,3px 3px 0 #1d1528,4px 4px 0 #1d1528,5px 5px 0 #1d1528,8px 10px 14px rgba(0,0,0,.5)}
+.figs{gap:10px;background:none;overflow:visible;padding:0 8px 8px 0}
+.figs div{border-radius:12px;transform:translate(-4px,-4px);background:linear-gradient(165deg,#3c2944,#26182c);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),1px 1px 0 #0f0712,2px 2px 0 #0f0712,3px 3px 0 #0f0712,4px 4px 0 #0f0712,5px 5px 0 #0f0712,6px 6px 0 #0f0712,12px 14px 22px rgba(0,0,0,.5)}
+.qa{transform:translate(-3px,-3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),1px 1px 0 rgba(0,0,0,.7),2px 2px 0 rgba(0,0,0,.7),3px 3px 0 rgba(0,0,0,.7),4px 4px 0 rgba(0,0,0,.7),5px 5px 0 rgba(0,0,0,.7),8px 10px 16px rgba(0,0,0,.45)}
+.q-bad{background:linear-gradient(165deg,#6a5428,#3a2d15)}.q-ok{background:linear-gradient(165deg,#9a4660,#55253a)}
+figure.viz,.box{box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 24px 50px rgba(0,0,0,.5),0 2px 0 rgba(255,255,255,.04)}
+@media(max-width:700px){.quad{transform:rotateX(16deg)}}
+
+.brs{display:flex;flex-wrap:wrap;gap:10px 8px;margin:0 0 18px;padding-right:6px}
+.brg{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.brg span{font-size:12.5px;color:var(--mute)}
+.brs b{font-size:14px;font-weight:600;padding:5px 10px;border-radius:8px;background:linear-gradient(165deg,#4a3454,#2d1d35);transform:translate(-2px,-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),1px 1px 0 #140a18,2px 2px 0 #140a18,3px 3px 0 #140a18,6px 8px 12px rgba(0,0,0,.5);white-space:nowrap}
+.brs b.new{background:linear-gradient(165deg,#a0465f,#5e2537)}
+.brn{flex-basis:100%;margin:2px 0 0;font-size:12.5px;color:var(--mute)}.brn i{display:inline-block;width:10px;height:10px;border-radius:3px;background:#a0465f;margin-right:6px;vertical-align:-1px}
+
+/* layer diagram */
+.lv{position:relative;display:grid;gap:30px;padding:4px 0}
+.lv.now{gap:0}
+.lv-e{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:2}
+.lv-r{position:relative;display:grid;grid-template-columns:7.4em minmax(0,1fr);gap:12px;align-items:center;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 10px 24px rgba(0,0,0,.25)}
+.lv-h b{display:block;font:600 15px/1.25 "Noto Sans KR",sans-serif}.lv-h span{display:block;font-size:12.5px;color:var(--mute);line-height:1.35;margin-top:2px}
+.lv-n{display:flex;flex-wrap:nowrap;gap:8px;justify-content:space-around}
+.lv-c{position:relative;z-index:3;display:inline-flex;align-items:center;gap:7px;font-size:13.5px;line-height:1.2;padding:7px 11px;border-radius:999px;background:#2a1d31;border:1px solid rgba(255,255,255,.12);white-space:nowrap;color:#efe4f0}
+.lv-w{position:relative;display:inline-flex;flex-direction:column;align-items:center}
+.lv-tag{font-style:normal;font-size:11.5px;font-weight:600;color:#f2c46d;border:1px solid rgba(242,196,109,.6);border-radius:6px;padding:2px 7px;margin-top:7px;white-space:nowrap;position:relative}
+.lv-tag::before{content:"";position:absolute;left:50%;top:-8px;height:7px;border-left:1px solid rgba(242,196,109,.6)}
+.lv-c.hl.eos{background:linear-gradient(180deg,#6a5420,#43350f);border-color:#f2c46d;color:#fff7e0;box-shadow:0 0 0 3px rgba(242,196,109,.16),0 0 18px rgba(242,196,109,.4)}
+.lv-c.eos i{background:#f2c46d!important}
+.lv-c i{width:8px;height:8px;border-radius:50%;flex:none}
+.l0 .lv-c i{background:#ff8fa3}.l1 .lv-c i{background:#d9a2e6}.l2 .lv-c i{background:#a58fd0}.l3 .lv-c i{background:#7f87c9}
+.lv-c.hl{background:linear-gradient(180deg,#5a2738,#3f1c2a);border-color:#ff8fa3;color:#fff;box-shadow:0 0 0 3px rgba(255,143,163,.14),0 0 18px rgba(255,143,163,.35)}
+.lv.now .lv-r{border-style:solid}
+.lv-cut{position:relative;height:30px;display:flex;align-items:center;justify-content:center}
+.lv-cut::before{content:"";position:absolute;left:6%;right:6%;top:50%;border-top:1.5px dashed rgba(242,196,109,.55)}
+.lv-cut span{position:relative;font-size:12px;color:#f2c46d;background:var(--panel);padding:0 8px;border-radius:6px}
+.hero .lv-cut span{background:var(--bg)}
+.lv-e path{fill:none;stroke:rgba(185,169,189,.38);stroke-width:1.2}
+.lv-e path.h{stroke:#ff8fa3;stroke-width:2.4;stroke-dasharray:6 6;animation:dash 1.4s linear infinite;filter:drop-shadow(0 0 4px rgba(255,143,163,.7))}
+.lv-e circle{fill:#ff8fa3}
+.lv-leg{font-size:13px;color:var(--rose);margin:12px 0 0;font-weight:600}.lv-leg i{display:inline-block;width:18px;border-top:2.4px dashed #ff8fa3;vertical-align:4px;margin-right:8px}
+.wp .lv-r{grid-template-columns:7.2em minmax(0,1fr);padding:10px 12px}
+.wp .lv-c{font-size:12px;padding:6px 8px;gap:5px}.wp .lv-n{gap:5px}.wp .lv-r{grid-template-columns:minmax(0,1fr);gap:8px}.wp .lv-h b{display:inline;margin-right:8px}.wp .lv-h span{display:inline}
+@media(prefers-reduced-motion:reduce){.lv-e path.h{animation:none}}
+@media(max-width:600px){.lv-r,.wp .lv-r{grid-template-columns:minmax(0,1fr);gap:8px}.lv{gap:26px}.lv-n,.wp .lv-n{flex-wrap:wrap;justify-content:flex-start}}
+table.grp tr.g td{border-top:2px solid rgba(255,143,163,.35)}table.grp tbody tr:first-child td{border-top:0}table.grp td.k:empty{background:rgba(143,122,168,.12)}@media(max-width:600px){table.grp tr.g td{border-top:0}table.grp tr.g{border-top:2px solid rgba(255,143,163,.35)}}
+@media print{nav.toc{display:none}}
+</style></head><body>
+<header class="band hero"><div class="wrap">
+  <div>
+        <h1>글로벌 통합관리체계</h1>
+    <p class="sub">(Global Enterprise Layer View) 구축 추진계획(안)</p>
+    <p class="tag">국가·상품·실적에서 IT 자산까지, 하나의 관계 데이터로</p>
+    <div class="figs"><div><b>11</b><span>개 국외점포</span><small>8개 국가·지역</small></div><div><b>12</b><span>주 1단계 시범</span><small>전 업무 기본현황 + 여신 상세 연결</small></div><div><b>5</b><span>개 사용자 뷰</span><small>비즈니스부터 데이터 품질까지</small></div><div><b>3</b><span>단계 확대</span><small>시범 → 글로벌IT 전체 → 전사</small></div></div>
+    <div class="brs" aria-label="1단계 대상 국외점포 11곳"><div class="brg"><span>미국</span><b class="">뉴욕</b></div><div class="brg"><span>영국</span><b class="">런던</b></div><div class="brg"><b class="">홍콩</b></div><div class="brg"><b class="">싱가포르</b></div><div class="brg"><span>일본</span><b class="">도쿄</b></div><div class="brg"><span>베트남</span><b class="new">하노이</b><b class="">호치민</b></div><div class="brg"><b class="new">미얀마</b></div><div class="brg"><span>인도</span><b class="new">구루그람</b><b class="new">푸네</b><b class="new">첸나이</b></div><p class="brn"><i></i>이번에 추가된 점포</p></div>
+    <dl class="meta"><dt>보고일</dt><dd>2026. 11. [  ]</dd><dt>보고부서</dt><dd>테크개발본부 글로벌IT개발부</dd><dt>문서 성격</dt><dd>추진계획(안)</dd><dt>1단계 기간</dt><dd>12주 시범 ([착수일] 이후)</dd></dl>
+  </div>
+  <div class="pic"><div class="lv on" data-e='[["b1","s1",1],["b2","s1",1],["b1","s2"],["b2","s2"],["b3","s3"],["s1","a1",1],["s2","a1"],["s3","a2"],["s3","a3"],["a1","i1",1],["a1","i2"],["a2","i3"],["a3","i1"]]'><svg class="lv-e" aria-hidden="true"></svg><div class="lv-r l0"><div class="lv-h"><b>비즈니스</b><span>국가 · 상품 · 실적</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c hl" data-k="b1"><i></i>호치민·기업대출</span></span><span class="lv-w"><span class="lv-c hl" data-k="b2"><i></i>구루그람·기업대출</span></span><span class="lv-w"><span class="lv-c" data-k="b3"><i></i>런던·무역금융</span></span></div></div><div class="lv-r l1"><div class="lv-h"><b>서비스</b><span>업무 · 단위업무</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c hl" data-k="s1"><i></i>여신 이자계산</span></span><span class="lv-w"><span class="lv-c" data-k="s2"><i></i>대출 실행</span></span><span class="lv-w"><span class="lv-c" data-k="s3"><i></i>외화 송금</span></span></div></div><div class="lv-r l2"><div class="lv-h"><b>애플리케이션</b><span>시스템 · 프로그램</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c hl" data-k="a1"><i></i>글로벌뱅킹</span></span><span class="lv-w"><span class="lv-c" data-k="a2"><i></i>대외계</span></span><span class="lv-w"><span class="lv-c" data-k="a3"><i></i>정보계</span></span></div></div><div class="lv-r l3"><div class="lv-h"><b>기반 인프라</b><span>서버 · 네트워크</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c hl eos" data-k="i1"><i></i>원장 DB 서버</span><em class="lv-tag">지원종료 예정</em></span><span class="lv-w"><span class="lv-c" data-k="i2"><i></i>배치 서버</span></span><span class="lv-w"><span class="lv-c" data-k="i3"><i></i>대외 G/W</span></span></div></div></div><p class="lv-leg"><i></i>영향 경로: 지원종료 예정 장비 한 대 → 어느 나라 어떤 상품까지 (예시)</p></div>
+</div></header>
+<div class="band lead"><aside class="box"><h3>보고 요지</h3><p class="b b0">무엇을: 국외점포의 사업(국가·상품·실적)과 이를 받치는 IT(업무·시스템·서버)를 하나의 데이터로 연결해, 국가별 비즈니스를 기준으로 IT를 보고 판단하는 체계를 만듦</p><p class="b b0">왜: 국가별 상품이 어떤 IT와 연결되어 서비스되고 있는지 파악하는 데 한계가 있음. 통합관리체계를 구축해 이를 경영 의사결정 도구로 활용하고, 해외 감독당국의 강화되는 요구에도 상시 대응</p><p class="b b0">어떻게: 11개 국외점포(뉴욕·런던·홍콩·싱가포르·도쿄·하노이·호치민·미얀마·구루그람·푸네·첸나이) 12주 시범으로 효과를 검증한 뒤 글로벌IT 전체, 전사로 단계적 확대</p><p class="b b0">요청: 1단계 착수 승인과 유관부서 데이터 협조</p></aside></div>
+<nav class="toc" aria-label="섹션 바로가기"><div class="scroll"><a href="#s1">1. 왜 지금 필요한가</a><a href="#s2">2. 무엇을 만드는가</a><a href="#s3">3. 무엇이 달라지는가</a><a href="#s4">4. AI 활용 방식</a><a href="#s5">5. 추진 계획</a><a href="#s7">6. 기대효과</a><a href="#s8">7. 주요 리스크와 대응</a><a href="#a10">붙임 Ⅰ. 기술 구성</a><a href="#a11">붙임 Ⅱ. 데이터 규모 가정</a><a href="#a12">붙임 Ⅲ. 서버 사양 (운영계 기준)</a><a href="#a13">붙임 Ⅳ. AI 장비: Mac Studio 활용 방안</a><a href="#a14">붙임 Ⅴ. 인력</a><a href="#a15">붙임 Ⅵ. 사전 확보 사항</a><a href="#a16">붙임 참고 자료</a></div></nav>
+<main class="band"><div class="wrap"><section id="s1"><h2>1. 왜 지금 필요한가</h2><p><b>국가별 사업·실적 데이터는 글로벌 단말에 쌓이고 있으나 경영 판단에 바로 활용하기 어려움. 사내 전용 AI로 국가별·사업별 분석을 즉시 제공하여 의사결정 속도와 업무 효율을 함께 높이고자 함</b></p><figure class="viz why"><div class="why2">
+    <div class="wp"><p class="vh">As-Is · 업무분장 등 일반적인 레이어별 분리 관리</p><div class="lv now" data-e='[]'><svg class="lv-e" aria-hidden="true"></svg><div class="lv-r l0"><div class="lv-h"><b>비즈니스</b><span>담당 · 경영기획·사업 부서</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c" data-k="b1"><i></i>호치민·기업대출</span></span><span class="lv-w"><span class="lv-c" data-k="b2"><i></i>구루그람·기업대출</span></span><span class="lv-w"><span class="lv-c" data-k="b3"><i></i>런던·무역금융</span></span></div></div><div class="lv-cut"><span>연결 없음</span></div><div class="lv-r l1"><div class="lv-h"><b>서비스</b><span>담당 · 현업 부서</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c" data-k="s1"><i></i>여신 이자계산</span></span><span class="lv-w"><span class="lv-c" data-k="s2"><i></i>대출 실행</span></span><span class="lv-w"><span class="lv-c" data-k="s3"><i></i>외화 송금</span></span></div></div><div class="lv-cut"><span>연결 없음</span></div><div class="lv-r l2"><div class="lv-h"><b>애플리케이션</b><span>담당 · IT 개발</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c" data-k="a1"><i></i>글로벌뱅킹</span></span><span class="lv-w"><span class="lv-c" data-k="a2"><i></i>대외계</span></span><span class="lv-w"><span class="lv-c" data-k="a3"><i></i>정보계</span></span></div></div><div class="lv-cut"><span>연결 없음</span></div><div class="lv-r l3"><div class="lv-h"><b>기반 인프라</b><span>담당 · IT 운영</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c" data-k="i1"><i></i>원장 DB 서버</span></span><span class="lv-w"><span class="lv-c" data-k="i2"><i></i>배치 서버</span></span><span class="lv-w"><span class="lv-c" data-k="i3"><i></i>대외 G/W</span></span></div></div></div></div>
+    <div class="wp on"><p class="vh">To-Be · 국가별 Biz와 IT를 실제 데이터를 기반으로 연결</p><div class="lv on" data-e='[["b1","s1",1],["b2","s1",1],["b1","s2"],["b2","s2"],["b3","s3"],["s1","a1",1],["s2","a1"],["s3","a2"],["s3","a3"],["a1","i1",1],["a1","i2"],["a2","i3"],["a3","i1"]]'><svg class="lv-e" aria-hidden="true"></svg><div class="lv-r l0"><div class="lv-h"><b>비즈니스</b><span>국가 · 상품 · 실적</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c hl" data-k="b1"><i></i>호치민·기업대출</span></span><span class="lv-w"><span class="lv-c hl" data-k="b2"><i></i>구루그람·기업대출</span></span><span class="lv-w"><span class="lv-c" data-k="b3"><i></i>런던·무역금융</span></span></div></div><div class="lv-r l1"><div class="lv-h"><b>서비스</b><span>업무 · 단위업무</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c hl" data-k="s1"><i></i>여신 이자계산</span></span><span class="lv-w"><span class="lv-c" data-k="s2"><i></i>대출 실행</span></span><span class="lv-w"><span class="lv-c" data-k="s3"><i></i>외화 송금</span></span></div></div><div class="lv-r l2"><div class="lv-h"><b>애플리케이션</b><span>시스템 · 프로그램</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c hl" data-k="a1"><i></i>글로벌뱅킹</span></span><span class="lv-w"><span class="lv-c" data-k="a2"><i></i>대외계</span></span><span class="lv-w"><span class="lv-c" data-k="a3"><i></i>정보계</span></span></div></div><div class="lv-r l3"><div class="lv-h"><b>기반 인프라</b><span>서버 · 네트워크</span></div><div class="lv-n"><span class="lv-w"><span class="lv-c hl eos" data-k="i1"><i></i>원장 DB 서버</span><em class="lv-tag">지원종료 예정</em></span><span class="lv-w"><span class="lv-c" data-k="i2"><i></i>배치 서버</span></span><span class="lv-w"><span class="lv-c" data-k="i3"><i></i>대외 G/W</span></span></div></div></div></div>
+  </div><figcaption>비즈니스부터 기반 인프라까지, 지금은 끊겨 있는 네 개 층을 하나의 관계 데이터로 잇는다 (예시)</figcaption></figure><p class="b b0 hd"><b>사업과 IT가 따로 관리됨</b></p><p class="b b1">직제 및 업무분장(R&amp;R) 등에 의해 국가·상품별 실적과 IT 자산이 조직별로 관리되어 서로 연결되지 않음</p><p class="b b0 hd"><b>해외 감독 요구가 강화됨</b></p><p class="b b1">영국·홍콩·싱가포르·일본 감독당국은 중요 업무와 이를 받치는 IT를 연결해 관리하도록 이미 요구 중</p><p class="b b1">뉴욕은 2025년 11월부터 전체 IT 자산 목록 관리를 의무화했고, 싱가포르도 2026년 6월 같은 내용을 법적 의무로 추진</p><p class="b b1">새로 포함하는 인도는 2026년 7월 정보자산 목록 관리를 기본 요건으로 하는 새 지침을, 베트남은 사이버보안법(2026.7)을 시행</p><p class="b b0 hd"><b>AI를 활용할 제도 기반이 마련됨</b></p><p class="b b1">인공지능 기본법(2026.1)과 금융분야 AI 가이드라인(2026.6) 시행으로, 검증된 데이터 위에서 AI를 안전하게 활용할 수 있는 기준이 생김</p></section><section id="s2"><h2>2. 무엇을 만드는가</h2><p><b>글로벌 Biz에서 IT까지 네 단계를 하나로 잇고, 데이터 기반의 통합관리체계 화면을 제공함</b></p><div class="tw"><table class="stack"><colgroup><col style="width:20.8%"><col style="width:37.7%"><col style="width:41.5%"></colgroup><thead><tr><th>단계</th><th>연결 대상</th><th>예시</th></tr></thead><tbody><tr><td class="k c"><b>비즈니스</b></td><td>국가·지점, 상품, 실적(잔액·수익·거래·고객)</td><td>호치민지점 기업대출, 여신 잔액</td></tr><tr><td class="k c"><b>서비스</b></td><td>업무와 단위업무</td><td>여신 이자계산, 외화 송금</td></tr><tr><td class="k c"><b>애플리케이션</b></td><td>시스템과 프로그램</td><td>글로벌뱅킹 시스템, 이자계산 프로그램</td></tr><tr><td class="k c"><b>기술</b></td><td>서버, 구성요소, 외부 연계</td><td>원장 DB 서버, 현지 결제망 연계</td></tr></tbody></table></div><p class="b b0 hd"><b>세 가지 원칙</b></p><p class="b b1">사업에서 출발: 시스템 목록이 아니라 국가·상품·실적을 기준으로 IT를 연결</p><p class="b b1">검증된 데이터: 확인된 연결만 “확정”으로 보고하고, 확인이 덜 된 연결은 “확인 필요”로 구분</p><p class="b b1">기존 자산 활용: 지금 쓰는 경영정보·IT 관리 체계를 그대로 두고 그 사이를 연결만 함</p><figure class="viz"><div class="judge">
+    <div class="jr"><div class="flow"><div class="nd t"><b>kgbsbt01p</b><span>서버</span></div><i class="ar" aria-hidden="true"></i><div class="nd a"><b>영업일 공통모듈</b><span>프로그램</span></div><i class="ar" aria-hidden="true"></i><div class="nd s"><b>여신 이자계산</b><span>업무서비스</span></div><i class="ar" aria-hidden="true"></i><div class="nd ok"><b>확정 영향</b><span>보고에 바로 사용</span></div></div><p class="jl">모든 관계가 <b>검증 완료</b>(신뢰 높음·유효기간 내)</p></div>
+    <div class="jr dash"><div class="flow"><div class="nd t"><b>kgbsbt01p</b><span>서버</span></div><i class="ar" aria-hidden="true"></i><div class="nd a"><b>정산 배치</b><span>프로그램</span></div><i class="ar" aria-hidden="true"></i><div class="nd s"><b>외화 정산</b><span>업무서비스</span></div><i class="ar" aria-hidden="true"></i><div class="nd warn"><b>잠재 영향</b><span>담당자 확인</span></div></div><p class="jl">경로 중 <b>미검증·만료 관계</b>가 하나라도 있음</p></div>
+  </div><figcaption>같은 서버에서 출발해도 거친 관계의 검증 상태로 확정·잠재를 나눈다 (예시)</figcaption></figure></section><section id="s3"><h2>3. 무엇이 달라지는가</h2><p><b>같은 데이터를 국가별 Biz 특성과 역할(R&amp;R)에 맞게 보며 Biz와 IT를 함께 이해할 수 있는 구조를 확보함</b></p><div class="tw"><table class="stack"><colgroup><col style="width:19.7%"><col style="width:24.9%"><col style="width:55.4%"></colgroup><thead><tr><th>화면</th><th>주 사용자</th><th>답하는 질문</th></tr></thead><tbody><tr><td class="k"><b>비즈니스 뷰</b></td><td>경영진, 사업 부서</td><td>어느 나라 어떤 상품의 실적이 위험한 IT 위에 있는가? 어디에 먼저 투자해야 하는가?</td></tr><tr><td class="k"><b>서비스 뷰</b></td><td>현업·IT 부서장</td><td>이 업무는 어떤 시스템으로 처리되고, 나라마다 무엇이 다른가?</td></tr><tr><td class="k"><b>시스템 뷰·영향도 분석</b></td><td>IT 실무자</td><td>이것을 바꾸거나 멈추면 어느 나라, 어떤 상품까지 영향을 주는가?</td></tr></tbody></table></div><p class="b b0 hd"><b>경영진 지표: 국가별 실적 대비 IT 위험</b></p><p class="b b1">국외점포마다 사업 규모와 그 사업을 받치는 IT의 위험 수준을 한 화면에 놓음</p><p class="b b1">실적이 크고 위험도 높은 곳은 우선 투자·이중화, 실적이 작고 위험이 높은 곳은 통합·효율화 검토</p><p class="b b1">보고용 단일 지표: “위험 자산에 노출된 잔액 [  ]억 원, 전체의 [  ]%”</p><figure class="viz"><div class="quadw"><span class="ya">↑ IT 위험 높음</span><div class="quad">
+    <div class="q q2"><b>통합·효율화 검토</b><span>실적 작고 위험 높음</span></div><div class="q q1"><b>우선 투자·이중화</b><span>실적 크고 위험 높음</span></div>
+    <div class="q q3"><b>관찰</b><span>실적 작고 위험 낮음</span></div><div class="q q4"><b>유지</b><span>실적 크고 위험 낮음</span></div>
+  </div><span class="xa">실적 규모(잔액·수익) 큼 →</span></div><figcaption>경영진 지표 ‘국가별 실적 대비 IT 위험’ — 국외점포를 네 칸에 놓아 조치 방향을 정한다</figcaption></figure></section><section id="s4"><h2>4. AI 활용 방식</h2><p><b>질문 한 줄로 영향 범위와 근거를 확인하되, 판단은 사람이 함</b></p><figure class="viz"><div class="flow"><div class="nd "><b>질문 한 줄</b><span>사업·IT 직원</span></div><i class="ar" aria-hidden="true"></i><div class="nd a"><b>질의 변환</b><span>사내 설치형 LLM</span></div><i class="ar" aria-hidden="true"></i><div class="nd s"><b>관계 데이터 조회</b><span>화면과 같은 권한</span></div><i class="ar" aria-hidden="true"></i><div class="nd b"><b>답 + 근거 경로</b><span>확정·잠재 구분</span></div><i class="ar" aria-hidden="true"></i><div class="nd ok"><b>최종 판단</b><span>담당 임직원</span></div></div>
+    <div class="rail">조회 전용 · 데이터 외부 전송 없음 · 질의·답변 감사 로그</div><figcaption>내부 LLM은 전체 레이어별 구조를 분석하여 최적의 결과를 표출</figcaption></figure><p class="b b1">예시 질문: “인도 3개 점포의 기업대출 잔액·수익과 이를 받치는 시스템은?”, “수익 대비 IT 위험이 가장 높은 국외점포는 어디인가?”, “호치민에 신규 대출상품을 내면 어떤 업무와 시스템을 준비해야 하나?”</p><p class="b b1">AI는 연결 데이터를 찾아 근거와 함께 보여줄 뿐, 답을 지어내지 않음</p><p class="b b1">화면과 같은 권한만 적용하고 조회만 가능하며, 데이터는 외부로 나가지 않음</p><p class="b b1">1단계는 사내 설치형 모델로 검증하고, 외부 모델은 관련 제도가 확정된 뒤 검토</p><p class="note">※ 표현: “AI가 답한다”가 아니라 “검증된 데이터 위에서 AI가 찾아 주고 근거를 보여준다”</p></section><section id="s5"><h2>5. 추진 계획</h2><p><b>작게 시작해 효과를 확인한 뒤 넓힘</b></p><figure class="viz"><div class="gantt">
+    <div class="gh"><span></span><span>1–2주</span><span>3–6주</span><span>7–9주</span><span>10–12주</span><span>이후</span></div>
+    <div class="gr"><b>1단계 시범</b><div class="gb"><i style="grid-column:1/2">① 기준 확정<small> · 1–2주</small></i><i style="grid-column:2/3">② 데이터 수집<small> · 3–6주</small></i><i style="grid-column:3/4">③ 연결·검증<small> · 7–9주</small></i><i style="grid-column:4/5">④ 시연·평가<small> · 10–12주</small></i><em style="grid-column:5/6">확대 판단 ◆</em></div></div>
+    <div class="gr"><b>2단계 확대</b><div class="gb"><i class="open" style="grid-column:5/6">글로벌IT 전체 · 기간 [  ]</i></div></div>
+    <div class="gr"><b>3단계 전사</b><div class="gb"><i class="open far" style="grid-column:5/6">국내·현지법인 · 기간 [  ]</i></div></div>
+  </div><figcaption>1단계 12주의 세부 일정과 이후 확대 단계</figcaption></figure><div class="tw"><table class="stack"><colgroup><col style="width:17.6%"><col style="width:15.6%"><col style="width:41.9%"><col style="width:24.9%"></colgroup><thead><tr><th>단계</th><th>기간</th><th>범위</th><th>목표</th></tr></thead><tbody><tr><td class="k c"><b>1단계 시범</b></td><td>12주</td><td>11개 국외점포(뉴욕·런던·홍콩·싱가포르·도쿄·하노이·호치민·미얀마·구루그람·푸네·첸나이), 여신 상품은 실적부터 서버까지 상세 연결</td><td>효과 검증, 확대 판단</td></tr><tr><td class="k c"><b>2단계 확대</b></td><td>[  ]</td><td>나머지 국외점포(오클랜드 등)과 글로벌IT 전 업무·전 상품, 자동 수집</td><td>상시 운영</td></tr><tr><td class="k c"><b>3단계 전사</b></td><td>[  ]</td><td>국내 사업·IT, 해외 현지법인(KB뱅크·KB프라삭은행 등)</td><td>전사 관리 기준</td></tr></tbody></table></div><p class="note">※ 1단계 일정: 기준 확정(1–2주) → 데이터 수집(3–6주) → 연결·검증(7–9주) → 시연·평가(10–12주)</p></section><section id="s7"><h2>6. 기대효과</h2><div class="tw"><table class="stack grp"><colgroup><col style="width:19.7%"><col style="width:20.8%"><col style="width:59.5%"></colgroup><thead><tr><th>관점</th><th>효과</th><th>내용</th></tr></thead><tbody><tr class="g"><td class="k c"><b>비즈니스</b></td><td>투자 판단</td><td>IT 투자와 리스크를 국가·상품·실적 기준으로 설명하여 우선순위 결정 근거 확보</td></tr><tr><td class="k c"></td><td>사업 확장</td><td>신규 점포·상품 추진 시 필요한 업무·시스템 준비 범위를 미리 파악</td></tr><tr class="g"><td class="k c"><b>IT</b></td><td>장애·변경 대응</td><td>영향 국가·상품·업무를 즉시 확인하여 초기 보고를 빠르고 일관되게</td></tr><tr><td class="k c"></td><td>리스크 관리</td><td>여러 나라·상품이 함께 기대는 장비와 지원종료 자산을 사업 영향 규모로 파악해 선제 교체·이중화</td></tr><tr class="g"><td class="k c"><b>내부통제</b></td><td>감독 대응</td><td>해외 감독당국의 중요 업무 연결·자산 목록 요구에 상시 데이터로 대응</td></tr><tr><td class="k c"></td><td>책임·이력 관리</td><td>자산별 책임자(R&amp;R)와 연결 검증 이력을 남겨 감사·점검 자료로 활용</td></tr></tbody></table></div><p class="b b0 hd"><b>1단계 성공 기준</b></p><p class="b b1">시스템 식별 95% 이상, 여신 업무 연결 90% 이상, 여신 실적 연계 [  ]% 이상</p><p class="b b1">장애·변경 시 영향 범위 파악 시간 50% 단축</p></section><section id="s8"><h2>7. 주요 리스크와 대응</h2><div class="tw"><table class="stack"><colgroup><col style="width:31.1%"><col style="width:68.9%"></colgroup><thead><tr><th>리스크</th><th>대응</th></tr></thead><tbody><tr><td class="k"><b>부서 간 기준 불일치</b></td><td>1단계 초기에 국가·상품·업무 분류와 실적 지표를 공동 확정</td></tr><tr><td class="k"><b>데이터 정확도</b></td><td>확인된 연결만 “확정”으로 보고하고, 담당자 검증과 유효기간 관리</td></tr><tr><td class="k"><b>구축 후 최신성 저하</b></td><td>변경·배포 승인 절차에 갱신을 포함해 자동으로 최신 유지</td></tr><tr><td class="k"><b>보안·AI 오남용</b></td><td>집계된 실적만 연계, 사내망·권한 기반 조회, AI는 조회 전용·근거 제시</td></tr></tbody></table></div></section></div></main>
+<div class="band att" id="att"><div class="wrap" style="max-width:980px"><p class="kick">붙임</p><h1>글로벌 통합관리체계 · 기술 구성 및 소요 자원(안)</h1><p class="sub">기술 스택 · 데이터 규모 · 서버 사양 · AI 장비 · 인력</p></div></div>
+<div class="band lead" style="padding-top:clamp(20px,3vw,40px)"><aside class="box"><h3>요약</h3><p class="b b0">1단계는 사내 표준 기술(관계형 DB, 표준 프레임워크, 기존 ETL)로 구축하고 신규 솔루션 도입을 최소화</p><p class="b b0">AI 질의는 1단계에서 Mac Studio 1~2대로 사내 설치형 모델을 검증하고, 2단계에서 검증 결과로 GPU 서버 사양을 확정</p><p class="b b0">데이터 자체는 전사 확대 시에도 수십 GB 수준이며, 자원 소요의 중심은 소스 분석 작업과 AI 추론</p></aside></div>
+<main class="band" style="padding-top:0"><div class="wrap"><section id="a10"><h2>Ⅰ. 기술 구성</h2><p>원천 시스템에서 수집한 데이터를 관계 저장소에 모으고, 조회·영향도 API를 거쳐 화면과 AI 질의 창에 제공한다.</p><figure class="viz"><div class="flow"><div class="nd "><b>원천 시스템</b><span>MIS·정보계·EA·CMDB·배포·형상</span></div><i class="ar" aria-hidden="true"></i><div class="nd t"><b>수집·연계</b><span>ETL·정적분석·SBOM</span></div><i class="ar" aria-hidden="true"></i><div class="nd a"><b>관계 저장소</b><span>객체·관계·검증이력</span></div><i class="ar" aria-hidden="true"></i><div class="nd s"><b>조회·영향도 API</b><span>캐시·변경관리 연동</span></div><i class="ar" aria-hidden="true"></i><div class="nd b"><b>5개 뷰 · AI 질의</b><span>사용자</span></div></div>
+    <div class="rail">공통: SSO·역할별 권한 · 암호화 · 모니터링·백업·DR</div><figcaption>데이터가 흐르는 길 — 원천은 그대로 두고 연결만 한다</figcaption></figure><div class="tw"><table class="stack"><colgroup><col style="width:19.7%"><col style="width:47.1%"><col style="width:33.2%"></colgroup><thead><tr><th>구분</th><th>구성 내용</th><th>비고</th></tr></thead><tbody><tr><td class="k c"><b>수집·연계</b></td><td>MIS·정보계·EA·CMDB·배포이력·인증서 관리 정기 적재(사내 ETL·배치 스케줄러), 형상관리 저장소 정적분석으로 프로그램 호출관계 추출, SBOM으로 오픈소스·제3자 구성요소 수집</td><td>소스 원문은 복제하지 않고 메타데이터만 적재</td></tr><tr><td class="k c"><b>저장소</b></td><td>1단계: 사내 표준 관계형 DB에 객체·관계·검증이력 저장, 재귀 쿼리로 영향도 탐색 / 2단계: 관계 수백만 건 이상·다단계 탐색 증가 시 그래프 DB 추가 검토</td><td>정본은 각 원천 시스템, 저장소는 연결만 담당</td></tr><tr><td class="k c"><b>서비스(API)</b></td><td>사내 표준 프레임워크 기반 조회·영향도 API, 영향도 결과 캐시, 변경관리 시스템 연동</td><td>조회 전용 API와 적재 API 분리</td></tr><tr><td class="k c"><b>화면</b></td><td>웹 기반 5개 뷰(비즈니스·서비스·시스템·영향도·데이터 품질), 그래프·차트 라이브러리</td><td>사내 표준 UI 프레임워크 적용</td></tr><tr><td class="k c"><b>AI 질의</b></td><td>사내 설치형 LLM과 서빙 엔진, 시스템·프로그램 이름 검색 인덱스, 질문 → 관계 데이터 조회 변환, 질의·답변 감사 로그</td><td>외부 모델 연계는 망분리 제도 확정 후 검토</td></tr><tr><td class="k c"><b>보안</b></td><td>SSO 인증, 역할·지점별 조회 권한, 실적 집계 수준 제한, 전송·저장 암호화, 접근 이력 관리</td><td>국외점포 데이터 처리 기준 사전 검토</td></tr><tr><td class="k c"><b>운영</b></td><td>모니터링, 백업, DR 환경, 개발·검증용 축소 환경</td><td>전산센터 운영 기준 적용</td></tr></tbody></table></div></section><section id="a11"><h2>Ⅱ. 데이터 규모 가정</h2><div class="tw"><table class="stack"><colgroup><col style="width:31.1%"><col style="width:34.4%"><col style="width:34.4%"></colgroup><thead><tr><th>항목</th><th>1단계 (11개 국외점포)</th><th>2단계 (전사 확대)</th></tr></thead><tbody><tr><td class="k c"><b>객체 수(상품~서버)</b></td><td>약 5만</td><td>약 100만</td></tr><tr><td class="k c"><b>관계 수</b></td><td>약 50만</td><td>약 1,000만</td></tr><tr><td class="k c"><b>동시 사용자</b></td><td>약 50명</td><td>약 500명</td></tr><tr><td class="k c"><b>순수 데이터(이력 포함)</b></td><td>수 GB</td><td>수십 GB</td></tr><tr><td class="k c"><b>적재 주기</b></td><td>일 1회(배포·변경은 수시)</td><td>변경관리 연동 실시간에 가까운 갱신</td></tr></tbody></table></div><p class="note">※ 관계 1건당 속성·검증이력 포함 약 1KB로 산정. 1단계 기준 확정 단계에서 실측치로 보정</p></section><section id="a12"><h2>Ⅲ. 서버 사양 (운영계 기준)</h2><div class="tw"><table class="stack"><colgroup><col style="width:20.8%"><col style="width:39.6%"><col style="width:39.6%"></colgroup><thead><tr><th>용도</th><th>1단계</th><th>2단계</th></tr></thead><tbody><tr><td class="k c"><b>WEB/WAS</b></td><td>2대 이중화, 4vCPU · 16GB</td><td>2~4대, 8vCPU · 32GB</td></tr><tr><td class="k c"><b>DB</b></td><td>이중화(1+1), 8vCPU · 64GB, SSD 500GB</td><td>이중화, 16vCPU · 128GB, SSD 2TB</td></tr><tr><td class="k c"><b>수집·소스 분석</b></td><td>1대, 8vCPU · 32GB, 1TB</td><td>2대, 16vCPU · 64GB, 2TB</td></tr><tr><td class="k c"><b>그래프 DB</b></td><td>해당 없음</td><td>필요 시 16vCPU · 128GB, SSD 1TB</td></tr><tr><td class="k c"><b>AI(LLM)</b></td><td>Mac Studio 1~2대(연구·개발망, 검증용)</td><td>GPU 서버 이중화: 80GB급 GPU 2장 이상, 메모리 256GB</td></tr><tr><td class="k c"><b>개발·검증</b></td><td>운영계 축소본 1식</td><td>운영계 축소본 1식 + Mac Studio 개발 환경</td></tr></tbody></table></div><p class="note">※ 가상화(VM) 환경 배정 기준. 실제 사양은 인프라 부서의 사내 표준과 용량 산정 기준으로 확정</p></section><section id="a13"><h2>Ⅳ. AI 장비: Mac Studio 활용 방안</h2><p class="b b0 hd"><b>검토 대상</b></p><p class="b b1">Mac Studio(M5 Ultra, 2026.9 출시): 최대 36코어 CPU, 80코어 GPU, 512GB 통합 메모리로 대형 언어모델을 장비 안에서 실행 가능</p><p class="b b1">Thunderbolt 5와 RDMA로 여러 대를 묶어 추론 성능 확장 가능</p><div class="tw"><table class="stack"><colgroup><col style="width:20.8%"><col style="width:39.6%"><col style="width:39.6%"></colgroup><thead><tr><th>구분</th><th>1단계 검증용</th><th>2단계 운영용</th></tr></thead><tbody><tr><td class="k c"><b>적합성</b></td><td>적합</td><td>부적합(권장하지 않음)</td></tr><tr><td class="k c"><b>장점</b></td><td>대용량 메모리로 대형 모델 실행 가능, GPU 서버 대비 저렴하고 조달이 빠름, 저전력·저소음</td><td>-</td></tr><tr><td class="k c"><b>제약</b></td><td>연구·개발망 반입 승인 필요</td><td>전산센터 표준(랙 장착·전원 이중화·원격관리) 미충족, macOS용 보안 에이전트·취약점 진단 지원 여부 불확실, 다수 동시 질의 처리량 한계, 장애 교체·유지보수 계약 불리</td></tr><tr><td class="k c"><b>용도</b></td><td>모델 크기·정확도·응답 속도, 질문→조회 변환 품질 검증</td><td>개발·검증 환경으로 계속 활용</td></tr></tbody></table></div><p class="b b0 hd"><b>권장 구성</b></p><p class="b b1">1단계: Mac Studio(M5 Ultra, 256~512GB) 1~2대를 연구·개발망에 두고 사내 설치형 모델 검증. DB·WAS는 표준 서버 사용</p><p class="b b1">2단계: 1단계에서 정한 모델 크기와 사용량으로 GPU 서버 사양을 확정해 운영계 도입</p><p class="b b1">질문을 데이터 조회로 바꾸는 용도이므로 중형 모델로 시작하고, 정확도가 부족할 때 확대</p></section><section id="a14"><h2>Ⅴ. 인력</h2><div class="tw"><table class="stack"><colgroup><col style="width:27.0%"><col style="width:15.6%"><col style="width:57.5%"></colgroup><thead><tr><th>역할</th><th>인원</th><th>주요 업무</th></tr></thead><tbody><tr><td class="k c"><b>PM</b></td><td>1명</td><td>일정·범위 관리, 유관부서 조율, 보고</td></tr><tr><td class="k c"><b>데이터 아키텍트</b></td><td>1명</td><td>메타모델·식별자 표준, 검증 규칙, 품질 지표</td></tr><tr><td class="k c"><b>수집·연계 개발</b></td><td>2명</td><td>원천 시스템 추출·적재, 정합 처리, SBOM·인증서 연계</td></tr><tr><td class="k c"><b>API·화면 개발</b></td><td>2명</td><td>영향도 API, 5개 뷰, 권한 연동</td></tr><tr><td class="k c"><b>소스 분석</b></td><td>1명</td><td>정적분석 기반 호출관계·배포 연결</td></tr><tr><td class="k c"><b>AI 엔지니어</b></td><td>2단계 1명</td><td>모델 서빙, 질의 변환, 정확도 평가 (1단계는 개발 인력이 검증 겸임)</td></tr><tr><td class="k c"><b>운영</b></td><td>2단계 1명</td><td>적재 모니터링, 재검증 일정, 사용자 지원</td></tr><tr><td class="k c"><b>유관부서 확인</b></td><td>지점별 주 2~3시간</td><td>관계 데이터 확인·검증</td></tr></tbody></table></div></section><section id="a15"><h2>Ⅵ. 사전 확보 사항</h2><p class="b b1">원천 시스템 접근 권한과 추출 방식(DB 조회·API·파일) 협의</p><p class="b b1">국외점포 데이터의 처리·이전 기준 확인(정보보호·준법 부서)</p><p class="b b1">사내 LLM 도입 승인: 정보보호 심의, 내부 AI 위험평가</p><p class="b b1">Mac Studio의 연구·개발망 반입 가능 여부와 macOS 보안 솔루션 적용 여부 확인</p><p class="b b1">GPU 서버는 조달에 수개월이 걸릴 수 있으므로 1단계 종료 전 사양 확정·발주</p></section><section id="a16"><h2>참고 자료</h2><p class="b b2 src">Apple, 새로운 Mac Studio(M5 Max·M5 Ultra) 발표 (2026.8.25) · <a href="https://www.apple.com/my/newsroom/2026/08/apple-introduces-mac-studio-with-m5-max-and-m5-ultra/">www.apple.com/my/newsroom/2026/08/apple-introduces-mac-studio-with-m5-</a></p><p class="b b2 src">Apple, Mac Studio 기술 사양 · <a href="https://support.apple.com/128107">support.apple.com/128107</a></p></section></div></main>
+<footer class="band"><div class="wrap" style="max-width:980px">추진계획(안) 최신본 기준(본문 15장 + 붙임). 빈칸 [  ]은 확정 전 항목입니다. 샘플 화면의 상품·실적·서버 수치는 가상 데이터입니다.</div></footer>
+<script>{
+for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}
+
+
+const drawLV=el=>{const sv=el.querySelector('.lv-e'),E=JSON.parse(el.dataset.e||'[]');if(!E.length){sv.innerHTML='';return}const o=el.getBoundingClientRect(),P=k=>el.querySelector(`[data-k="${k}"]`).getBoundingClientRect();let h='',c='';E.forEach(([a,b,hl])=>{const A=P(a),B=P(b),x1=A.left+A.width/2-o.left,y1=A.bottom-o.top,x2=B.left+B.width/2-o.left,y2=B.top-o.top,m=(y2-y1)/2;const d=`M${x1.toFixed(1)} ${y1.toFixed(1)} C${x1.toFixed(1)} ${(y1+m).toFixed(1)} ${x2.toFixed(1)} ${(y2-m).toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`;if(hl){h+=`<path class="h" d="${d}"/>`;c+=`<circle cx="${x1.toFixed(1)}" cy="${y1.toFixed(1)}" r="3"/><circle cx="${x2.toFixed(1)}" cy="${y2.toFixed(1)}" r="3"/>`}else h=`<path d="${d}"/>`+h});sv.innerHTML=h+c};
+const lvs=[...document.querySelectorAll('.lv')];const lvro=new ResizeObserver(()=>lvs.forEach(drawLV));lvs.forEach(el=>{lvro.observe(el);drawLV(el)});
+if(document.fonts)document.fonts.ready.then(()=>lvs.forEach(drawLV));
+
+const links=[...document.querySelectorAll('nav.toc a')];
+const byId=Object.fromEntries(links.map(a=>[a.getAttribute('href').slice(1),a]));
+const io=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting){links.forEach(a=>a.classList.remove('on'));const a=byId[e.target.id];if(a){a.classList.add('on');const sc=a.parentElement;sc.scrollTo({left:a.offsetLeft-sc.clientWidth/3,behavior:'smooth'});}}}},{rootMargin:'-15% 0px -75% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>io.observe(s));
+}</script>
+</body></html>
