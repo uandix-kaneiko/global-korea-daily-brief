@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-/* Layout idea: one relationship dataset, five tabs (비즈니스·서비스·시스템 뷰 + 영향도 분석 + 데이터 품질). A shared scope bar carries 법인/국가별 업무 across views. Risk uses semantic color; KB yellow is the brand accent and the "selected" marker. */
+/* Layout idea: one relationship dataset, five tabs (비즈니스·서비스·시스템 뷰 + 영향도 분석 + 데이터 품질). A shared scope bar carries 법인/업무역량 across views. Risk uses semantic color; KB yellow is the brand accent and the "selected" marker. */
 :root{
   --bg:#F6F5F2; --surface:#FFFFFF; --ink:#24262A; --muted:#5B5E64; --line:#DEDBD4; --soft:#EFEDE8;
   --accent:#FFBC00; --accent-soft:#FFF4CF;
@@ -235,6 +235,38 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
 .rel-card div b{font-family:var(--mono);font-size:13px;font-weight:500}
 @media (max-width:1100px){ .case-grid{grid-template-columns:minmax(0,1fr)} .flow{grid-template-columns:repeat(3,minmax(0,1fr))} .rel-card{grid-template-columns:repeat(2,minmax(0,1fr))} .case-hd{grid-template-columns:minmax(0,1fr)} }
 [hidden]{display:none !important}
+
+/* v4: business/service/system restructure + AI panel */
+.svc-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:16px;align-items:start}
+.tree{position:sticky;top:12px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 24px);overflow:auto}
+.tgrp{display:flex;flex-direction:column;gap:2px}
+.tcap{font-size:13px;font-weight:900;color:var(--svc);padding:4px 0}
+.titem{display:flex;justify-content:space-between;gap:8px;text-align:left;border:0;background:none;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:14px}
+.titem:hover{background:var(--bg)}
+.titem.on{background:var(--accent-soft);font-weight:700}
+.titem.off{color:var(--muted)}
+.titem .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--bad);margin-right:6px;vertical-align:2px}
+.ai-btn{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.ai-btn:hover{background:var(--svc);border-color:var(--svc)}
+.ai-panel{position:fixed;right:16px;top:16px;bottom:16px;width:460px;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.18);display:flex;flex-direction:column;gap:12px;padding:16px;z-index:50}
+.ai-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.ai-head b{font-size:17px}
+#ai-close{white-space:nowrap;flex-shrink:0}
+.ai-tag{font-size:11px;font-weight:700;margin-left:8px;padding:2px 8px;border-radius:999px;background:var(--warn-soft);color:var(--warn)}
+#ai-sug{max-height:120px;overflow:auto}
+.ai-log{flex:1;overflow:auto;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--line);padding-top:12px}
+.ai-turn{display:flex;flex-direction:column;gap:8px}
+.ai-q{align-self:flex-end;background:var(--ink);color:var(--surface);padding:8px 12px;border-radius:12px 12px 2px 12px;max-width:85%;font-size:14px}
+.ai-a{background:var(--bg);padding:10px 12px;border-radius:12px 12px 12px 2px;font-size:14px;display:flex;flex-direction:column;gap:8px}
+.ai-a p,.ai-a ul{margin:0}.ai-a ul{padding-left:18px}
+.ai-a table.simple{font-size:13px}
+.ai-ev{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:6px;display:flex;flex-direction:column;gap:2px}
+.ai-ev b{color:var(--ink)}
+.ai-form{display:flex;gap:8px}
+.ai-form input{flex:1;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+pre.draft{white-space:pre-wrap;font-family:var(--body);font-size:13px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px;margin:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:1100px){ .svc-layout{grid-template-columns:minmax(0,1fr)} .tree{position:static;max-height:none} }
 </style>
 </head>
 <body>
@@ -247,7 +279,7 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
         <p>국가별 → 업무 → 시스템 → 앱코드 → 프로그램 → 서버·노드를 하나의 관계 데이터로 연결</p>
       </div>
     </div>
-    <div class="sample">샘플 데이터 · 실제 시스템·서버·수치가 아닙니다</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn ai-btn" id="ai-open">AI에게 묻기</button><div class="sample">샘플 데이터 · 실제 시스템·상품·실적·서버가 아닙니다</div></div>
   </header>
 
   <nav class="tabs" aria-label="뷰 선택">
@@ -270,30 +302,37 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
     <div class="kpis" id="kpis"></div>
     <div class="grid2">
       <div class="card">
-        <div class="sec-h"><h2>국외지점 × 국가별 업무</h2>
-          <div class="seg" role="group" aria-label="지표"><button data-m="risk" id="m-risk">IT 위험</button><button data-m="verify" id="m-verify">관계 검증률</button></div></div>
-        <div class="scroll"><table class="heat" id="heat"></table></div>
-        <div class="legend" id="legend"></div>
+        <div class="sec-h"><h2>국가별 실적 대비 IT 위험</h2><p>점 크기 = 연 수익 · 점을 누르면 그 국가로 범위 설정</p></div>
+        <div id="quad"></div>
+        <p class="foot">IT 위험지수 = (본점 공용 서버 위험점수 평균 + 지점 현지 서버 최고 위험점수) ÷ 2. 오른쪽 위(붉은 영역)는 실적이 크고 IT 위험도 높은 국가로, 우선 투자·이중화 대상입니다.</p>
       </div>
       <div class="card">
-        <div class="sec-h"><h2>우선 조치 대상 서버·노드</h2><p>누르면 영향도를 추적합니다</p></div>
+        <div class="sec-h"><h2>우선 조치 대상 서버·노드</h2><p>영향받는 상품·잔액 기준</p></div>
         <div class="risk-list" id="toprisk"></div>
         <p class="foot" style="margin-top:12px">위험점수(샘플 산식) = 지원종료 경과 40 · 1년 내 25 · 그 외 5 + 취약점 × 8 + 최근 90일 장애 × 10, 최대 100</p>
       </div>
     </div>
     <div class="card">
-      <div class="sec-h"><h2>국외지점별 IT 현황</h2><p>행을 누르면 서비스 뷰로 이동합니다</p></div>
-      <div class="scroll"><table class="simple" id="entsum" style="min-width:820px"></table></div>
+      <div class="sec-h"><h2>국가별 상품 실적과 지원 IT</h2><p>단위: 잔액·연 수익 USD 백만 · 행을 누르면 서비스 뷰로 이동</p></div>
+      <div class="scroll"><table class="simple" id="prodtbl" style="min-width:1100px"></table></div>
     </div>
   </section>
 
   <!-- Service -->
   <section class="view" id="v-service">
-    <div class="stack" id="svcs"></div>
+    <div class="svc-layout">
+      <aside class="card tree" id="svctree"></aside>
+      <div class="stack" id="svcdetail" style="gap:16px"></div>
+    </div>
   </section>
 
   <!-- System -->
   <section class="view" id="v-system">
+    <div class="kpis" id="syskpis"></div>
+    <div class="grid2">
+      <div class="card"><div class="sec-h"><h2>시스템별 프로그램 수</h2><p>유형별 · 행을 누르면 영향도</p></div><div class="scroll"><table class="simple" id="kindmatrix" style="min-width:620px"></table></div></div>
+      <div class="card"><div class="sec-h"><h2>많이 호출되는 프로그램</h2><p>바뀌면 영향이 큰 순서</p></div><div class="risk-list" id="fanin"></div></div>
+    </div>
     <div class="sys-grid" id="systems"></div>
     <div class="card">
       <div class="sec-h"><h2>구성 항목 목록</h2><p id="itcount"></p></div>
@@ -358,6 +397,12 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
       <div class="scroll"><table class="simple" id="qissues" style="min-width:900px"></table></div>
     </div>
   </section>
+</div>
+<div class="ai-panel" id="ai" hidden role="dialog" aria-label="AI 질의">
+  <div class="ai-head"><div><b>AI에게 묻기</b><span class="ai-tag">시연</span><p class="foot">검증된 관계 데이터를 조회해 답하고 근거를 함께 보여줍니다. 시연 버전은 정해진 해석 규칙으로 동작하며, 실제 구축 시 사내 승인 LLM이 질문을 조회로 바꿉니다.</p></div><button class="btn" id="ai-close" aria-label="닫기">닫기</button></div>
+  <div class="chips" id="ai-sug"></div>
+  <div class="ai-log" id="ai-log"></div>
+  <form id="ai-form" class="ai-form"><label for="ai-q" class="sr">질문</label><input id="ai-q" type="text" placeholder="예: kgbsdb01p 장애 시 영향받는 상품은?" autocomplete="off"><button class="btn pri" type="submit">질문</button></form>
 </div>
 
 <script>
@@ -442,7 +487,7 @@ const PRG = [
   P({id:'PG-LOS-APP-001',name:'대출신청 접수',apps:['APP-LOS'],svcs:['SV-LN-01'],nodes:[['ND-LOSAP01'],['ND-CHWEB01']],repo:'los/intake',ver:'v3.2.0'}),
   P({id:'PG-LOS-UW-010',name:'심사 엔진',apps:['APP-LOS'],svcs:['SV-LN-02'],nodes:[['ND-LOSAP01']],repo:'los/underwriting',ver:'v3.5.4'}),
   P({id:'PG-COM-DT-001',name:'영업일·휴일 공통',kind:'공통모듈',apps:['APP-GBS-LN','APP-GBS-DP','APP-FX'],nodes:[['ND-GBSAP01'],['ND-GBSAP02'],['ND-GBSBT01']],repo:'gbs/common',path:'src/main/java/gbs/common/calendar/BusinessDayCalendar.java',loc:520,ver:'v1.9.0',commit:'c5a0d91',cdate:'2026-06-18'}),
-  P({id:'PG-FEP-ISO-200',name:'대외 전문 변환',apps:['APP-FEP'],svcs:['SV-LN-03','SV-DP-02','SV-FX-01','SV-PY-01'],nodes:[['ND-FEPGW01'],['ND-FEPGW02']],repo:'fep/iso-gateway',ver:'v5.0.2'}),
+  P({id:'PG-FEP-ISO-200',name:'대외 전문 변환',apps:['APP-FEP'],svcs:['SV-LN-03','SV-DP-02','SV-FX-01','SV-PY-01'],nodes:[['ND-FEPGW01'],['ND-FEPGW02'],['ND-NYGW01'],['ND-LDGW01'],['ND-HKGW01'],['ND-SGGW01'],['ND-TKGW01'],['ND-VNGW01']],repo:'fep/iso-gateway',ver:'v5.0.2'}),
   P({id:'PG-GMB-LN-300',name:'모바일 여신·계좌 화면',kind:'화면',apps:['APP-GMB'],svcs:['SV-LN-01','SV-LN-05','SV-DG-01','SV-DP-01'],nodes:[['ND-CHWEB01'],['ND-CHWEB02']],repo:'channel/mobile',ver:'v7.3.0'}),
   P({id:'PG-GIB-WEB-100',name:'인터넷뱅킹 웹',kind:'화면',apps:['APP-GIB'],svcs:['SV-DG-02','SV-LN-01'],nodes:[['ND-CHWEB01'],['ND-CHWEB02']],repo:'channel/web',ver:'v6.1.4'}),
   P({id:'PG-DP-ACC-010',name:'계좌 관리',apps:['APP-GBS-DP'],svcs:['SV-DP-01','SV-DP-02'],calls:[['PG-COM-DT-001']],nodes:[['ND-GBSAP01'],['ND-GBSAP02'],['ND-GBSDB01'],['ND-GBSDB02']],repo:'gbs/deposit-core',ver:'v4.12.0'}),
@@ -463,11 +508,61 @@ const NODES = [
   {id:'ND-CHWEB02',host:'kgchwb02p',name:'채널 WEB 2호기',role:'WEB',cluster:'채널 WEB · Node2',os:'Linux',dc:'서울 주센터',eos:'2029-03',vulns:1,inc:0},
   {id:'ND-DWDB01',host:'kgdwdb01p',name:'정보계 DW',role:'DB',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2027-02',vulns:1,inc:0},
   {id:'ND-DWETL01',host:'kgdwet01p',name:'정보계 ETL',role:'배치',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2027-09',vulns:0,inc:1},
-  {id:'ND-GBSAP90',host:'kgbsap90p',name:'구 여신 AP',role:'AP',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2025-12',vulns:4,inc:0}
+  {id:'ND-GBSAP90',host:'kgbsap90p',name:'구 여신 AP',role:'AP',cluster:'단일 노드',os:'Linux',dc:'서울 주센터',eos:'2025-12',vulns:4,inc:0},
+  {id:'ND-NYGW01',host:'nyclgw01p',name:'뉴욕 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'뉴욕지점',eos:'2029-06',vulns:0,inc:0,ent:'E-NY'},
+  {id:'ND-LDGW01',host:'ldnlgw01p',name:'런던 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'런던지점',eos:'2028-09',vulns:1,inc:0,ent:'E-LDN'},
+  {id:'ND-HKGW01',host:'hkglgw01p',name:'홍콩 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Windows',dc:'홍콩지점',eos:'2026-03',vulns:2,inc:1,ent:'E-HK'},
+  {id:'ND-SGGW01',host:'sgplgw01p',name:'싱가포르 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'싱가포르지점',eos:'2027-06',vulns:1,inc:0,ent:'E-SG'},
+  {id:'ND-TKGW01',host:'tkylgw01p',name:'도쿄 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'도쿄지점',eos:'2028-03',vulns:0,inc:1,ent:'E-TKO'},
+  {id:'ND-VNGW01',host:'hcmlgw01p',name:'호치민 현지 결제 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'호치민지점',eos:'2027-02',vulns:1,inc:2,ent:'E-VN'}
 ];
 const USE = {};
 ['E-NY','E-LDN','E-HK','E-SG','E-TKO'].forEach(e=>USE[e]=['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06','SV-DP-01','SV-DP-02','SV-DG-02','SV-FX-01','SV-FX-02','SV-IF-01','SV-IF-02']);
 USE['E-VN'] = SVC.map(s=>s.id);
+
+/* ===== Business layer: country products & performance (fictional, USD mn) ===== */
+const PRODUCTS = [
+  {id:'PD-NY-CL', ent:'E-NY', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:1850, rev:46, tx:3200, cust:210},
+  {id:'PD-NY-SY', ent:'E-NY', biz:'기업금융', name:'신디케이트론', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05'], bal:1240, rev:29, tx:410, cust:38},
+  {id:'PD-NY-DP', ent:'E-NY', biz:'수신', name:'외화예금', svcs:['SV-DP-01','SV-DP-02'], bal:980, rev:12, tx:18500, cust:1650},
+  {id:'PD-NY-RM', ent:'E-NY', biz:'외환·송금', name:'해외송금', svcs:['SV-FX-01'], bal:null, rev:4.1, tx:42000, cust:2300},
+  {id:'PD-LD-CL', ent:'E-LDN', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:1320, rev:33, tx:2100, cust:150},
+  {id:'PD-LD-SY', ent:'E-LDN', biz:'기업금융', name:'신디케이트론', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05'], bal:960, rev:22, tx:290, cust:27},
+  {id:'PD-LD-DP', ent:'E-LDN', biz:'수신', name:'외화예금', svcs:['SV-DP-01','SV-DP-02'], bal:610, rev:7, tx:9800, cust:820},
+  {id:'PD-HK-CL', ent:'E-HK', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:1050, rev:27, tx:1900, cust:170},
+  {id:'PD-HK-TF', ent:'E-HK', biz:'무역금융', name:'수출입 무역금융', svcs:['SV-FX-01','SV-LN-03'], bal:430, rev:9, tx:5600, cust:240},
+  {id:'PD-HK-DP', ent:'E-HK', biz:'수신', name:'외화예금', svcs:['SV-DP-01','SV-DP-02'], bal:720, rev:9, tx:14200, cust:1100},
+  {id:'PD-SG-CL', ent:'E-SG', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:880, rev:22, tx:1500, cust:120},
+  {id:'PD-SG-TF', ent:'E-SG', biz:'무역금융', name:'수출입 무역금융', svcs:['SV-FX-01','SV-LN-03'], bal:390, rev:8, tx:4800, cust:190},
+  {id:'PD-SG-DP', ent:'E-SG', biz:'수신', name:'외화예금', svcs:['SV-DP-01','SV-DP-02'], bal:450, rev:5, tx:8600, cust:700},
+  {id:'PD-TK-CL', ent:'E-TKO', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:760, rev:18, tx:1300, cust:110},
+  {id:'PD-TK-DP', ent:'E-TKO', biz:'수신', name:'외화예금', svcs:['SV-DP-01','SV-DP-02'], bal:520, rev:6, tx:11000, cust:900},
+  {id:'PD-TK-RM', ent:'E-TKO', biz:'외환·송금', name:'해외송금', svcs:['SV-FX-01'], bal:null, rev:2.2, tx:26000, cust:1400},
+  {id:'PD-VN-CL', ent:'E-VN', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:640, rev:31, tx:2600, cust:310},
+  {id:'PD-VN-RL', ent:'E-VN', biz:'리테일', name:'개인대출', svcs:['SV-LN-01','SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05'], bal:210, rev:24, tx:38000, cust:21000},
+  {id:'PD-VN-DP', ent:'E-VN', biz:'수신', name:'외화·현지통화 예금', svcs:['SV-DP-01','SV-DP-02'], bal:380, rev:6, tx:52000, cust:9800},
+  {id:'PD-VN-MB', ent:'E-VN', biz:'디지털', name:'모바일뱅킹', svcs:['SV-DG-01'], bal:null, rev:3.5, tx:410000, cust:85000},
+  {id:'PD-VN-PY', ent:'E-VN', biz:'지급결제', name:'현지 지급결제', svcs:['SV-PY-01'], bal:null, rev:2.8, tx:180000, cust:30000}
+];
+/* ===== Service layer: unit tasks under each 단위업무 ===== */
+const TASKS = {
+  'SV-LN-01':[['신청 접수','LN0101','PG-LOS-APP-001'],['서류 등록','LN0102','PG-LOS-APP-001']],
+  'SV-LN-02':[['신용평가','LN0201','PG-LOS-UW-010'],['심사 승인','LN0202','PG-LOS-UW-010']],
+  'SV-LN-03':[['대출 실행','LN0301','PG-LN-EXE-020'],['실행 취소','LN0302','PG-LN-EXE-020'],['실행 자금 송금','LN0303','PG-FEP-ISO-200']],
+  'SV-LN-04':[['일별 이자발생','LN_DAILY_ACCR','BJ-LN-ACCR-110'],['변동금리 재산정','LN0402','PG-LNINT-030'],['이자 청구','LN0403','PG-LNINT-010']],
+  'SV-LN-05':[['원리금 상환','LN0501','PG-LN-RPY-040'],['중도상환','LN0502','PG-LN-RPY-040']],
+  'SV-LN-06':[['연체 등록','LN0601','PG-LN-DLQ-050'],['연체이자 산정','LN0602','PG-LNINT-010']],
+  'SV-LN-07':[['한도 설정','LN0701',null]],
+  'SV-DP-01':[['계좌 개설','DP0101','PG-DP-ACC-010'],['모바일 개설','DP0102','PG-GMB-LN-300']],
+  'SV-DP-02':[['입금','DP0201','PG-DP-ACC-010'],['출금','DP0202','PG-DP-ACC-010'],['대외 이체','DP0203','PG-FEP-ISO-200']],
+  'SV-DG-01':[['로그인·조회','DG0101','PG-GMB-LN-300'],['모바일 이체','DG0102','PG-GMB-LN-300']],
+  'SV-DG-02':[['조회','DG0201','PG-GIB-WEB-100'],['인터넷 이체','DG0202','PG-GIB-WEB-100']],
+  'SV-FX-01':[['당발송금','FX0101','PG-FX-RMT-010'],['타발송금','FX0102','PG-FX-RMT-010'],['SWIFT 전문 송수신','FX0103','PG-FEP-ISO-200']],
+  'SV-FX-02':[['환전','FX0201','PG-FX-RMT-010']],
+  'SV-PY-01':[['결제망 송신','PY0101','PG-FEP-ISO-200'],['결제 대사','PY0102','PG-FEP-ISO-200']],
+  'SV-IF-01':[['보고서 생성','IF0101','PG-RPT-REG-010'],['보고 데이터 적재','IF0102','PG-DW-ETL-500']],
+  'SV-IF-02':[['실적 집계','IF0201','PG-DW-ETL-500']]
+};
 
 /* ===== E2E case: global loan interest calculation (GBS) ===== */
 const CASE = {
@@ -570,7 +665,7 @@ function traverse(origin, only, entOverride){
   const ok = r => !only || relGood(r);
   const add = id => R[BY[id].t].add(id);
   add(origin);
-  const entCtx = entOverride || (n.t==='ent'?origin:null);
+  const entCtx = entOverride || (n.t==='ent'?origin:null) || (n.t==='node'&&n.ent?n.ent:null);
   const appDown = n.t==='app'||n.t==='sys';
   // DOWN
   if(n.t!=='node'){
@@ -589,7 +684,8 @@ function traverse(origin, only, entOverride){
         }
         if(t==='sys'&&r.k==='contains') return push(r,r.v);
         if(t==='app'&&r.k==='owns'&&appDown) return push(r,r.v);
-        if(t==='prog'&&(r.k==='calls'||r.k==='deployed')) return push(r,r.v);
+        if(t==='prog'&&r.k==='calls') return push(r,r.v);
+        if(t==='prog'&&r.k==='deployed'){ const nd=BY[r.v]; if(entCtx&&nd.ent&&nd.ent!==entCtx) return; return push(r,r.v); }
       });
     }
   }
@@ -603,7 +699,8 @@ function traverse(origin, only, entOverride){
       (inRel[x]||[]).forEach(r=>{
         if(!ok(r)) return;
         if(t==='node'&&r.k==='deployed') return push(r,r.u);
-        if(t==='prog'&&(r.k==='calls'||r.k==='entry')) return push(r,r.u);
+        if(t==='prog'&&r.k==='calls') return push(r,r.u);
+        if(t==='prog'&&r.k==='entry'){ if(entCtx&&!USE[entCtx].includes(r.u)) return; return push(r,r.u); }
         if(t==='app'&&r.k==='realized'&&appDown) return push(r,r.u);
       });
     }
@@ -660,7 +757,7 @@ function paths(tr, origin){
 }
 
 /* ================= State & routing ================= */
-const st={ent:'all',cap:'all',q:'',type:'all',sel:'PG-LNINT-020',metric:'risk',gmode:'focus',imode:'analysis',showPot:true};
+const st={svcSel:'SV-LN-04',ent:'all',cap:'all',q:'',type:'all',sel:'PG-LNINT-020',metric:'risk',gmode:'focus',imode:'analysis',showPot:true};
 const VIEWS=['business','service','system','impact','quality'];
 let curView='business';
 function show(v){
@@ -696,104 +793,143 @@ function renderCrumb(){
   const b=document.getElementById('to-sel'); if(b) b.onclick=()=>{st.imode='analysis';go('impact');};
 }
 
+/* ================= Business layer helpers ================= */
+const num = v => v==null ? '—' : (typeof v==='number' ? v.toLocaleString('en-US') : v);
+const entProducts = e => PRODUCTS.filter(p=>e==='all'||p.ent===e);
+function productNodes(p, only){ const X=new Set(); p.svcs.forEach(s=>traverse(s,only,p.ent).R.node.forEach(x=>X.add(x))); return X; }
+function productRisk(p){ return maxScore(productNodes(p,true)); }
+function productExposed(p){ return [...productNodes(p,true)].some(x=>nodeScore(BY[x])>=70); }
+function productSystems(p){ const Y=new Set(); p.svcs.forEach(s=>traverse(s,false,p.ent).R.sys.forEach(y=>Y.add(y))); return [...Y]; }
+function countryRiskIndex(e){
+  const X=[...scope(e,'all').node], sh=X.filter(x=>!BY[x].ent), lc=X.filter(x=>BY[x].ent===e);
+  const avg=a=>a.length?a.reduce((t,x)=>t+nodeScore(BY[x]),0)/a.length:0;
+  return Math.round(lc.length ? (avg(sh)+Math.max(...lc.map(x=>nodeScore(BY[x]))))/2 : avg(sh));
+}
+const sumBal = list => list.reduce((a,p)=>a+(p.bal||0),0);
+const sumRev = list => Math.round(list.reduce((a,p)=>a+(p.rev||0),0)*10)/10;
+
 /* ================= Business view ================= */
 function renderBusiness(){
-  const crit=SVC.filter(s=>s.crit).length;
+  const list=entProducts(st.ent);
+  const tot=sumBal(list), rev=sumRev(list);
+  const expList=list.filter(productExposed), exp=sumBal(expList);
   const good=ITREL.filter(relGood).length;
-  const warnNodes=NODES.filter(a=>nodeScore(a)>=40).length;
+  const hiNodes=NODES.filter(a=>nodeScore(a)>=70).length;
   const k=[
-    [ENT.length,'국외지점','해외 지점'],
-    [SVC.length,'업무서비스','중요 서비스 '+crit],
-    [SYS.length,'시스템','애플리케이션 '+APP.length],
-    [PRG.length,'프로그램·소스','모듈·배치·IF·DB객체'],
-    [NODES.length,'서버·노드','주의 이상 '+warnNodes],
-    [Math.round(good/ITREL.length*100)+'%','관계 검증률','검증 완료 '+good+' / '+ITREL.length]
+    [num(tot),'총 잔액 (USD 백만)', st.ent==='all'?'국외지점 6곳 합계':BY[st.ent].name],
+    [num(rev),'연 수익 (USD 백만)', '상품 '+list.length+'개'],
+    [tot?Math.round(exp/tot*100)+'%':'—','위험 자산 노출 잔액', 'USD '+num(exp)+'백만 · 위험점수 70+ 자산 의존'],
+    [SVC.filter(s=>s.crit).length,'중요 업무서비스', '단위업무 '+SVC.length+'개 중'],
+    [hiNodes,'고위험 서버·노드', '지원종료·취약점·장애 기준'],
+    [Math.round(good/ITREL.length*100)+'%','관계 검증률', '검증 완료 '+good+' / '+ITREL.length]
   ];
   document.getElementById('kpis').innerHTML=k.map(([v,l,s])=>`<div class="kpi"><span class="l">${l}</span><span class="v">${v}</span><span class="s">${s}</span></div>`).join('');
-  document.getElementById('m-risk').setAttribute('aria-pressed',st.metric==='risk');
-  document.getElementById('m-verify').setAttribute('aria-pressed',st.metric==='verify');
-  document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{st.metric=b.dataset.m;renderBusiness();});
-  let h='<thead><tr><th></th>'+CAP.map(c=>`<th class="${st.cap===c.id?'on':''}">${c.name}</th>`).join('')+'</tr></thead><tbody>';
-  ENT.forEach(e=>{
-    h+=`<tr><th class="row ${st.ent===e.id?'on':''}" scope="row">${e.name}</th>`;
-    CAP.forEach(c=>{
-      const sc=scope(e.id,c.id);
-      if(!sc.svc.size){ h+=`<td><div class="cell none"><span class="m">—</span></div></td>`; return; }
-      let val, cls, sub;
-      if(st.metric==='risk'){ val=maxScore(sc.node); cls='lv'+lv(val); sub='서비스 '+sc.svc.size+' · 노드 '+sc.node.size; }
-      else { const rs=scopeRels(sc); const r=rs.length?Math.round(rs.filter(relGood).length/rs.length*100):0; val=rs.length?r+'%':'—'; cls=rs.length?'lv'+lvRate(r):'lv2'; sub='관계 '+rs.length; }
-      const on=(st.ent===e.id&&st.cap===c.id)?' on':'';
-      h+=`<td><button class="cell ${cls}${on}" data-e="${e.id}" data-c="${c.id}" aria-label="${e.name} ${c.name} ${val}"><span class="n">${val}</span><span class="m">${sub}</span></button></td>`;
-    });
-    h+='</tr>';
-  });
-  const heat=document.getElementById('heat'); heat.innerHTML=h+'</tbody>';
-  heat.querySelectorAll('button.cell').forEach(b=>b.onclick=()=>{setScope(b.dataset.e,b.dataset.c);go('service');});
-  document.getElementById('legend').innerHTML = st.metric==='risk'
-    ? `<span><i style="background:var(--ok-soft);border:1px solid var(--ok)"></i>낮음 0–39</span><span><i style="background:var(--warn-soft);border:1px solid var(--warn)"></i>주의 40–69</span><span><i style="background:var(--bad-soft);border:1px solid var(--bad)"></i>높음 70+</span><span>숫자 = 연결된 서버·노드 중 최고 위험점수</span>`
-    : `<span><i style="background:var(--ok-soft);border:1px solid var(--ok)"></i>90% 이상</span><span><i style="background:var(--warn-soft);border:1px solid var(--warn)"></i>70–89%</span><span><i style="background:var(--bad-soft);border:1px solid var(--bad)"></i>70% 미만</span><span>검증률 = 검증 완료 관계 / 전체 IT 관계</span>`;
+  drawQuad();
   const top=[...NODES].sort((a,b)=>nodeScore(b)-nodeScore(a)).slice(0,5);
   document.getElementById('toprisk').innerHTML=top.map(a=>{
-    const A=analyze(a.id), R=A.conf.R, cs=[...R.svc].filter(s=>BY[s].crit).length, s=nodeScore(a), potS=A.pot.svc.size;
-    const eff = A.all.R.svc.size ? `확정 영향: 국외지점 ${R.ent.size} · 중요 서비스 ${cs}${potS?` · 잠재 서비스 +${potS}`:''}` : '연결된 업무서비스 없음 · 폐기 검토 대상';
+    const A=analyze(a.id), R=A.conf.R, s=nodeScore(a);
+    const prods=PRODUCTS.filter(p=>p.svcs.some(x=>R.svc.has(x))&&R.ent.has(p.ent));
+    const eff = A.all.R.svc.size ? `확정 영향: 지점 ${R.ent.size} · 상품 ${prods.length} · 잔액 USD ${num(sumBal(prods))}백만` : '연결된 업무 없음 · 폐기 검토 대상';
     return `<button class="risk-row" data-id="${a.id}"><span class="score lv${lv(s)}">${s}</span><span><b>${a.name} <span class="mono">${a.host}</span></b><span>${a.cluster} · ${nodeWhy(a)}</span><br><span>${eff}</span></span></button>`;
   }).join('');
   document.querySelectorAll('#toprisk .risk-row').forEach(b=>b.onclick=()=>openImpact(b.dataset.id));
-  let t='<thead><tr><th>국외지점</th><th>구분</th><th class="num">업무서비스</th><th class="num">중요</th><th>시스템</th><th class="num">서버·노드</th><th class="num">최고 위험</th><th class="num">관계 검증률</th></tr></thead><tbody>';
-  ENT.forEach(e=>{
-    const sc=scope(e.id,'all'), rs=scopeRels(sc), r=rs.length?Math.round(rs.filter(relGood).length/rs.length*100):0, m=maxScore(sc.node);
-    t+=`<tr class="click" data-e="${e.id}" tabindex="0"><td><b>${e.name}</b></td><td>${e.kind}</td><td class="num">${sc.svc.size}</td><td class="num">${[...sc.svc].filter(s=>BY[s].crit).length}</td><td>${[...sc.sys].map(y=>BY[y].code).join(', ')}</td><td class="num">${sc.node.size}</td><td class="num"><span class="pill lv${lv(m)}">${m}</span></td><td class="num"><span class="pill lv${lvRate(r)}">${r}%</span></td></tr>`;
+  // product table
+  let h='<thead><tr><th>국가</th><th>사업부문</th><th>상품</th><th class="num">잔액</th><th class="num">연 수익</th><th class="num">월 거래건수</th><th class="num">고객 수</th><th>처리 단위업무</th><th>지원 시스템</th><th class="num">IT 위험</th></tr></thead><tbody>';
+  let prev='';
+  list.forEach(p=>{
+    const r=productRisk(p), ex=productExposed(p);
+    h+=`<tr class="click" tabindex="0" data-p="${p.id}"><td>${p.ent!==prev?`<b>${BY[p.ent].name}</b>`:''}</td><td>${p.biz}</td><td><b>${p.name}</b></td><td class="num">${num(p.bal)}</td><td class="num">${num(p.rev)}</td><td class="num">${num(p.tx)}</td><td class="num">${num(p.cust)}</td><td>${p.svcs.map(s=>BY[s].name).join(', ')}</td><td class="mono">${productSystems(p).map(y=>BY[y].code).join(' · ')}</td><td class="num"><span class="pill lv${lv(r)}" title="${ex?'위험점수 70 이상 자산에 의존':''}">${r}${ex?' · 노출':''}</span></td></tr>`;
+    prev=p.ent;
   });
-  const es=document.getElementById('entsum'); es.innerHTML=t+'</tbody>';
-  es.querySelectorAll('tr.click').forEach(tr=>{const f=()=>{setScope(tr.dataset.e,'all');go('service');};tr.onclick=f;tr.onkeydown=ev=>{if(ev.key==='Enter')f();};});
+  const pt=document.getElementById('prodtbl'); pt.innerHTML=h+'</tbody>';
+  pt.querySelectorAll('tr.click').forEach(tr=>{const f=()=>{const p=PRODUCTS.find(x=>x.id===tr.dataset.p); st.svcSel=p.svcs[0]; setScope(p.ent,'all'); go('service');}; tr.onclick=f; tr.onkeydown=e=>{if(e.key==='Enter')f();};});
+}
+function drawQuad(){
+  const pts=ENT.map(e=>{const l=PRODUCTS.filter(p=>p.ent===e.id); return {e, bal:sumBal(l), rev:sumRev(l), risk:countryRiskIndex(e.id)};});
+  const W=620,H=380,L=64,R=24,T=24,B=56;
+  const xmax=Math.max(...pts.map(p=>p.bal))*1.15, ymax=Math.max(...pts.map(p=>p.risk))*1.25;
+  const X=v=>L+v/xmax*(W-L-R), Y=v=>H-B-v/ymax*(H-T-B);
+  const med=a=>{const s=[...a].sort((x,y)=>x-y);return (s[2]+s[3])/2;};
+  const mx=med(pts.map(p=>p.bal)), my=med(pts.map(p=>p.risk));
+  let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="국외지점별 실적 대비 IT 위험">`;
+  g+=`<rect x="${X(mx)}" y="${T}" width="${W-R-X(mx)}" height="${Y(my)-T}" fill="var(--bad-soft)"/>`;
+  g+=`<line x1="${X(mx)}" x2="${X(mx)}" y1="${T}" y2="${H-B}" stroke="var(--line)" stroke-dasharray="4 4"/><line x1="${L}" x2="${W-R}" y1="${Y(my)}" y2="${Y(my)}" stroke="var(--line)" stroke-dasharray="4 4"/>`;
+  g+=`<line x1="${L}" x2="${W-R}" y1="${H-B}" y2="${H-B}" stroke="var(--muted)"/><line x1="${L}" x2="${L}" y1="${T}" y2="${H-B}" stroke="var(--muted)"/>`;
+  const ql=(x,y,t,a)=>`<text x="${x}" y="${y}" font-size="12" fill="var(--muted)" text-anchor="${a}">${t}</text>`;
+  g+=ql(W-R-6,T+16,'우선 투자·이중화','end')+ql(W-R-6,H-B-8,'유지','end')+ql(L+6,T+16,'통합·효율화 검토','start')+ql(L+6,H-B-8,'관찰','start');
+  g+=`<text x="${(L+W-R)/2}" y="${H-16}" font-size="12" text-anchor="middle" fill="var(--muted)">총 잔액 (USD 백만) →</text><text x="16" y="${(T+H-B)/2}" font-size="12" text-anchor="middle" fill="var(--muted)" transform="rotate(-90 16 ${(T+H-B)/2})">IT 위험지수 →</text>`;
+  pts.forEach(p=>{const hot=p.bal>=mx&&p.risk>=my; const r=7+Math.sqrt(p.rev)*1.6;
+    g+=`<g class="qpt" data-e="${p.e.id}" style="cursor:pointer"><circle cx="${X(p.bal)}" cy="${Y(p.risk)}" r="${r}" fill="${hot?'var(--bad)':'var(--svc)'}" fill-opacity="${hot?0.85:0.55}"><title>${p.e.name}: 잔액 ${num(p.bal)} · 연 수익 ${p.rev} · IT 위험지수 ${p.risk}</title></circle><text x="${X(p.bal)+r+5}" y="${Y(p.risk)+4}" font-size="13" font-weight="700" fill="var(--ink)">${p.e.name} <tspan font-weight="400" fill="var(--muted)">${p.risk}</tspan></text></g>`;});
+  g+='</svg>';
+  const box=document.getElementById('quad'); box.innerHTML=g;
+  box.querySelectorAll('.qpt').forEach(el=>el.addEventListener('click',()=>setScope(el.dataset.e,'all')));
 }
 
 /* ================= Service view ================= */
 function renderService(){
-  const sc=scope(st.ent,st.cap);
   const caps=st.cap==='all'?CAP:[BY[st.cap]];
-  const box=document.getElementById('svcs');
-  let html='';
-  caps.forEach(c=>{
-    const list=SVC.filter(s=>s.cap===c.id&&sc.svc.has(s.id));
-    if(!list.length) return;
-    if(st.cap==='all') html+=`<div class="capgroup">${c.name} <span class="muted" style="font-weight:500;font-size:13px">서비스 ${list.length}</span></div>`;
-    html+='<div class="svc-grid">';
-    list.forEach(s=>{
-      const entCtx=st.ent==='all'?null:st.ent;
-      const T=traverse(s.id,false,entCtx), R=T.R, mx=maxScore(R.node);
-      let apps=(outRel[s.id]||[]).filter(r=>r.k==='realized').map(r=>r.v);
-      if(entCtx) apps=apps.filter(a=>BY[a].ents.includes(entCtx));
-      const ents=entCtx?[entCtx]:ENT.filter(e=>USE[e.id].includes(s.id)).map(e=>e.id);
-      const entryIds=new Set((outRel[s.id]||[]).filter(r=>r.k==='entry').map(r=>r.v));
-      const chains = apps.length ? apps.map(a=>{
-        const rel=(outRel[s.id]||[]).find(r=>r.k==='realized'&&r.v===a), A=BY[a];
-        const progs=[...R.prog].filter(p=>BY[p].apps.includes(a));
-        const nodes=[...new Set(progs.flatMap(p=>BY[p].nodes.map(n=>n[0])))];
-        return `<div class="chain">
-          <div class="h"><span class="tag">${BY[A.sys].code}</span><b>${BY[A.sys].name}</b><span class="muted">›</span><span class="tag">${A.code}</span><span>${A.name}</span>
-          ${!relGood(rel)?`<span class="pill lv1" title="원천 ${rel.src}">${relTag(rel)}</span>`:''}</div>
-          <div class="row"><span>프로그램</span><span class="chips">${progs.map(p=>`<span class="chip static mono" title="${BY[p].kind} · ${BY[p].name}">${entryIds.has(p)?'▸ ':''}${p}</span>`).join('')||'<span class="muted">매핑 없음</span>'}</span></div>
-          <div class="row"><span>서버·노드</span><span class="chips">${nodes.map(n=>`<span class="chip host static lv${lv(nodeScore(BY[n]))}" title="${BY[n].name} · ${BY[n].cluster} · 위험 ${nodeScore(BY[n])}">${BY[n].host}</span>`).join('')||'<span class="muted">—</span>'}</span></div>
-        </div>`;}).join('') : `<div class="note">연결된 애플리케이션이 없습니다. 서비스–앱 매핑이 필요합니다.</div>`;
-      const isCase = s.id===CASE.svc;
-      html+=`<div class="card svc" ${isCase?'style="border-left-color:var(--accent)"':''}>
-        <div class="hd"><div><h3>${s.name}</h3><span class="mono">${s.id}</span></div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${isCase?'<span class="pill" style="background:var(--accent);color:#24262A">대표 사례</span>':''}<span class="pill ${s.crit?'crit':'norm'}">${s.crit?'중요':'일반'}</span><span class="pill lv${lv(mx)}">위험 ${mx}</span></div></div>
-        <dl class="kv"><dt>책임부서</dt><dd>${s.dept}</dd><dt>SLA</dt><dd>${s.sla}</dd><dt>제공 범위</dt><dd>${ents.map(e=>BY[e].name).join(', ')}</dd></dl>
-        <div class="stack">${chains}</div>
-        <p class="foot">▸ = 서비스 진입 프로그램, 나머지는 호출 관계로 연결된 모듈·IF·DB객체</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-id="${s.id}">영향도 보기 →</button>${isCase?'<button class="btn" data-case="1">E2E 사례 보기 →</button>':''}</div></div>`;
-    });
-    html+='</div>';
-  });
-  box.innerHTML = html || `<div class="card">선택한 범위에 해당하는 업무서비스가 없습니다. 위에서 국외지점이나 국가별 업무를 바꿔 보세요.</div>`;
-  box.querySelectorAll('.btn[data-id]').forEach(b=>b.onclick=()=>openImpact(b.dataset.id));
-  box.querySelectorAll('.btn[data-case]').forEach(b=>b.onclick=openCase);
+  const avail=s=>st.ent==='all'||USE[st.ent].includes(s);
+  if(!st.svcSel||!SVC.some(s=>s.id===st.svcSel&&caps.some(c=>c.id===s.cap))) st.svcSel=(SVC.find(s=>caps.some(c=>c.id===s.cap)&&avail(s.id))||SVC[0]).id;
+  document.getElementById('svctree').innerHTML='<h3 style="font-size:15px;font-weight:900;margin-bottom:6px">업무 › 단위업무</h3>'+caps.map(c=>{
+    const list=SVC.filter(s=>s.cap===c.id);
+    return `<div class="tgrp"><div class="tcap">${c.name} <span class="muted">${list.length}</span></div>${list.map(s=>`<button class="titem ${s.id===st.svcSel?'on':''} ${avail(s.id)?'':'off'}" data-s="${s.id}"><span>${s.crit?'<i class="dot"></i>':''}${s.name}</span><span class="muted">${(TASKS[s.id]||[]).length}</span></button>`).join('')}</div>`;
+  }).join('');
+  document.querySelectorAll('#svctree .titem').forEach(b=>b.onclick=()=>{st.svcSel=b.dataset.s;renderService();});
+  const s=BY[st.svcSel], entCtx=st.ent==='all'?null:st.ent;
+  const T=traverse(s.id,false,entCtx), R=T.R, mx=maxScore(R.node);
+  const tasks=TASKS[s.id]||[];
+  const taskRows=tasks.map(([nm,tx,pid])=>{
+    if(!pid) return `<tr><td><b>${nm}</b></td><td class="mono">${tx}</td><td colspan="4"><span class="pill lv2">매핑 필요</span> 처리 프로그램 미확인</td></tr>`;
+    const p=BY[pid], er=(outRel[s.id]||[]).find(r=>r.k==='entry'&&r.v===pid);
+    const nodes=p.nodes.map(n=>n[0]).filter(n=>!BY[n].ent||!entCtx||BY[n].ent===entCtx);
+    return `<tr class="click" data-id="${pid}"><td><b>${nm}</b></td><td class="mono">${tx}</td><td><span class="mono">${pid}</span><br><span class="ev">${p.name} · ${p.kind}</span></td><td class="mono">${p.apps.map(a=>BY[a].code).join(', ')}</td><td>${nodes.slice(0,3).map(n=>`<span class="chip host static lv${lv(nodeScore(BY[n]))}">${BY[n].host}</span>`).join(' ')}${nodes.length>3?` <span class="muted">+${nodes.length-3}</span>`:''}</td><td>${er?`<span class="${relCls(er)}">${relTag(er)}</span>`:'<span class="muted">호출 경유</span>'}</td></tr>`;
+  }).join('');
+  const prods=PRODUCTS.filter(p=>p.svcs.includes(s.id)&&(!entCtx||p.ent===entCtx));
+  const apps=(outRel[s.id]||[]).filter(r=>r.k==='realized').map(r=>r.v).filter(a=>!entCtx||BY[a].ents.includes(entCtx));
+  const chains=apps.map(a=>{const A=BY[a], rel=(outRel[s.id]||[]).find(r=>r.k==='realized'&&r.v===a), progs=[...R.prog].filter(p=>BY[p].apps.includes(a));
+    return `<div class="chain"><div class="h"><span class="tag">${BY[A.sys].code}</span><b>${BY[A.sys].name}</b><span class="muted">›</span><span class="tag">${A.code}</span><span>${A.name}</span>${!relGood(rel)?`<span class="pill lv1">${relTag(rel)}</span>`:''}<span class="muted" style="margin-left:auto">프로그램 ${progs.length}</span></div></div>`;}).join('');
+  const isCase=s.id===CASE.svc;
+  document.getElementById('svcdetail').innerHTML=`
+  <div class="card svc" ${isCase?'style="border-left-color:var(--accent)"':''}>
+    <div class="hd"><div><span class="dir">${BY[s.cap].name} › 단위업무</span><h3 style="font-size:22px">${s.name} <span class="mono" style="font-weight:500">${s.id}</span></h3></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${isCase?'<span class="pill" style="background:var(--accent);color:#24262A">대표 사례</span>':''}<span class="pill ${s.crit?'crit':'norm'}">${s.crit?'중요 업무':'일반 업무'}</span><span class="pill lv${lv(mx)}">IT 위험 ${mx}</span></div></div>
+    <dl class="kv"><dt>책임부서</dt><dd>${s.dept}</dd><dt>SLA</dt><dd>${s.sla}</dd><dt>제공 국가</dt><dd class="chips">${ENT.map(e=>`<span class="chip static ${USE[e.id].includes(s.id)?'':'low'}">${USE[e.id].includes(s.id)?'✓ ':'— '}${e.name}</span>`).join('')}</dd></dl>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-imp="${s.id}">영향도 보기 →</button>${isCase?'<button class="btn" data-case="1">E2E 사례 보기 →</button>':''}</div>
+  </div>
+  <div class="card"><div class="sec-h"><h2>서비스 업무 ${tasks.length}개</h2><p>행을 누르면 처리 프로그램의 영향도를 봅니다</p></div>
+    <div class="scroll"><table class="simple" style="min-width:760px"><thead><tr><th>서비스 업무</th><th>거래·잡 코드</th><th>처리 프로그램</th><th>앱</th><th>서버</th><th>진입 관계</th></tr></thead><tbody>${taskRows}</tbody></table></div></div>
+  ${isCase?`<div class="card"><div class="sec-h"><h2>국가별 업무 규칙</h2><p>같은 프로그램, 국가별 다른 파라미터</p></div><div class="scroll"><table class="simple"><thead><tr><th>지점</th><th>기준금리</th><th>일수계산</th><th>일마감 배치</th><th>한국시간</th></tr></thead><tbody>${CASE.params.filter(p=>!entCtx||p.ent===entCtx).map(p=>`<tr><td><b>${BY[p.ent].name}</b></td><td>${p.rate}</td><td class="mono">${p.dc}</td><td>${p.cut}</td><td>${p.kst}</td></tr>`).join('')}</tbody></table></div></div>`:''}
+  <div class="grid2">
+    <div class="card"><div class="sec-h"><h2>이 업무를 쓰는 상품</h2><p>${prods.length}개 · 잔액 USD ${num(sumBal(prods))}백만</p></div>
+      ${prods.length?`<table class="simple"><thead><tr><th>국가</th><th>상품</th><th class="num">잔액</th><th class="num">월 거래건수</th></tr></thead><tbody>${prods.map(p=>`<tr><td>${BY[p.ent].name}</td><td>${p.name}</td><td class="num">${num(p.bal)}</td><td class="num">${num(p.tx)}</td></tr>`).join('')}</tbody></table>`:'<p class="foot">연결된 상품이 없습니다.</p>'}</div>
+    <div class="card"><div class="sec-h"><h2>시스템 구성</h2><p>업무 → 시스템 → 앱</p></div><div class="stack">${chains||'<div class="note">연결된 애플리케이션이 없습니다. 서비스–앱 매핑이 필요합니다.</div>'}</div></div>
+  </div>`;
+  const d=document.getElementById('svcdetail');
+  d.querySelectorAll('[data-imp]').forEach(b=>b.onclick=()=>openImpact(b.dataset.imp));
+  d.querySelectorAll('[data-case]').forEach(b=>b.onclick=openCase);
+  d.querySelectorAll('tr.click').forEach(tr=>tr.onclick=()=>openImpact(tr.dataset.id));
+}
+
+/* ================= System view: statistics ================= */
+function renderSysStats(){
+  const kinds=['모듈','공통모듈','배치잡','인터페이스','DB객체','화면'];
+  const calls=ITREL.filter(r=>r.k==='calls');
+  const eos=NODES.filter(n=>{const [y,m]=n.eos.split('-').map(Number);return (y-2026)*12+(m-11)<12;}).length;
+  const k=[[SYS.length,'시스템','앱 '+APP.length+'개'],[PRG.length,'프로그램·소스',kinds.filter(x=>PRG.some(p=>p.kind===x)).length+'개 유형'],[calls.length,'프로그램 호출 관계','정적분석 기준'],[ITREL.filter(r=>r.k==='deployed').length,'배포 관계','프로그램–서버'],[NODES.length,'서버·노드','지점 현지 '+NODES.filter(n=>n.ent).length+'대 포함'],[eos,'지원종료·1년 내 종료','교체 계획 필요']];
+  document.getElementById('syskpis').innerHTML=k.map(([v,l,s])=>`<div class="kpi"><span class="l">${l}</span><span class="v">${v}</span><span class="s">${s}</span></div>`).join('');
+  let h=`<thead><tr><th>시스템</th>${kinds.map(x=>`<th class="num">${x}</th>`).join('')}<th class="num">합계</th><th class="num">서버</th></tr></thead><tbody>`;
+  SYS.forEach(y=>{const ps=PRG.filter(p=>p.apps.some(a=>BY[a].sys===y.id)); const ns=new Set(ps.flatMap(p=>p.nodes.map(n=>n[0])));
+    h+=`<tr class="click" data-id="${y.id}"><td><b>${y.code}</b> <span class="muted">${y.name}</span></td>${kinds.map(x=>{const c=ps.filter(p=>p.kind===x).length;return `<td class="num ${c?'':'muted'}">${c||'·'}</td>`;}).join('')}<td class="num"><b>${ps.length}</b></td><td class="num">${ns.size}</td></tr>`;});
+  const mt=document.getElementById('kindmatrix'); mt.innerHTML=h+'</tbody>';
+  mt.querySelectorAll('tr.click').forEach(tr=>tr.onclick=()=>openImpact(tr.dataset.id));
+  const fan=PRG.map(p=>({p,fin:calls.filter(r=>r.v===p.id).length,fout:calls.filter(r=>r.u===p.id).length,R:analyze(p.id).conf.R})).sort((a,b)=>b.fin-a.fin||b.R.svc.size-a.R.svc.size).slice(0,6);
+  document.getElementById('fanin').innerHTML=fan.map(f=>`<button class="risk-row" data-id="${f.p.id}"><span class="score lv${f.fin>=3?2:f.fin>=2?1:0}">${f.fin}</span><span><b>${f.p.name} <span class="mono">${f.p.id}</span></b><span>${f.p.kind} · 호출하는 프로그램 ${f.fin}개 · 호출 대상 ${f.fout}개</span><br><span>바뀌면 확정 영향: 단위업무 ${f.R.svc.size} · 지점 ${f.R.ent.size}</span></span></button>`).join('');
+  document.querySelectorAll('#fanin .risk-row').forEach(b=>b.onclick=()=>openImpact(b.dataset.id));
 }
 
 /* ================= System view ================= */
 function renderSystem(){
+  renderSysStats();
   const filtered = st.ent!=='all'||st.cap!=='all';
   const sc=scope(st.ent,st.cap);
   const sysList=SYS.filter(y=>!filtered||sc.sys.has(y.id));
@@ -1114,9 +1250,103 @@ function renderQuality(){
   qi.querySelectorAll('tr.click').forEach(tr=>{tr.onclick=()=>openImpact(tr.dataset.id);tr.onkeydown=e=>{if(e.key==='Enter')openImpact(tr.dataset.id);};});
 }
 
+/* ================= AI 질의 (시연용 규칙 기반 해석) =================
+   실제 구축 시: 사내 승인 LLM이 질문을 관계 데이터 조회로 변환하고, 조회 결과만으로 답을 작성.
+   여기서는 같은 흐름을 정해진 해석 규칙으로 시연한다. */
+const AI_SUGGEST = [
+  'kgbsdb01p 장애 시 영향받는 국가와 상품은?',
+  'PG-COM-DT-001을 바꾸면 영향 범위는?',
+  '지원 종료 장비에 노출된 잔액은 국가별로 얼마야?',
+  '홍콩 무역금융은 어떤 시스템으로 처리돼?',
+  'GBS 시스템의 프로그램 수는?',
+  'kgbsbt01p 점검 공지 초안 써줘',
+  '검증이 필요한 관계는?'
+];
+const CN = {'E-NY':['뉴욕','미국','ny'],'E-LDN':['런던','영국','ldn'],'E-HK':['홍콩','hk'],'E-SG':['싱가포르','sg'],'E-TKO':['도쿄','일본','동경','tokyo'],'E-VN':['베트남','호치민','vn']};
+function aiFind(q){
+  const lq=q.toLowerCase(), f={};
+  f.ent=ENT.find(e=>CN[e.id].some(k=>lq.includes(k)));
+  f.node=NODES.find(n=>lq.includes(n.host));
+  f.prog=PRG.find(p=>lq.includes(p.id.toLowerCase()))||PRG.find(p=>q.includes(p.name));
+  f.app=APP.find(a=>new RegExp('\\b'+a.code.toLowerCase()+'\\b').test(lq));
+  f.sys=SYS.find(y=>new RegExp('\\b'+y.code.toLowerCase()+'\\b').test(lq))||SYS.find(y=>q.includes(y.name));
+  const pn=[...new Set(PRODUCTS.map(p=>p.name))].sort((a,b)=>b.length-a.length).find(n=>q.includes(n)||q.includes(n.replace('수출입 ','')));
+  if(pn) f.products=PRODUCTS.filter(p=>p.name===pn&&(!f.ent||p.ent===f.ent.id));
+  f.svc=SVC.slice().sort((a,b)=>b.name.length-a.name.length).find(s=>q.includes(s.name));
+  return f;
+}
+const aiList = a => a.length ? a.join(', ') : '없음';
+function impactAnswer(id){
+  const A=analyze(id), C=A.conf.R, Pt=A.pot, n=BY[id];
+  const prods=PRODUCTS.filter(p=>p.svcs.some(s=>C.svc.has(s))&&C.ent.has(p.ent));
+  const pprods=PRODUCTS.filter(p=>!prods.includes(p)&&p.svcs.some(s=>A.all.R.svc.has(s))&&A.all.R.ent.has(p.ent));
+  const P=paths(A.conf,id);
+  const ev=[...P.up].slice(0,3).map(p=>[label(id)].concat(p.map(e=>label(e.to))).join(' → '));
+  const unv=[...new Map(A.all.used.filter(u=>!relGood(u.r)&&u.dir!=='mark').map(u=>[relKey(u.r),u.r])).values()];
+  const html=`<p><b>${n.name}${n.host?` (${n.host})`:''}</b>에 문제가 생기거나 변경되면, 검증된 관계 기준으로 다음이 영향을 받습니다.</p>
+  <ul><li>국외지점 ${C.ent.size}곳: ${aiList([...C.ent].map(e=>BY[e].name))}</li>
+  <li>단위업무 ${C.svc.size}개 (중요 ${[...C.svc].filter(s=>BY[s].crit).length}): ${aiList([...C.svc].map(s=>BY[s].name))}</li>
+  <li>상품 ${prods.length}개, 잔액 USD ${num(sumBal(prods))}백만, 월 거래 ${num(prods.reduce((a,p)=>a+(p.tx||0),0))}건</li>
+  <li>프로그램 ${C.prog.size}개 · 서버 ${C.node.size}대</li></ul>
+  ${(Pt.svc.size||pprods.length)?`<p class="warn-t">잠재 영향(미검증 관계 경유): 단위업무 +${Pt.svc.size}${pprods.length?`, 상품 +${pprods.length}(${sumBal(pprods)?`잔액 USD ${num(sumBal(pprods))}백만`:`월 거래 ${num(pprods.reduce((a,p)=>a+(p.tx||0),0))}건`})`:''}. 담당자 확인이 필요합니다.</p>`:''}`;
+  return {html, ev:ev.concat(unv.slice(0,3).map(r=>`검증 필요: ${label(r.u)} → ${label(r.v)} (${KL[r.k]}, ${relTag(r)})`)), act:{label:'영향도 분석에서 보기',id}};
+}
+function aiAnswer(q){
+  const f=aiFind(q);
+  const target=f.node||f.prog||f.app||f.sys||(f.svc&&!f.products?f.svc:null);
+  if(/(공지|초안|안내문)/.test(q)&&(f.node||f.prog)){
+    const id=(f.node||f.prog).id, A=analyze(id), C=A.conf.R, n=BY[id];
+    const prods=PRODUCTS.filter(p=>p.svcs.some(s=>C.svc.has(s))&&C.ent.has(p.ent));
+    const txt=`[작업 안내] ${n.name}${n.host?`(${n.host})`:''} 점검에 따른 업무 영향 안내\n\n1. 작업 일시: [  ] (한국시간), 예상 소요 [  ]분\n2. 영향 지점: ${aiList([...C.ent].map(e=>BY[e].name))}\n3. 영향 업무: ${aiList([...C.svc].map(s=>BY[s].name))}\n4. 영향 상품: ${aiList([...new Set(prods.map(p=>p.name))])} (잔액 USD ${num(sumBal(prods))}백만 규모)\n5. 확인 필요(잠재 영향): ${aiList([...A.pot.svc].map(s=>BY[s].name))}\n6. 지점 협조 사항: 작업 시간대 해당 업무 거래 자제, 일마감 배치 시각과 겹치는지 확인\n7. 문의: 글로벌IT개발부 [담당자]`;
+    return {html:`<p>검증된 영향 범위를 넣어 공지 초안을 만들었습니다. 일시와 담당자를 채워 쓰세요.</p><pre class="draft">${txt}</pre><button class="btn" data-copy="1">초안 복사</button>`, ev:['영향 범위는 검증 완료 관계 기준이며, 잠재 영향은 확인 필요로 따로 적었습니다.'], act:{label:'영향도 분석에서 보기',id}, copy:txt};
+  }
+  if(/(지원\s?종료|eos|노후|위험\s?자산|고위험)/i.test(q)&&/(잔액|실적|노출|금액)/.test(q)){
+    const rows=ENT.map(e=>{const l=PRODUCTS.filter(p=>p.ent===e.id), x=l.filter(productExposed); return [e.name,sumBal(l),sumBal(x)];});
+    const tot=rows.reduce((a,r)=>a+r[1],0), ex=rows.reduce((a,r)=>a+r[2],0);
+    return {html:`<p>위험점수 70 이상 자산(지원 종료·취약점·장애 기준)에 검증된 관계로 기대고 있는 잔액은 <b>USD ${num(ex)}백만</b>으로 전체의 <b>${Math.round(ex/tot*100)}%</b>입니다.</p><table class="simple"><thead><tr><th>국가</th><th class="num">총 잔액</th><th class="num">노출 잔액</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r[0]}</td><td class="num">${num(r[1])}</td><td class="num">${num(r[2])}</td></tr>`).join('')}</tbody></table>`, ev:['주원인: 공용 배치서버 kgbsbt01p(위험 84) → 영업일 공통모듈 → 여신·수신 처리 프로그램'], act:{label:'kgbsbt01p 영향도 보기',id:'ND-GBSBT01'}};
+  }
+  if(/(프로그램\s?(수|개수)|몇\s?개)/.test(q)){
+    const sys=f.sys?[f.sys]:SYS;
+    const rows=sys.map(y=>{const ps=PRG.filter(p=>p.apps.some(a=>BY[a].sys===y.id)); const by={}; ps.forEach(p=>by[p.kind]=(by[p.kind]||0)+1); return `<li><b>${y.code} ${y.name}</b>: ${ps.length}개 (${Object.entries(by).map(([k,v])=>k+' '+v).join(', ')})</li>`;});
+    return {html:`<ul>${rows.join('')}</ul>`, ev:['형상관리 저장소와 앱–프로그램 소유 관계 기준'], act:f.sys?{label:'시스템 영향도 보기',id:f.sys.id}:null};
+  }
+  if(/(미검증|검증.{0,3}필요|만료)/.test(q)){
+    const bad=ITREL.filter(r=>!relGood(r));
+    return {html:`<p>검증이 필요한 관계는 <b>${bad.length}건</b>입니다.</p><ul>${bad.slice(0,8).map(r=>`<li><span class="mono">${label(r.u)} → ${label(r.v)}</span> · ${KL[r.k]} · ${r.src} · <span class="${relCls(r)}">${relTag(r)}</span></li>`).join('')}</ul>`, ev:['관계 유효기간과 신뢰수준 기준. 데이터 품질 탭에서 조치 목록 전체를 볼 수 있습니다.'], act:null};
+  }
+  if(/(영향|바꾸|변경|장애|멈추|중단|점검)/.test(q)&&target) return impactAnswer(target.id);
+  if(f.products&&f.products.length){
+    const out=f.products.map(p=>{const ys=productSystems(p), X=[...productNodes(p,true)], r=productRisk(p);
+      return `<li><b>${BY[p.ent].name} ${p.name}</b> (잔액 ${num(p.bal)}, 월 거래 ${num(p.tx)}건)<br>처리 단위업무: ${p.svcs.map(s=>BY[s].name).join(', ')}<br>시스템: ${ys.map(y=>BY[y].code+' '+BY[y].name).join(', ')}<br>서버 ${X.length}대 · 최고 위험 ${r}${productExposed(p)?' (위험 자산 노출)':''}</li>`;}).join('');
+    return {html:`<ul>${out}</ul>`, ev:['상품 → 단위업무(업무 정의) → 앱(구현) → 프로그램(진입·호출) → 서버(배포) 관계 기준'], act:{label:'서비스 뷰에서 보기',svc:f.products[0].svcs[0],ent:f.products[0].ent}};
+  }
+  if(f.ent){
+    const l=PRODUCTS.filter(p=>p.ent===f.ent.id);
+    return {html:`<p><b>${f.ent.name}</b>: 상품 ${l.length}개, 총 잔액 USD ${num(sumBal(l))}백만, 연 수익 ${sumRev(l)}백만, IT 위험지수 ${countryRiskIndex(f.ent.id)}.</p><ul>${l.map(p=>`<li>${p.name}: 잔액 ${num(p.bal)} · 월 거래 ${num(p.tx)}건 · IT 위험 ${productRisk(p)}</li>`).join('')}</ul>`, ev:['상품 실적은 가상 데이터(USD 백만)'], act:{label:`${f.ent.name} 영향도 보기`,id:f.ent.id}};
+  }
+  if(target) return impactAnswer(target.id);
+  return {html:`<p>아직 이해하지 못한 질문입니다. 시연 버전은 다음 유형을 답합니다.</p><ul><li>서버·프로그램·시스템의 장애·변경 영향 (예: kgbsdb01p 장애 영향)</li><li>지원 종료 자산에 노출된 잔액</li><li>국가·상품을 처리하는 시스템</li><li>시스템별 프로그램 수</li><li>점검 공지 초안, 검증이 필요한 관계</li></ul>`, ev:[], act:null};
+}
+function initAI(){
+  const panel=document.getElementById('ai'), log=document.getElementById('ai-log'), form=document.getElementById('ai-form'), input=document.getElementById('ai-q');
+  document.getElementById('ai-open').onclick=()=>{panel.hidden=false; input.focus();};
+  document.getElementById('ai-close').onclick=()=>{panel.hidden=true;};
+  document.getElementById('ai-sug').innerHTML=AI_SUGGEST.map(s=>`<button class="chip" type="button">${s}</button>`).join('');
+  document.querySelectorAll('#ai-sug .chip').forEach(b=>b.onclick=()=>ask(b.textContent));
+  form.addEventListener('submit',e=>{e.preventDefault(); if(input.value.trim()) ask(input.value.trim()); input.value='';});
+  function ask(q){
+    const a=aiAnswer(q);
+    const div=document.createElement('div'); div.className='ai-turn';
+    div.innerHTML=`<div class="ai-q">${q.replace(/</g,'&lt;')}</div><div class="ai-a">${a.html}${a.ev.length?`<div class="ai-ev"><b>근거</b>${a.ev.map(x=>`<div>${x}</div>`).join('')}</div>`:''}${a.act?`<button class="btn" data-act="1">${a.act.label} →</button>`:''}</div>`;
+    log.appendChild(div); log.scrollTop=log.scrollHeight;
+    const b=div.querySelector('[data-act]'); if(b) b.onclick=()=>{ if(a.act.svc){ st.svcSel=a.act.svc; setScope(a.act.ent,'all'); go('service'); } else openImpact(a.act.id); };
+    const c=div.querySelector('[data-copy]'); if(c) c.onclick=async()=>{ try{ await navigator.clipboard.writeText(a.copy); c.textContent='복사했습니다'; }catch(e){ c.textContent='위 내용을 직접 복사하세요'; } };
+  }
+}
+
 /* ================= Boot ================= */
 function renderAll(){ renderScopeBar(); renderCrumb(); renderBusiness(); renderService(); renderSystem(); if(curView==='impact') renderImpact(); }
-initImpactControls(); renderQuality(); renderAll(); route();
+initImpactControls(); initAI(); renderQuality(); renderAll(); route();
 
 </script>
 </body>
