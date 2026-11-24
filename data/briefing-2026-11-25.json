@@ -1,0 +1,605 @@
+{
+  "date": "2026-11-25",
+  "display_date": "2026.11.25",
+  "edition": "오전 브리핑",
+  "brand": "Tech & Global News Daily",
+  "articles": [
+    {
+      "id": 1,
+      "cat": "IT 장애·사고",
+      "title": "삼성증권 전자주총 잠정 중단…시스템 유출 아닌 예방 조치로 공지",
+      "published": "11.24 후속 · 중단 11.23",
+      "status": "예방적 중단",
+      "summary": "삼성증권은 23일부터 전자주총 서비스를 잠정 중단했다고 안내했습니다. 전자주총 시스템 자체에는 정보 유출 이슈가 없다고 명시했으며, 재개 시점은 별도 공지 예정입니다.",
+      "board_fact": "삼성증권은 23일부터 전자주총 서비스를 잠정 중단했다고 안내했습니다. 전자주총 시스템 자체에는 정보 유출 이슈가 없다고 명시했으며, 재개 시점은 별도 공지 예정입니다.",
+      "fact": "삼성증권 온라인주총장 공식 안내는 11월 23일부터 작업 완료 시까지 고객사·주주 정보 보호를 위한 사전 조치로 서비스를 중단했다고 밝혔다. 전자주총 시스템의 유출 사고로 발표한 것은 아니다. 24일 보도는 HMM의 전자투표 조기 종료와 엔비티의 전자위임장 차질을 전했다. 25일 오전 확인한 공식 페이지에는 재개 시각이 제시되지 않았고 위임장 제출 등 대체 절차 문의를 안내한다. 발행사별 마감·유효성은 해당 공시를 확인해야 한다.",
+      "impact": "분석: 기한이 있는 의결권 서비스는 예방적 중단만으로도 고객 업무에 영향을 줄 수 있다. 중단 사유와 시스템 침해 여부를 구분해 안내해야 한다.",
+      "lesson": "업무 마감이 있는 위탁 서비스는 기술 복구 외에 고객의 대체 처리·접수 확인까지 연속성 계획에 포함해야 한다.",
+      "action": "위탁 서비스별 마감과 대체 절차를 대조하고 고객 통지·접수 확인·기존 처리분의 유효성 및 서비스 재개 공지를 확인한다.",
+      "deep": true,
+      "meta": "2026.11.24 · 후속/심층",
+      "sources": [
+        {
+          "name": "삼성증권 · 전자주총 공식 운영 안내",
+          "url": "https://vote.samsungpop.com/info.html"
+        },
+        {
+          "name": "뉴데일리 · 24일 발행사 영향 취재",
+          "url": "https://biz.newdaily.co.kr/site/data/html/2026/11/24/2026112450264.amp.html"
+        }
+      ],
+      "source_short": "삼성증권 · 전자주총 공식 운영 안내"
+    },
+    {
+      "id": 2,
+      "cat": "보안",
+      "title": "결제업체 관리자·조회 접점 유출…웰컴페이먼츠 규모 정정, 회사별 범위 구분",
+      "published": "11.24",
+      "status": "조사·대응",
+      "summary": "웰컴페이먼츠는 유출 규모를 1,326건으로 정정했습니다. KIS정보통신은 고객·임직원 정보, NHN KCP는 일부 마스킹된 매출전표 조회가 보도돼 대상과 단위가 다릅니다.",
+      "board_fact": "웰컴페이먼츠는 유출 규모를 1,326건으로 정정했습니다. KIS정보통신은 고객·임직원 정보, NHN KCP는 일부 마스킹된 매출전표 조회가 보도돼 대상과 단위가 다릅니다.",
+      "fact": "웰컴페이먼츠는 24일 08:35 공식 2차 안내에서 1,388건을 1,326건으로 수정했다. 비정상 접근은 4~6일, 유출 인지는 17일 19:52이다. 성명·연락처·결제내역·빌링키 등이 포함됐으며 카드번호·비밀번호·유효기간·CVC는 제외됐다고 밝혔다. ZDNet Korea 보도에 따르면 KIS정보통신은 18일 VAN 업무지원 웹서비스 접근과 관련해 고객 208건·임직원 654건을 통지했으나 개인별 조회 대상을 특정하기 어렵다고 설명했다. NHN KCP는 17일 일부 마스킹된 주문자명·현금영수증 식별번호가 담긴 매출전표 160건의 비정상 조회를 확인했다. 이 수치를 하나의 피해 인원으로 합산하지 않는다.",
+      "impact": "분석: 가맹점·대리점·조회 업무 접점의 인증과 권한이 결제정보 노출 범위를 좌우한다. 세 회사의 공격 주체·원인이 같다고 확인된 것은 아니다.",
+      "lesson": "결제 승인 경로와 함께 운영 지원·정산·문의 시스템의 정보 보관과 조회 권한을 관리해야 한다.",
+      "action": "관리 계정 MFA·권한 회수·노후 조회 기능을 점검한다. 거래내역 사칭에 대비하고 빌링키의 사용 조건·차단·재발급 필요성을 사업자와 확인한다.",
+      "deep": true,
+      "meta": "2026.11.24",
+      "sources": [
+        {
+          "name": "웰컴페이먼츠 · 24일 수정 공식 통지",
+          "url": "https://welcomepayments.co.kr/"
+        },
+        {
+          "name": "ZDNet Korea · 회사별 유출 범위 취재",
+          "url": "https://zdnet.co.kr/view/?no=20261124110519"
+        },
+        {
+          "name": "뉴스웨이 · KIS·NHN KCP 대응 교차 취재",
+          "url": "https://www.newsway.co.kr/news/view?ud=2026112414133784575"
+        }
+      ],
+      "source_short": "웰컴페이먼츠 · 24일 수정 공식 통지"
+    },
+    {
+      "id": 3,
+      "cat": "보안",
+      "title": "vCenter 인증 우회 CVE-2026-123903 패치…관리망 접근과 버전부터 확인",
+      "published": "11.24",
+      "status": "패치 공개",
+      "summary": "Broadcom은 vmdir 인증 우회 결함을 CVSS v3 9.8로 공지했습니다. vCenter 네트워크 접근이 공격 조건이며 제품별 수정 버전이 다릅니다.",
+      "board_fact": "Broadcom은 vmdir 인증 우회 결함을 CVSS v3 9.8로 공지했습니다. vCenter 네트워크 접근이 공격 조건이며 제품별 수정 버전이 다릅니다.",
+      "fact": "24일 VMSA-2026-0011은 VMware Directory Service의 CVE-2026-123903을 Critical로 분류했다. vCenter에 네트워크로 접근 가능한 공격자가 인증을 우회할 수 있다. 대응 표의 수정 버전은 vCenter 8.0 U3m, VCF·vSphere Foundation 9.1 계열 9.1.2 및 9.0 계열 9.0.2.0300 등이다. vCenter 7.0은 연장 지원 계약에 따른 공급사 문의가 필요하다. 공지는 우회 방안 없음으로 표시하며 새 결함의 실제 악용을 확인했다고 적지는 않았다. 앞서 알려진 별도 결함과 구분해야 한다.",
+      "impact": "분석: 가상화 관리 계층의 접근권 침해는 여러 업무 환경에 영향을 줄 수 있어 노출 범위와 자산 버전 확인이 우선이다.",
+      "lesson": "금융IT는 게스트 서버 패치뿐 아니라 관리 서버·공급사 지원 상태·업데이트 순서까지 자산 관리에 포함해야 한다.",
+      "action": "해당 제품·빌드와 관리망 접근을 확인하고 공급사 대응 표에 맞춰 백업·호환성·복구 절차를 준비해 패치한다. 공식 우회 방안과 임시 접근 제한을 혼동하지 않는다.",
+      "deep": true,
+      "meta": "2026.11.24",
+      "sources": [
+        {
+          "name": "Broadcom · VMSA-2026-0011 원문",
+          "url": "https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/39626"
+        },
+        {
+          "name": "The Hacker News · 신규 결함과 기존 악용 구분",
+          "url": "https://thehackernews.com/2026/11/vmware-vcenter-hit-by-another-critical.html"
+        }
+      ],
+      "source_short": "Broadcom · VMSA-2026-0011 원문"
+    },
+    {
+      "id": 4,
+      "cat": "IT 기술",
+      "title": "Claude Ship, 코드 리뷰·수정·승인 연결…승인 에이전트는 베타",
+      "published": "11.23",
+      "status": "GA·베타 병행",
+      "summary": "Code Review는 정식 제공, PR Steward와 Claude Approvals는 베타입니다. 승인 정책과 GitHub 브랜치 규칙이 실제 병합을 결정합니다.",
+      "board_fact": "Code Review는 정식 제공, PR Steward와 Claude Approvals는 베타입니다. 승인 정책과 GitHub 브랜치 규칙이 실제 병합을 결정합니다.",
+      "fact": "Anthropic은 23일 Claude Ship을 발표했다. PR Steward는 CI 실패·충돌·리뷰 지적을 수정하지만 PR 승인·병합을 하도록 설계된 도구는 아니다. Claude Approvals는 저장소 정책을 적용하며 필수 검사 설정 여부가 병합 차단에 영향을 준다. 공급사는 관찰 모드부터 시작할 것을 권고한다. 사람 승인 없는 정책과 자동 병합을 결합하면 무인 병합이 가능하므로 설정을 함께 확인해야 한다. Team·Enterprise 대상이며 AI가 결함을 놓칠 수 있음을 명시한다.",
+      "impact": "분석: 코드 생성 이후의 수정·승인 단계도 자동화 대상으로 이동한다. 처리량과 함께 승인 오류·결함 유출을 측정해야 한다.",
+      "lesson": "금융IT는 코드를 만드는 권한, 수정하는 권한, 정책을 바꾸는 권한과 최종 병합 권한을 구분해야 한다.",
+      "action": "한 저장소의 관찰 모드로 시작해 사람 승인 결과와 대조한다. 중요 경로의 승인자·필수 테스트·정책 파일 변경 보호·중단 및 롤백을 정한다.",
+      "deep": true,
+      "meta": "2026.11.23",
+      "sources": [
+        {
+          "name": "Anthropic · 23일 공식 발표",
+          "url": "https://claude.com/resources/articles/introducing-claude-ship"
+        },
+        {
+          "name": "Claude Code · 권한·병합 공식 문서",
+          "url": "https://code.claude.com/docs/en/claude-ship"
+        }
+      ],
+      "source_short": "Anthropic · 23일 공식 발표"
+    },
+    {
+      "id": 5,
+      "cat": "보안",
+      "title": "KISA AI 자동화 보안수칙…실행 계정·승인 기준·감사 기록 분리",
+      "published": "11.23",
+      "status": "권고",
+      "summary": "KISA는 최소 권한·사람 승인·외부 입력 경계·기록과 중지를 기본 원칙으로 제시했습니다. 에이전트가 승인 기준과 실행 기록을 바꾸지 못하게 하는 것이 핵심입니다.",
+      "board_fact": "KISA는 최소 권한·사람 승인·외부 입력 경계·기록과 중지를 기본 원칙으로 제시했습니다. 에이전트가 승인 기준과 실행 기록을 바꾸지 못하게 하는 것이 핵심입니다.",
+      "fact": "23일 등록된 공식 수칙은 AI 전용 실행 계정과 최소 권한, 관리 API 노출 제한, MCP 인증, 단기 토큰, 도구 버전 고정 등을 권고한다. 실행 기록은 AI 계정이 수정·삭제할 수 없는 곳에 보관하고 이상 시 실행·연동을 중지하도록 한다. 결제·송금·권한 변경은 건별 사전 승인으로 제시한 예시이며 조직 환경에 맞춰 조정할 수 있다고 밝혔다. 이는 법령 시행 발표가 아닌 활용 기업 대상 보안 권고다.",
+      "impact": "분석: AI가 실제 업무 도구를 호출할 때 조직의 승인과 중단 수단을 실행 경로에 넣어야 한다.",
+      "lesson": "금융IT 자동화는 모델의 판단 정확성과 함께 계정·도구·외부 연결·승인 정책을 운영 자산으로 관리해야 한다.",
+      "action": "실행 계정·MCP·API·도구 목록을 실제 환경과 대조하고 정책 변경 권한과 감사 저장소를 분리한다. 위험 작업 승인 및 즉시 중지 기능을 시험한다.",
+      "deep": true,
+      "meta": "2026.11.23",
+      "sources": [
+        {
+          "name": "KISA 보호나라 · AI 에이전트·업무 자동화 도구 보안수칙",
+          "url": "https://www.boho.or.kr/kr/bbs/view.do?bbsId=B0000127&menuNo=205021&nttId=72323"
+        }
+      ],
+      "source_short": "KISA 보호나라 · AI 에이전트·업무 자동화 도구 보안수칙"
+    },
+    {
+      "id": 6,
+      "cat": "IT 기술",
+      "title": "OceanLake·OceanSeek 공개…거래·분석·데이터 레이크를 AI 기반으로 연결",
+      "published": "11.24",
+      "status": "제품·오픈소스 공개",
+      "summary": "OceanBase는 거래·분석·개방형 저장을 결합한 OceanLake와 AI 데이터베이스 OceanSeek 공개를 발표했습니다. 금융 적용은 권한·정합성·워크로드 격리 조건을 확인할 사안입니다.",
+      "board_fact": "OceanBase는 거래·분석·개방형 저장을 결합한 OceanLake와 AI 데이터베이스 OceanSeek 공개를 발표했습니다. 금융 적용은 권한·정합성·워크로드 격리 조건을 확인할 사안입니다.",
+      "fact": "24일 OceanBase 공식 배포문은 OceanLake가 정형·반정형·비정형 데이터를 통합 관리·처리·검색하고 AI 애플리케이션과 에이전트를 지원한다고 설명했다. 공개한 OceanSeek는 혼합 검색과 데이터 샌드박스 등을 포함한다. 공급사는 금융 데이터 질의 사례도 제시했지만 개별 사례의 시간을 모든 금융 업무의 성능으로 일반화할 수는 없다. 상세한 라이선스·지원 범위와 업무별 성능은 도입 전에 확인해야 한다.",
+      "impact": "분석: 거래 데이터와 AI 검색·분석을 연결할 때 데이터 복제·최신성·접근 정책의 설계 범위가 커진다.",
+      "lesson": "금융IT는 자연어 질의 편의와 함께 원장 정합성, 읽기 부하 격리, 고객별 접근 통제를 평가해야 한다.",
+      "action": "샘플 업무로 데이터 최신성·권한 상속·질의 근거·부하 간섭을 시험하고 기존 DB 연계·백업 복구·오픈소스 운영 지원 조건을 대조한다.",
+      "deep": true,
+      "meta": "2026.11.24",
+      "sources": [
+        {
+          "name": "OceanBase · 공식 배포문(AAP 수록)",
+          "url": "https://www.aap.com.au/aapreleases/cision20261124ae05332/"
+        },
+        {
+          "name": "Fintech News Singapore · 플랫폼 기능 보도",
+          "url": "https://fintechnews.sg/142247/ai/oceanbase-overseas-revenue-ai-platform/"
+        }
+      ],
+      "source_short": "OceanBase · 공식 배포문(AAP 수록)"
+    },
+    {
+      "id": 7,
+      "cat": "금융IT",
+      "title": "PathFin.ai 실증, 기관 간 AI 신원·위임 권한·지급 지시 통제 시험",
+      "published": "11.24",
+      "status": "PoC",
+      "summary": "GLDB·AXS·Terminal 3·HSBC Singapore가 두 통제 시나리오에서 AI의 신원·권한·감사 기록을 시험했습니다. 고객 대상 자율결제 서비스 출시와는 구분되는 실증입니다.",
+      "board_fact": "GLDB·AXS·Terminal 3·HSBC Singapore가 두 통제 시나리오에서 AI의 신원·권한·감사 기록을 시험했습니다. 고객 대상 자율결제 서비스 출시와는 구분되는 실증입니다.",
+      "fact": "24일 Terminal 3 배포문과 전문 보도에 따르면 MAS PathFin.ai 아래에서 SAFR의 신원·통제·런타임 판단·감사 기준을 참고했다. 청구 계좌 확인·청구정보 조회·지급 지시와 기업 자금담당자의 대리 에이전트 요청을 시험했다. 요청이 금융기관에 도달하기 전에 대표 주체와 허용 작업을 확인하고 고객 위임 조건·확인을 적용했다. 두 시나리오는 통제된 PoC이며 고객 상품이나 자율결제 서비스의 상용 출시를 뜻하지 않는다.",
+      "impact": "분석: 기관마다 에이전트의 대리 권한을 같은 방식으로 확인할 수 있어야 거래 경계를 넘는 자동화가 가능해진다.",
+      "lesson": "에이전트 신원과 고객 위임, 지급 지시의 검증을 별도 계층으로 설계해야 한다.",
+      "action": "위임 만료·금액·수취인 제한과 고객 확인, 재시도·중복·거절·취소, 위변조 탐지 가능한 감사 기록을 기관 간 시험 항목으로 정의한다.",
+      "deep": true,
+      "meta": "2026.11.24",
+      "sources": [
+        {
+          "name": "Terminal 3 · 공식 배포문(Yahoo 수록)",
+          "url": "https://finance.yahoo.com/technology/ai/articles/terminal-3-partners-banks-test-000000440.html"
+        },
+        {
+          "name": "Fintech News Singapore · 통제 시나리오 취재",
+          "url": "https://fintechnews.sg/142186/ai/pathfin-ai-agentic-payments-safeguards-mas/"
+        }
+      ],
+      "source_short": "Terminal 3 · 공식 배포문(Yahoo 수록)"
+    },
+    {
+      "id": 8,
+      "cat": "디지털",
+      "title": "Cashfree Wallet 초청 베타…사용자가 예산·횟수·기간 정해 AI에 납부 위임",
+      "published": "11.24",
+      "status": "초청 베타",
+      "summary": "공식 화면은 청구서 납부를 현재 기능, 여행·음식·쇼핑을 예정 기능으로 나눕니다. AI가 카드·은행정보를 직접 보지 않고 지갑 잔액에서 승인 범위 안에 지급하도록 설계됐습니다.",
+      "board_fact": "공식 화면은 청구서 납부를 현재 기능, 여행·음식·쇼핑을 예정 기능으로 나눕니다. AI가 카드·은행정보를 직접 보지 않고 지갑 잔액에서 승인 범위 안에 지급하도록 설계됐습니다.",
+      "fact": "24일 공개 보도와 Cashfree 제품 페이지를 확인했다. 제품은 invite-only beta로 안내되며 사용자는 작업별 금액·결제 횟수·동의 유효기간을 정하고 접근을 철회할 수 있다. 결제별 알림을 제공하고 카드·UPI·은행정보 대신 지갑 잔액을 사용한다고 설명한다. 개발자용 MCP 연결도 안내한다. 모든 이용자가 즉시 쓸 수 있는 일반 공개 서비스나 쇼핑·여행 결제의 현재 제공으로 해석하지 않는다.",
+      "impact": "분석: 고객 경험의 중심이 결제 링크를 누르는 행위에서 작업별 사전 위임과 사후 확인으로 이동할 수 있다.",
+      "lesson": "금융 서비스는 동의 화면의 예산·수취 대상·기간과 철회 효력을 실제 지급 통제에 연결해야 한다.",
+      "action": "초청·지원 작업 조건을 확인하고 한도 초과·동의 만료·철회 직후·중복 호출·알림 누락을 시험한다. 고객에게 현재와 예정 기능을 구분해 안내한다.",
+      "deep": true,
+      "meta": "2026.11.24",
+      "sources": [
+        {
+          "name": "Cashfree · 제품·동의 조건 공식 안내",
+          "url": "https://www.cashfree.com/cashfree-wallet/"
+        },
+        {
+          "name": "Business Standard · 24일 제공 범위 취재",
+          "url": "https://www.business-standard.com/finance/news/cashfree-wallet-ai-agents-payments-bill-payments-agentic-commerce-126112400451_1.html"
+        }
+      ],
+      "source_short": "Cashfree · 제품·동의 조건 공식 안내"
+    },
+    {
+      "id": 9,
+      "cat": "디지털",
+      "title": "이집트 은행 앱에 Visa 토큰 비접촉 결제…은행별 개통·승인 조건 적용",
+      "published": "11.23",
+      "status": "확대 발표",
+      "summary": "NBE·Banque Misr·QNB의 은행 앱에서 지원되는 Android 단말과 적격 Visa 카드의 비접촉 결제 확대를 발표했습니다. 은행별 출시 일정과 승인이 적용됩니다.",
+      "board_fact": "NBE·Banque Misr·QNB의 은행 앱에서 지원되는 Android 단말과 적격 Visa 카드의 비접촉 결제 확대를 발표했습니다. 은행별 출시 일정과 승인이 적용됩니다.",
+      "fact": "23일 Visa 배포문과 24일 현지 기술 보도에 따르면 세 은행의 시범·시험을 거쳐 토큰화 결제를 확대한다. Visa Token Service가 실제 카드번호 대신 디지털 토큰을 사용한다. 이용자는 지원 은행 앱에서 적격 카드를 추가해 Visa 비접촉 결제를 이용할 수 있도록 하는 구조다. 원문은 은행별 출시·승인 조건을 명시하므로 세 은행의 전 고객·모든 단말에서 이미 개통됐다고 볼 수는 없다. 별도 Meeza 국내 카드 서비스와 구분한다.",
+      "impact": "분석: 은행 앱이 결제 접점을 유지하면서 토큰 기반 모바일 결제로 기능을 넓히는 사례다.",
+      "lesson": "글로벌 디지털 채널은 단말·카드 자격·본인 확인·기기 변경과 토큰 수명주기를 함께 설계해야 한다.",
+      "action": "은행별 개통 공지와 지원 카드·단말을 확인한다. 기기 분실·교체·카드 재발급 때 토큰 정지·삭제와 고객 안내를 점검한다.",
+      "deep": true,
+      "meta": "2026.11.23",
+      "sources": [
+        {
+          "name": "Visa · 공식 배포문(ZAWYA 수록)",
+          "url": "https://www.zawya.com/en/press-release/companies-news/visa-expands-tokenized-contactless-payments-in-egypt-through-banks-own-mobile-apps-2470058"
+        },
+        {
+          "name": "TechAfrica News · 24일 범위 보도",
+          "url": "https://techafricanews.com/2026/11/24/visa-expands-tokenized-contactless-payments-bank-apps-egypt/"
+        }
+      ],
+      "source_short": "Visa · 공식 배포문(ZAWYA 수록)"
+    },
+    {
+      "id": 10,
+      "cat": "IT 장애·사고",
+      "title": "Cloudflare Magic Transit 일부 설정 미적용…DF·MTU 조건의 패킷 손실 가능",
+      "published": "11.24",
+      "status": "원인 식별·수정 중",
+      "summary": "DF 플래그를 해제하는 관리 설정이 일부 고객에게 적용되지 않아 터널 MTU보다 큰 패킷이 버려질 수 있다고 공지했습니다. 대상 고객·패킷 조건이 있는 문제입니다.",
+      "board_fact": "DF 플래그를 해제하는 관리 설정이 일부 고객에게 적용되지 않아 터널 MTU보다 큰 패킷이 버려질 수 있다고 공지했습니다. 대상 고객·패킷 조건이 있는 문제입니다.",
+      "fact": "Cloudflare는 24일 11:29 UTC(한국 20:29) Magic Transit 문제를 게시했다. DF 플래그 해제 설정을 켠 일부 고객에서 설정이 작동하지 않아 DF가 설정되고 터널 MTU를 초과한 패킷이 손실될 수 있다고 설명한다. 12:58 UTC에 원인 식별·수정 중으로 갱신했다. 25일 오전 확인 시 해결 공지는 없었다. 공급사는 송신 트래픽의 MSS clamp를 권고했으나 환경별 적합성 검토가 필요하다.",
+      "impact": "분석: 단순 가용성 점검이 통과해도 패킷 크기·경로 조건에 따라 특정 업무 트래픽이 실패할 수 있다.",
+      "lesson": "금융 통신은 연결 여부 외에 실제 메시지 크기·터널 경로·재전송을 포함해 관측해야 한다.",
+      "action": "해당 서비스·설정 적용 여부와 MTU·MSS를 확인하고 영향 트래픽을 대조한다. 임시 변경은 네트워크 담당 검토·시험·복구 절차를 거쳐 적용한다.",
+      "deep": true,
+      "meta": "2026.11.24",
+      "sources": [
+        {
+          "name": "Cloudflare · Magic Transit 공식 장애 기록",
+          "url": "https://www.cloudflarestatus.com/incidents/no721jcnlrbh"
+        }
+      ],
+      "source_short": "Cloudflare · Magic Transit 공식 장애 기록"
+    },
+    {
+      "id": 11,
+      "cat": "금융IT",
+      "title": "OpenWay·Visa, APAC Way4 결제 기능 연계…Flexible Credential·Click to Pay 초점",
+      "published": "11.24",
+      "status": "협력 보도",
+      "summary": "24일 전문 보도는 OpenWay의 Visa Digitalisation Ready Program 참여와 두 기능의 연계에 초점을 맞췄습니다. 금융기관별 개통은 별도 확인 대상입니다.",
+      "board_fact": "24일 전문 보도는 OpenWay의 Visa Digitalisation Ready Program 참여와 두 기능의 연계에 초점을 맞췄습니다. 금융기관별 개통은 별도 확인 대상입니다.",
+      "fact": "Fintech News Singapore는 Way4 기반 Visa Flexible Credential과 Click to Pay 적용 협력을 보도했다. 전자는 발급사 옵션에 따라 하나의 자격증명으로 여러 자금원을 연결하며, 후자는 등록 카드를 참여 온라인 가맹점에서 이용하는 기능이다. 보도는 Click to Pay의 Way4 지원을 설명하지만 모든 은행의 도입·상용 개통을 알리는 것은 아니다.",
+      "impact": "분석: 처리 플랫폼의 기능 지원과 발급사·가맹점 적용 일정을 구분해야 한다.",
+      "lesson": "자금원 선택·인증·청산·분쟁 처리의 일관성이 결제 연계의 운영 조건이다.",
+      "action": "대상 플랫폼 버전·인증·발급사 정책과 취소·반환·대사 흐름을 확인한다.",
+      "deep": false,
+      "meta": "2026.11.24",
+      "sources": [
+        {
+          "name": "Fintech News Singapore · 양사 관계자 발언·범위 취재",
+          "url": "https://fintechnews.sg/142264/payments/openway-visa-digital-payments-apac/"
+        }
+      ],
+      "source_short": "Fintech News Singapore · 양사 관계자 발언·범위 취재"
+    },
+    {
+      "id": 12,
+      "cat": "IT 장애·사고",
+      "title": "Cloudflare Workers 관리 정보 지연 해결…25일 06:35 KST 복구 공지",
+      "published": "11.25 복구 · 11.23 발생 후속",
+      "status": "해결",
+      "summary": "어제 조사 중이던 Workers API·대시보드 정보 지연은 해결로 바뀌었습니다. 기존에 가동 중인 Workers는 영향 대상이 아니라고 안내한 사건입니다.",
+      "board_fact": "어제 조사 중이던 Workers API·대시보드 정보 지연은 해결로 바뀌었습니다. 기존에 가동 중인 Workers는 영향 대상이 아니라고 안내한 사건입니다.",
+      "fact": "공식 기록은 24일 19:25 UTC 수정 배포·관찰, 21:35 UTC(한국 25일 06:35) 해결로 갱신됐다. 문제는 23일 13:52 UTC부터 공지된 배포·설정 정보의 지연·불일치다. 가동 중인 프로덕션 Workers에는 영향이 없다고 명시했다. 해결 공지는 상세 원인 분석을 제공하지 않았다.",
+      "impact": "분석: 관리 상태와 실제 실행 버전의 정합성을 복구 후에도 대조할 필요가 있다.",
+      "lesson": "관리 경로 복구와 실행 서비스 복구의 지표를 분리한다.",
+      "action": "지연 중 수행한 배포·설정 변경의 ID·버전과 실제 응답을 대조하고 중복 작업을 확인한다.",
+      "deep": false,
+      "meta": "2026.11.25 · 후속/심층",
+      "sources": [
+        {
+          "name": "Cloudflare · Workers API 후속 기록",
+          "url": "https://www.cloudflarestatus.com/incidents/00dp7cliyqqt"
+        }
+      ],
+      "source_short": "Cloudflare · Workers API 후속 기록"
+    },
+    {
+      "id": 13,
+      "cat": "IT 장애·사고",
+      "title": "남미발 Cloudflare R2 요청 오류·읽기 시간 초과 조사",
+      "published": "11.25",
+      "status": "조사 중",
+      "summary": "공식 공지는 남미에서 시작된 R2 요청의 오류·읽기 타임아웃 증가를 대상으로 합니다. 전 지역 스토리지 장애로 확대 해석하지 않습니다.",
+      "board_fact": "공식 공지는 남미에서 시작된 R2 요청의 오류·읽기 타임아웃 증가를 대상으로 합니다. 전 지역 스토리지 장애로 확대 해석하지 않습니다.",
+      "fact": "24일 21:54 UTC(한국 25일 06:54)에 R2 요청 오류·읽기 시간 초과 조사가 게시됐다. 25일 오전 확인 시 원인·정확한 영향 규모·복구 시각은 공지되지 않았다. 영향 표현은 남미에서 시작된 요청이며 모든 R2 고객이나 데이터 손실을 확인한 공지가 아니다.",
+      "impact": "분석: 같은 저장소라도 요청 출발 지역에 따라 접근 품질이 달라질 수 있다.",
+      "lesson": "운영 관측에 지역·요청 유형·타임아웃을 포함한다.",
+      "action": "남미 경로의 실제 읽기·오류율을 확인하고 재시도 상한·중복 처리·고객 안내를 점검한다.",
+      "deep": false,
+      "meta": "2026.11.25",
+      "sources": [
+        {
+          "name": "Cloudflare · R2 공식 장애 기록",
+          "url": "https://www.cloudflarestatus.com/incidents/k8utv1c3ubf2"
+        }
+      ],
+      "source_short": "Cloudflare · R2 공식 장애 기록"
+    },
+    {
+      "id": 14,
+      "cat": "IT 장애·사고",
+      "title": "Claude Haiku 5.5 오류 해결…실제 영향 25일 02:09~02:27 KST",
+      "published": "11.25",
+      "status": "해결",
+      "summary": "Anthropic은 Haiku 5.5 요청 오류의 실제 영향을 17:09~17:27 UTC로 명시했습니다. 해결 공지는 그보다 뒤인 17:50 UTC에 게시됐습니다.",
+      "board_fact": "Anthropic은 Haiku 5.5 요청 오류의 실제 영향을 17:09~17:27 UTC로 명시했습니다. 해결 공지는 그보다 뒤인 17:50 UTC에 게시됐습니다.",
+      "fact": "24일 17:19 UTC 조사 공지 후 17:27 수정·관찰, 17:50 해결로 갱신됐다. 공식 영향 시간은 17:09~17:27 UTC(한국 25일 02:09~02:27)다. 상태 페이지는 claude.ai·Claude API·Code·Cowork를 관련 구성요소로 표시했다. 이 기록에서 모든 모델의 동시 장애나 상세 원인이 확인된 것은 아니다.",
+      "impact": "분석: 실제 실패 시간과 상태 공지 시각이 다르므로 작업 로그와 대조해야 한다.",
+      "lesson": "대체 모델 전환은 품질·권한·비용 조건을 포함해 미리 시험한다.",
+      "action": "해당 시간의 실패·재시도·미완료 작업을 확인하고 복구 후 중복 실행과 결과 누락을 대조한다.",
+      "deep": false,
+      "meta": "2026.11.25",
+      "sources": [
+        {
+          "name": "Anthropic · Haiku 5.5 공식 사고 기록",
+          "url": "https://status.claude.com/incidents/fbvlx4wx4zx5"
+        }
+      ],
+      "source_short": "Anthropic · Haiku 5.5 공식 사고 기록"
+    }
+  ],
+  "highlights": [],
+  "deep_order": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "followups": [
+    {
+      "label": "서비스 재개",
+      "title": "전자주총 대체 절차·처리분 유효성",
+      "body": "발행사별 공식 공시와 재개 일정을 대조하고 접수 결과를 확인합니다.",
+      "article": 1
+    },
+    {
+      "label": "수정 공지",
+      "title": "결제업체별 통지 범위·계정 조치",
+      "body": "피해 단위와 개인별 항목, 계정 회수·추가 조사 결과를 구분해 확인합니다.",
+      "article": 2
+    },
+    {
+      "label": "패치 계획",
+      "title": "vCenter 버전·지원 상태·접근 경로",
+      "body": "자산별 대응 표를 확인하고 패치 및 복구 시험 일정을 정합니다.",
+      "article": 3
+    },
+    {
+      "label": "복구 후속",
+      "title": "Magic Transit·R2 실제 경로 회복",
+      "body": "공식 상태와 조건별 실제 트래픽의 정상화를 대조합니다.",
+      "article": 10
+    }
+  ],
+  "insights": [
+    {
+      "title": "AI 개발의 승인권을 설계한다",
+      "body": "리뷰·수정·승인 자동화를 구분하고 중요 경로의 사람 승인·정책 변경 보호를 유지합니다."
+    },
+    {
+      "title": "AI 데이터 통합은 권한 통합까지",
+      "body": "거래·분석·검색을 연결할 때 데이터 최신성과 접근권 상속·부하 격리를 함께 시험합니다."
+    },
+    {
+      "title": "기관을 넘어가는 위임은 증거가 필요",
+      "body": "에이전트 신원·고객 권한·만료·확인·감사 기록을 기관 경계에서도 검증해야 합니다."
+    },
+    {
+      "title": "새 접점에는 현재 범위를 명시한다",
+      "body": "초청 베타·예정 기능·은행별 개통 조건을 분리하고 동의 철회·토큰 수명주기를 고객 경험에 반영합니다."
+    },
+    {
+      "title": "관리 접점과 실행 계정을 자산으로",
+      "body": "가맹점·대리점 조회 시스템과 가상화 관리망, AI 실행 계정의 권한·버전·로그를 함께 관리합니다."
+    },
+    {
+      "title": "기술 복구와 업무 완료를 함께 본다",
+      "body": "예방적 중단은 대체 업무 접수까지, 네트워크 복구는 지역·패킷·실행 상태별 실제 정상화까지 확인합니다."
+    }
+  ],
+  "watch": [
+    {
+      "article": 1,
+      "name": "삼성증권 전자주총",
+      "state": "예방적 중단",
+      "tone": "open",
+      "fact": "삼성증권은 23일부터 전자주총 서비스를 잠정 중단했다고 안내했습니다. 전자주총 시스템 자체에는 정보 유출 이슈가 없다고 명시했으며, 재개 시점은 별도 공지 예정입니다.",
+      "action": "위탁 서비스별 마감과 대체 절차를 대조하고 고객 통지·접수 확인·기존 처리분의 유효성 및 서비스 재개 공지를 확인한다."
+    },
+    {
+      "article": 2,
+      "name": "결제업체별 정보 유출",
+      "state": "조사·대응",
+      "tone": "open",
+      "fact": "웰컴페이먼츠는 유출 규모를 1,326건으로 정정했습니다. KIS정보통신은 고객·임직원 정보, NHN KCP는 일부 마스킹된 매출전표 조회가 보도돼 대상과 단위가 다릅니다.",
+      "action": "관리 계정 MFA·권한 회수·노후 조회 기능을 점검한다. 거래내역 사칭에 대비하고 빌링키의 사용 조건·차단·재발급 필요성을 사업자와 확인한다."
+    },
+    {
+      "article": 10,
+      "name": "Magic Transit",
+      "state": "수정 중",
+      "tone": "open",
+      "fact": "DF 플래그를 해제하는 관리 설정이 일부 고객에게 적용되지 않아 터널 MTU보다 큰 패킷이 버려질 수 있다고 공지했습니다. 대상 고객·패킷 조건이 있는 문제입니다.",
+      "action": "해당 서비스·설정 적용 여부와 MTU·MSS를 확인하고 영향 트래픽을 대조한다. 임시 변경은 네트워크 담당 검토·시험·복구 절차를 거쳐 적용한다."
+    },
+    {
+      "article": 12,
+      "name": "Workers API",
+      "state": "해결",
+      "tone": "done",
+      "fact": "어제 조사 중이던 Workers API·대시보드 정보 지연은 해결로 바뀌었습니다. 기존에 가동 중인 Workers는 영향 대상이 아니라고 안내한 사건입니다.",
+      "action": "지연 중 수행한 배포·설정 변경의 ID·버전과 실제 응답을 대조하고 중복 작업을 확인한다."
+    },
+    {
+      "article": 13,
+      "name": "R2 남미발 요청",
+      "state": "조사 중",
+      "tone": "open",
+      "fact": "공식 공지는 남미에서 시작된 R2 요청의 오류·읽기 타임아웃 증가를 대상으로 합니다. 전 지역 스토리지 장애로 확대 해석하지 않습니다.",
+      "action": "남미 경로의 실제 읽기·오류율을 확인하고 재시도 상한·중복 처리·고객 안내를 점검한다."
+    },
+    {
+      "article": 14,
+      "name": "Claude Haiku 5.5",
+      "state": "해결",
+      "tone": "done",
+      "fact": "Anthropic은 Haiku 5.5 요청 오류의 실제 영향을 17:09~17:27 UTC로 명시했습니다. 해결 공지는 그보다 뒤인 17:50 UTC에 게시됐습니다.",
+      "action": "해당 시간의 실패·재시도·미완료 작업을 확인하고 복구 후 중복 실행과 결과 누락을 대조한다."
+    }
+  ],
+  "decision_board": [
+    {
+      "id": 1,
+      "title": "IT 기술",
+      "description": "AI 코드 승인·데이터 플랫폼",
+      "action": "코드 승인 정책과 실제 병합 규칙을 대조합니다. AI 데이터 통합은 정합성·권한·부하 격리를 검증한 뒤 확대합니다.",
+      "evidence": [
+        4,
+        6
+      ],
+      "watch": [],
+      "followups": [],
+      "insights": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": 2,
+      "title": "금융IT",
+      "description": "기관 간 에이전트 통제·결제 플랫폼",
+      "action": "PoC와 상용 적용을 구분하고 기관 간 위임·고객 확인·감사·대사 조건을 정의합니다.",
+      "evidence": [
+        7,
+        11
+      ],
+      "watch": [],
+      "followups": [],
+      "insights": [
+        2
+      ]
+    },
+    {
+      "id": 5,
+      "title": "디지털",
+      "description": "납부 위임·은행 앱 토큰 결제",
+      "action": "초청 베타·예정 기능·은행별 출시 조건을 구분합니다. 예산·기간·철회와 기기 변경 시 토큰 처리를 시험합니다.",
+      "evidence": [
+        8,
+        9
+      ],
+      "watch": [],
+      "followups": [],
+      "insights": [
+        3
+      ]
+    },
+    {
+      "id": 3,
+      "title": "보안",
+      "description": "결제 관리 접점·vCenter·AI 계정",
+      "action": "회사별 유출 범위와 단위를 구분합니다. 가맹점 인증·관리망 패치·AI 계정 및 실행 정책의 변경 권한을 확인합니다.",
+      "evidence": [
+        2,
+        3,
+        5
+      ],
+      "watch": [
+        2
+      ],
+      "followups": [
+        1,
+        2
+      ],
+      "insights": [
+        4
+      ]
+    },
+    {
+      "id": 4,
+      "title": "IT 장애·사고",
+      "description": "예방적 중단·조건별 장애·복구 후속",
+      "action": "전자주총은 대체 절차를 확인합니다. Magic Transit·R2는 영향 조건을, Workers·Haiku는 실제 복구와 미완료 작업을 대조합니다.",
+      "evidence": [
+        1,
+        10,
+        12,
+        13,
+        14
+      ],
+      "watch": [
+        1,
+        10,
+        12,
+        13,
+        14
+      ],
+      "followups": [
+        0,
+        3
+      ],
+      "insights": [
+        5
+      ]
+    }
+  ],
+  "brief": {
+    "headline": "권한은 좁게,<br><em>업무는 끊기지 않게.</em>",
+    "summary": "결제업체 유출은 가맹점·대리점·조회 접점의 권한을 점검할 사안입니다. 삼성증권 전자주총은 예방적 중단에 따른 대체 업무가 중요합니다. AI 코드 승인·대리결제는 위임 범위와 중단 수단을 설계하고, 클라우드 복구는 실제 트래픽과 작업 완료로 확인해야 합니다.",
+    "points": [
+      {
+        "title": "관리·조회 접점의 권한",
+        "body": "결제업체별 유출 범위와 관리자 인증 점검",
+        "article": 2
+      },
+      {
+        "title": "예방 중단에도 업무는 계속",
+        "body": "전자주총 대체 접수·발행사별 공시 확인",
+        "article": 1
+      },
+      {
+        "title": "AI 실행의 승인 기준",
+        "body": "코드 병합·지급 위임·감사와 중지 설계",
+        "article": 4
+      }
+    ],
+    "detail": {
+      "title": "접근 통제·위임 증거·업무 연속성의 실제 작동을 확인한다",
+      "summary": "결제업체 유출은 가맹점·대리점·조회 접점의 권한을 점검할 사안입니다. 삼성증권 전자주총은 예방적 중단에 따른 대체 업무가 중요합니다. AI 코드 승인·대리결제는 위임 범위와 중단 수단을 설계하고, 클라우드 복구는 실제 트래픽과 작업 완료로 확인해야 합니다.",
+      "fact": "결제업체의 유출 대상은 회사별로 다르며 웰컴페이먼츠는 규모를 정정했다. 삼성증권은 전자주총의 예방적 중단을 공지했다. Broadcom은 vCenter 인증 우회 패치를 냈다. Claude Ship은 GA·베타가 병행되고 PathFin.ai는 통제된 실증, Cashfree Wallet은 초청 베타다. Workers와 Haiku는 해결, Magic Transit과 R2는 대응 중으로 확인됐다.",
+      "impact": "분석: 고객과 연결된 관리 화면, AI 실행 권한, 기한이 있는 위탁 업무가 각각 다른 통제·복구 기준을 요구한다. 개별 사건 간 공격 원인이 같다고 확인된 것은 아니다.",
+      "lesson": "제품의 제공 단계와 고객의 실제 이용 가능 범위를 구분한다. 권한·승인·감사 정책을 설정만 하지 말고 실패 조건에서도 시험한다.",
+      "action": "관리 계정과 노출 자산을 점검하고 승인 정책 변경을 보호한다. 위탁 업무의 대체 접수와 클라우드 경로별 실제 정상화·미완료 작업 대사를 확인한다.",
+      "related": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        10,
+        12,
+        13,
+        14
+      ]
+    }
+  }
+}
