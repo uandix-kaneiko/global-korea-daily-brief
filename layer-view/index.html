@@ -267,6 +267,15 @@ textarea.rep{width:100%;min-height:140px;font-family:var(--mono);font-size:12px;
 pre.draft{white-space:pre-wrap;font-family:var(--body);font-size:13px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px;margin:0}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (max-width:1100px){ .svc-layout{grid-template-columns:minmax(0,1fr)} .tree{position:static;max-height:none} }
+/* v5 inventory */
+#invtbl td.num{white-space:nowrap}
+.capbar{display:inline-block;width:46px;height:6px;border-radius:3px;background:var(--line,#e5e7eb);vertical-align:middle;overflow:hidden;margin-right:4px}
+.capbar>span{display:block;height:100%}
+.comp{display:inline-block;font-size:11.5px;padding:1px 6px;border-radius:4px;margin:1px 0;border:1px solid transparent;white-space:nowrap}
+.comp.oss{background:#eef4ff;color:#1e4fa8}
+.comp.tp{background:#f3f0ff;color:#5b3fb0}
+.comp.cr{background:#ecfdf3;color:#18794e}
+.comp.eol{border-color:#d92d20;color:#b42318;background:#fef3f2}
 </style>
 </head>
 <body>
@@ -332,6 +341,11 @@ pre.draft{white-space:pre-wrap;font-family:var(--body);font-size:13px;background
     <div class="grid2">
       <div class="card"><div class="sec-h"><h2>시스템별 프로그램 수</h2><p>유형별 · 행을 누르면 영향도</p></div><div class="scroll"><table class="simple" id="kindmatrix" style="min-width:620px"></table></div></div>
       <div class="card"><div class="sec-h"><h2>많이 호출되는 프로그램</h2><p>바뀌면 영향이 큰 순서</p></div><div class="risk-list" id="fanin"></div></div>
+    </div>
+    <div class="card">
+      <div class="sec-h"><h2>자산 인벤토리 · 규제 대응 항목</h2><p id="invsum"></p></div>
+      <p class="foot" style="margin:0 0 10px">책임자, 용량, 인증서, 오픈소스·제3자·암호 구성요소, 외부 의존을 서버마다 기록합니다. 기준: 뉴욕 NYDFS 23 NYCRR 500.13(2025.11 시행), 싱가포르 MAS TRM Notice 개정안(2026.6 제안). 행을 누르면 영향도 분석으로 이동합니다.</p>
+      <div class="scroll"><table class="simple" id="invtbl" style="min-width:1100px"></table></div>
     </div>
     <div class="sys-grid" id="systems"></div>
     <div class="card">
@@ -651,6 +665,53 @@ function nodeWhy(a){
   return r.join(' · ')||'특이사항 없음';
 }
 const lv = s => s>=70?2:s>=40?1:0;
+/* ===== 자산 인벤토리 확장 항목 (NYDFS 500.13 · MAS TRM 개정안 대응) — 가상 데이터 =====
+   own: 책임자(정), sub: 책임자(부), cap: 최근 90일 피크 사용률(%), cert: 서버 인증서 만료(YYYY-MM)
+   comp: [이름, 유형(OSS·제3자·암호), 버전, 상태], ext: 의존 외부 서비스 */
+const INV = {
+  'ND-GBSAP01':{own:'글로벌IT개발부 여신팀',sub:'인프라운영팀',cap:62,cert:'2027-10',comp:[['Spring Framework','OSS','5.3.39','지원종료'],['Apache Tomcat','OSS','9.0.95','정상'],['국가표준 암호모듈','암호','v3.1','정상']],ext:[]},
+  'ND-GBSAP02':{own:'글로벌IT개발부 여신팀',sub:'인프라운영팀',cap:58,cert:'2027-11',comp:[['Spring Framework','OSS','5.3.39','지원종료'],['Apache Tomcat','OSS','9.0.95','정상'],['국가표준 암호모듈','암호','v3.1','정상']],ext:[]},
+  'ND-GBSDB01':{own:'DB운영팀',sub:'글로벌IT개발부 여신팀',cap:81,cert:'2027-02',comp:[['상용 DBMS','제3자','19c','정상'],['DB 암호화 솔루션','암호','v6.2','정상']],ext:[]},
+  'ND-GBSDB02':{own:'DB운영팀',sub:'',cap:44,cert:'2027-02',comp:[['상용 DBMS','제3자','19c','정상'],['DB 암호화 솔루션','암호','v6.2','정상']],ext:[]},
+  'ND-GBSBT01':{own:'글로벌IT개발부 수신팀',sub:'',cap:91,cert:'2026-12',comp:[['배치 스케줄러','제3자','8.4','정상'],['OpenSSL','OSS','1.1.1w','지원종료']],ext:[]},
+  'ND-LOSAP01':{own:'글로벌IT개발부 여신팀',sub:'인프라운영팀',cap:55,cert:'2028-01',comp:[['Spring Framework','OSS','6.1.14','정상'],['심사 룰엔진','제3자','4.2','정상']],ext:[]},
+  'ND-FEPGW01':{own:'대외계운영팀',sub:'글로벌IT개발부 외환팀',cap:67,cert:'2028-03',comp:[['Netty','OSS','4.1.115','정상'],['HSM 연동 라이브러리','암호','2.8','정상']],ext:['SWIFT 네트워크','제재필터링 솔루션(벤더 A)']},
+  'ND-FEPGW02':{own:'대외계운영팀',sub:'글로벌IT개발부 외환팀',cap:64,cert:'2027-12',comp:[['Netty','OSS','4.1.115','정상'],['HSM 연동 라이브러리','암호','2.8','정상']],ext:['SWIFT 네트워크','제재필터링 솔루션(벤더 A)']},
+  'ND-CHWEB01':{own:'글로벌IT개발부 채널팀',sub:'인프라운영팀',cap:48,cert:'2028-02',comp:[['React','OSS','18.3','정상'],['Nginx','OSS','1.26','정상'],['인증서 기반 인증 모듈','암호','5.0','정상']],ext:['모바일 OTP 서비스(벤더 B)']},
+  'ND-CHWEB02':{own:'글로벌IT개발부 채널팀',sub:'인프라운영팀',cap:46,cert:'2027-10',comp:[['React','OSS','18.3','정상'],['Nginx','OSS','1.26','정상'],['인증서 기반 인증 모듈','암호','5.0','정상']],ext:['모바일 OTP 서비스(벤더 B)']},
+  'ND-DWDB01':{own:'정보계운영팀',sub:'',cap:77,cert:'2027-11',comp:[['상용 DBMS','제3자','19c','정상']],ext:[]},
+  'ND-DWETL01':{own:'정보계운영팀',sub:'글로벌IT개발부 기획팀',cap:72,cert:'2028-01',comp:[['ETL 도구','제3자','11.2','정상'],['Log4j','OSS','2.24.1','정상']],ext:[]},
+  'ND-GBSAP90':{own:'',sub:'',cap:12,cert:'2026-01',comp:[['Spring Framework','OSS','4.3.30','지원종료'],['Log4j','OSS','1.2.17','지원종료']],ext:[]},
+  'ND-NYGW01':{own:'뉴욕지점 IT',sub:'글로벌IT개발부 운영팀',cap:39,cert:'2028-03',comp:[['Netty','OSS','4.1.115','정상']],ext:['Fedwire·CHIPS 연계(현지)']},
+  'ND-LDGW01':{own:'런던지점 IT',sub:'글로벌IT개발부 운영팀',cap:41,cert:'2027-12',comp:[['Netty','OSS','4.1.115','정상']],ext:['CHAPS 연계(현지)']},
+  'ND-HKGW01':{own:'홍콩지점 IT',sub:'',cap:86,cert:'2026-12',comp:[['.NET Framework','제3자','4.6.2','지원종료'],['OpenSSL','OSS','1.0.2u','지원종료']],ext:['CHATS 연계(현지)']},
+  'ND-SGGW01':{own:'싱가포르지점 IT',sub:'글로벌IT개발부 운영팀',cap:52,cert:'2028-02',comp:[['Netty','OSS','4.1.115','정상']],ext:['MEPS+ 연계(현지)']},
+  'ND-TKGW01':{own:'도쿄지점 IT',sub:'글로벌IT개발부 운영팀',cap:47,cert:'2027-10',comp:[['Netty','OSS','4.1.115','정상']],ext:['Zengin 연계(현지)']},
+  'ND-VNGW01':{own:'호치민지점 IT',sub:'글로벌IT개발부 운영팀',cap:74,cert:'2027-11',comp:[['Netty','OSS','4.1.110','정상'],['현지 결제망 SDK','제3자','2.3','정상']],ext:['NAPAS 연계(현지)']}
+};
+const NOW_M = 2026*12+11;
+const mon = s => { const [y,m]=s.split('-').map(Number); return y*12+m-NOW_M; };
+function invFlags(id){
+  const v=INV[id]; if(!v) return [];
+  const f=[];
+  if(!v.own) f.push(['책임자(정) 미지정',2]);
+  if(!v.sub) f.push(['책임자(부) 미지정',1]);
+  if(v.cap>=85) f.push(['용량 '+v.cap+'%',2]); else if(v.cap>=75) f.push(['용량 '+v.cap+'%',1]);
+  const cm=mon(v.cert); if(cm<0) f.push(['인증서 만료 경과',2]); else if(cm<=3) f.push(['인증서 '+v.cert+' 만료',2]); else if(cm<=6) f.push(['인증서 '+v.cert+' 만료',1]);
+  v.comp.filter(c=>c[3]==='지원종료').forEach(c=>f.push([c[0]+' '+c[2]+' 지원종료',c[1]==='암호'?2:1]));
+  return f;
+}
+function invComplete(id){ const v=INV[id]; if(!v) return 0; const req=[v.own,v.sub,v.cap!=null,v.cert,v.comp.length]; return req.filter(Boolean).length/req.length; }
+function renderInventory(){
+  const el=document.getElementById('invtbl'); if(!el) return;
+  const tyc={OSS:'oss',제3자:'tp',암호:'cr'};
+  const rows=NODES.map(n=>{const v=INV[n.id],fl=invFlags(n.id),w=fl.reduce((m,x)=>Math.max(m,x[1]),0);return {n,v,fl,w};}).sort((a,b)=>b.w-a.w||b.fl.length-a.fl.length);
+  el.innerHTML='<thead><tr><th>서버</th><th>책임자 (정 / 부)</th><th class="num">피크 사용률</th><th>인증서 만료</th><th>구성요소 (오픈소스 · 제3자 · 암호)</th><th>외부 의존</th><th>점검 사항</th></tr></thead><tbody>'+rows.map(({n,v,fl})=>`<tr class="click" tabindex="0" data-id="${n.id}"><td class="mono">${n.host}<br><span class="ev">${n.name}</span></td><td>${v.own||'<span class="bad-t">미지정</span>'}<br><span class="ev">${v.sub||'<span class="bad-t">부 책임자 미지정</span>'}</span></td><td class="num"><span class="capbar" aria-hidden="true"><span style="width:${v.cap}%;background:${v.cap>=85?'var(--bad)':v.cap>=75?'var(--warn)':'var(--ok)'}"></span></span> ${v.cap}%</td><td class="mono">${v.cert}</td><td>${v.comp.map(c=>`<span class="comp ${tyc[c[1]]}${c[3]==='지원종료'?' eol':''}" title="${c[1]} · ${c[3]}">${c[0]} ${c[2]}</span>`).join(' ')}</td><td class="muted">${v.ext.join(', ')||'-'}</td><td>${fl.length?fl.map(f=>`<span class="pill lv${f[1]}">${f[0]}</span>`).join(' '):'<span class="pill lv0">이상 없음</span>'}</td></tr>`).join('')+'</tbody>';
+  el.querySelectorAll('tr.click').forEach(tr=>{tr.onclick=()=>openImpact(tr.dataset.id);tr.onkeydown=e=>{if(e.key==='Enter')openImpact(tr.dataset.id);};});
+  const all=NODES.flatMap(n=>INV[n.id].comp), comp=Math.round(NODES.reduce((t,n)=>t+invComplete(n.id),0)/NODES.length*100);
+  document.getElementById('invsum').textContent=`서버 ${NODES.length}대 · 구성요소 ${all.length}건(오픈소스 ${all.filter(c=>c[1]==='OSS').length}, 제3자 ${all.filter(c=>c[1]==='제3자').length}, 암호 ${all.filter(c=>c[1]==='암호').length}) · 지원종료 구성요소 ${all.filter(c=>c[3]==='지원종료').length}건 · 항목 완전성 ${comp}%`;
+}
+
 const lvRate = r => r>=90?0:r>=70?1:2;
 function maxScore(set){ let m=0; set.forEach(x=>m=Math.max(m,nodeScore(BY[x]))); return m; }
 
@@ -930,6 +991,7 @@ function renderSysStats(){
 /* ================= System view ================= */
 function renderSystem(){
   renderSysStats();
+  renderInventory();
   const filtered = st.ent!=='all'||st.cap!=='all';
   const sc=scope(st.ent,st.cap);
   const sysList=SYS.filter(y=>!filtered||sc.sys.has(y.id));
@@ -1223,7 +1285,7 @@ function renderQuality(){
   const good=ITREL.filter(relGood).length;
   const k=[
     [pct(svcMapped,SVC.length)+'%','서비스 → 앱 매핑',svcMapped+' / '+SVC.length],
-    [pct(svcEntry,SVC.length)+'%','서비스 → 진입 프로그램',svcEntry+' / '+SVC.length],
+    [Math.round(NODES.reduce((t,n)=>t+invComplete(n.id),0)/NODES.length*100)+'%','자산 인벤토리 완전성','책임자·용량·인증서·구성요소'],
     [pct(progLinked,PRG.length)+'%','프로그램 → 서비스 연결',progLinked+' / '+PRG.length+' (호출 경유 포함)'],
     [pct(progNode,PRG.length)+'%','프로그램 → 서버 배포',progNode+' / '+PRG.length],
     [pct(good,ITREL.length)+'%','관계 검증률',good+' / '+ITREL.length],
@@ -1241,6 +1303,7 @@ function renderQuality(){
   SVC.filter(s=>!(outRel[s.id]||[]).some(r=>r.k==='realized')).forEach(s=>issues.push({lv:2,kind:'매핑 누락',what:`업무서비스 ${s.name} (${s.id})`,why:'연결된 애플리케이션·진입 프로그램 없음',act:'서비스–앱·진입점 등록',id:s.id}));
   PRG.filter(p=>!effSvcs(p.id).size).forEach(p=>issues.push({lv:2,kind:'미사용 의심',what:`프로그램 ${p.name} (${p.id})`,why:'진입점·호출자·배포 대상 없음',act:'사용 여부 확인 후 폐기 검토',id:p.id}));
   NODES.filter(n=>!(inRel[n.id]||[]).length).forEach(n=>issues.push({lv:2,kind:'미연결 서버',what:`${n.name} (${n.host})`,why:nodeWhy(n),act:'배포 이력 확인 후 폐기 검토',id:n.id}));
+  NODES.forEach(n=>invFlags(n.id).forEach(([w,l])=>issues.push({lv:l,kind:/책임자/.test(w)?'책임자 누락':/용량/.test(w)?'용량 임계':/인증서/.test(w)?'인증서 만료':'구성요소 지원종료',what:`${n.name} (${n.host})`,why:w,act:/책임자/.test(w)?'책임자 지정':/용량/.test(w)?'증설·분산 검토':/인증서/.test(w)?'인증서 갱신 일정 확정':'버전 업그레이드 계획 수립',id:n.id})));
   ITREL.filter(r=>r.trust==='낮음').forEach(r=>issues.push({lv:2,kind:'미검증 관계',what:`${label(r.u)} → ${label(r.v)}`,why:`${KL[r.k]} · 원천 ${r.src}`,act:'담당자 검증',id:r.v}));
   ITREL.filter(r=>r.trust==='중간'&&r.status==='유효').forEach(r=>issues.push({lv:1,kind:'신뢰 중간',what:`${label(r.u)} → ${label(r.v)}`,why:`${KL[r.k]} · 원천 ${r.src}`,act:'보조 원천(APM·배포이력)으로 교차 확인',id:r.v}));
   ITREL.filter(r=>r.trust!=='낮음'&&r.status==='만료').forEach(r=>issues.push({lv:1,kind:'유효기간 만료',what:`${label(r.u)} → ${label(r.v)}`,why:`${KL[r.k]} · ${r.verifier} · 만료 ${r.to}`,act:'재검증',id:r.v}));
@@ -1260,7 +1323,8 @@ const AI_SUGGEST = [
   '홍콩 무역금융은 어떤 시스템으로 처리돼?',
   'GBS 시스템의 프로그램 수는?',
   'kgbsbt01p 점검 공지 초안 써줘',
-  '검증이 필요한 관계는?'
+  '검증이 필요한 관계는?',
+  '인증서 만료나 지원종료 구성요소가 있는 서버는?'
 ];
 const CN = {'E-NY':['뉴욕','미국','ny'],'E-LDN':['런던','영국','ldn'],'E-HK':['홍콩','hk'],'E-SG':['싱가포르','sg'],'E-TKO':['도쿄','일본','동경','tokyo'],'E-VN':['베트남','호치민','vn']};
 function aiFind(q){
@@ -1293,6 +1357,12 @@ function impactAnswer(id){
 }
 function aiAnswer(q){
   const f=aiFind(q);
+  if(/(인증서|오픈소스|구성요소|용량|책임자|인벤토리|제3자|암호모듈)/.test(q)&&!/(공지|초안)/.test(q)){
+    const rows=NODES.map(n=>({n,fl:invFlags(n.id)})).filter(x=>x.fl.length);
+    const pick=/인증서/.test(q)&&!/(구성요소|오픈소스|지원\s?종료)/.test(q)?rows.filter(x=>x.fl.some(f=>/인증서/.test(f[0]))):/용량/.test(q)?rows.filter(x=>x.fl.some(f=>/용량/.test(f[0]))):/책임자/.test(q)?rows.filter(x=>x.fl.some(f=>/책임자/.test(f[0]))):rows.filter(x=>x.fl.some(f=>/(인증서|지원종료)/.test(f[0])));
+    const top=pick.sort((a,b)=>nodeScore(b.n)-nodeScore(a.n))[0];
+    return {html:`<p>자산 인벤토리 기준으로 점검이 필요한 서버는 <b>${pick.length}대</b>입니다.</p><table class="simple"><thead><tr><th>서버</th><th>점검 사항</th><th class="num">영향 업무</th></tr></thead><tbody>${pick.map(x=>`<tr><td class="mono">${x.n.host}</td><td>${x.fl.map(f=>f[0]).join(', ')}</td><td class="num">${analyze(x.n.id).conf.R.svc.size}</td></tr>`).join('')}</tbody></table>`, ev:['원천: 자산 인벤토리(책임자·피크 사용률·인증서·구성요소) — 뉴욕 NYDFS 500.13, 싱가포르 MAS TRM 개정안 항목 기준','영향 업무 수는 검증된 관계로 이어진 확정 영향 기준'], act: top?{label:top.n.host+' 영향도 보기',id:top.n.id}:null};
+  }
   const target=f.node||f.prog||f.app||f.sys||(f.svc&&!f.products?f.svc:null);
   if(/(공지|초안|안내문)/.test(q)&&(f.node||f.prog)){
     const id=(f.node||f.prog).id, A=analyze(id), C=A.conf.R, n=BY[id];
