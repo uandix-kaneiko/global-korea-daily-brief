@@ -422,11 +422,14 @@ pre.draft{white-space:pre-wrap;font-family:var(--body);font-size:13px;background
 <script>
 /* ================= Sample data (fictional) ================= */
 const REF = new Date(Date.UTC(2026,10,20));
-const BR6 = ['E-NY','E-LDN','E-HK','E-SG','E-TKO','E-VN'];
+const BR6 = ['E-NY','E-LDN','E-HK','E-SG','E-TKO','E-HN','E-VN','E-MM','E-GG','E-PN','E-CN'];
 const ENT = [
   {id:'E-NY',name:'뉴욕지점',kind:'지점'},{id:'E-LDN',name:'런던지점',kind:'지점'},
   {id:'E-HK',name:'홍콩지점',kind:'지점'},{id:'E-SG',name:'싱가포르지점',kind:'지점'},
-  {id:'E-TKO',name:'도쿄지점',kind:'지점'},{id:'E-VN',name:'베트남(호치민)',kind:'지점'}
+  {id:'E-TKO',name:'도쿄지점',kind:'지점'},{id:'E-HN',name:'하노이지점',kind:'지점'},
+  {id:'E-VN',name:'호치민지점',kind:'지점'},{id:'E-MM',name:'미얀마',kind:'지점'},
+  {id:'E-GG',name:'구루그람지점',kind:'지점'},{id:'E-PN',name:'푸네지점',kind:'지점'},
+  {id:'E-CN',name:'첸나이지점',kind:'지점'}
 ];
 const CAP = [
   {id:'CAP-DP',name:'수신'},{id:'CAP-LN',name:'여신'},{id:'CAP-DG',name:'비대면'},
@@ -501,7 +504,7 @@ const PRG = [
   P({id:'PG-LOS-APP-001',name:'대출신청 접수',apps:['APP-LOS'],svcs:['SV-LN-01'],nodes:[['ND-LOSAP01'],['ND-CHWEB01']],repo:'los/intake',ver:'v3.2.0'}),
   P({id:'PG-LOS-UW-010',name:'심사 엔진',apps:['APP-LOS'],svcs:['SV-LN-02'],nodes:[['ND-LOSAP01']],repo:'los/underwriting',ver:'v3.5.4'}),
   P({id:'PG-COM-DT-001',name:'영업일·휴일 공통',kind:'공통모듈',apps:['APP-GBS-LN','APP-GBS-DP','APP-FX'],nodes:[['ND-GBSAP01'],['ND-GBSAP02'],['ND-GBSBT01']],repo:'gbs/common',path:'src/main/java/gbs/common/calendar/BusinessDayCalendar.java',loc:520,ver:'v1.9.0',commit:'c5a0d91',cdate:'2026-06-18'}),
-  P({id:'PG-FEP-ISO-200',name:'대외 전문 변환',apps:['APP-FEP'],svcs:['SV-LN-03','SV-DP-02','SV-FX-01','SV-PY-01'],nodes:[['ND-FEPGW01'],['ND-FEPGW02'],['ND-NYGW01'],['ND-LDGW01'],['ND-HKGW01'],['ND-SGGW01'],['ND-TKGW01'],['ND-VNGW01']],repo:'fep/iso-gateway',ver:'v5.0.2'}),
+  P({id:'PG-FEP-ISO-200',name:'대외 전문 변환',apps:['APP-FEP'],svcs:['SV-LN-03','SV-DP-02','SV-FX-01','SV-PY-01'],nodes:[['ND-FEPGW01'],['ND-FEPGW02'],['ND-NYGW01'],['ND-LDGW01'],['ND-HKGW01'],['ND-SGGW01'],['ND-TKGW01'],['ND-VNGW01'],['ND-HNGW01'],['ND-MMGW01'],['ND-GGGW01'],['ND-PNGW01'],['ND-CNGW01']],repo:'fep/iso-gateway',ver:'v5.0.2'}),
   P({id:'PG-GMB-LN-300',name:'모바일 여신·계좌 화면',kind:'화면',apps:['APP-GMB'],svcs:['SV-LN-01','SV-LN-05','SV-DG-01','SV-DP-01'],nodes:[['ND-CHWEB01'],['ND-CHWEB02']],repo:'channel/mobile',ver:'v7.3.0'}),
   P({id:'PG-GIB-WEB-100',name:'인터넷뱅킹 웹',kind:'화면',apps:['APP-GIB'],svcs:['SV-DG-02','SV-LN-01'],nodes:[['ND-CHWEB01'],['ND-CHWEB02']],repo:'channel/web',ver:'v6.1.4'}),
   P({id:'PG-DP-ACC-010',name:'계좌 관리',apps:['APP-GBS-DP'],svcs:['SV-DP-01','SV-DP-02'],calls:[['PG-COM-DT-001']],nodes:[['ND-GBSAP01'],['ND-GBSAP02'],['ND-GBSDB01'],['ND-GBSDB02']],repo:'gbs/deposit-core',ver:'v4.12.0'}),
@@ -528,11 +531,18 @@ const NODES = [
   {id:'ND-HKGW01',host:'hkglgw01p',name:'홍콩 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Windows',dc:'홍콩지점',eos:'2026-03',vulns:2,inc:1,ent:'E-HK'},
   {id:'ND-SGGW01',host:'sgplgw01p',name:'싱가포르 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'싱가포르지점',eos:'2027-06',vulns:1,inc:0,ent:'E-SG'},
   {id:'ND-TKGW01',host:'tkylgw01p',name:'도쿄 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'도쿄지점',eos:'2028-03',vulns:0,inc:1,ent:'E-TKO'},
-  {id:'ND-VNGW01',host:'hcmlgw01p',name:'호치민 현지 결제 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'호치민지점',eos:'2027-02',vulns:1,inc:2,ent:'E-VN'}
+  {id:'ND-VNGW01',host:'hcmlgw01p',name:'호치민 현지 결제 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'호치민지점',eos:'2027-02',vulns:1,inc:2,ent:'E-VN'},
+  {id:'ND-HNGW01',host:'hanlgw01p',name:'하노이 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'하노이지점',eos:'2028-06',vulns:0,inc:0,ent:'E-HN'},
+  {id:'ND-MMGW01',host:'rgnlgw01p',name:'미얀마 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Windows',dc:'미얀마',eos:'2026-12',vulns:3,inc:1,ent:'E-MM'},
+  {id:'ND-GGGW01',host:'ggnlgw01p',name:'구루그람 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'구루그람지점',eos:'2028-12',vulns:1,inc:0,ent:'E-GG'},
+  {id:'ND-PNGW01',host:'pnqlgw01p',name:'푸네 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'푸네지점',eos:'2029-03',vulns:0,inc:0,ent:'E-PN'},
+  {id:'ND-CNGW01',host:'maalgw01p',name:'첸나이 현지 연계 GW',role:'GW',cluster:'단일 노드',os:'Linux',dc:'첸나이지점',eos:'2027-09',vulns:1,inc:1,ent:'E-CN'}
 ];
 const USE = {};
 ['E-NY','E-LDN','E-HK','E-SG','E-TKO'].forEach(e=>USE[e]=['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06','SV-DP-01','SV-DP-02','SV-DG-02','SV-FX-01','SV-FX-02','SV-IF-01','SV-IF-02']);
 USE['E-VN'] = SVC.map(s=>s.id);
+USE['E-HN'] = ['SV-LN-01','SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06','SV-DP-01','SV-DP-02','SV-DG-02','SV-FX-01','SV-FX-02','SV-IF-01','SV-IF-02'];
+['E-MM','E-GG','E-PN','E-CN'].forEach(e=>USE[e]=['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06','SV-DP-01','SV-DP-02','SV-FX-01','SV-FX-02','SV-IF-01','SV-IF-02']);
 
 /* ===== Business layer: country products & performance (fictional, USD mn) ===== */
 const PRODUCTS = [
@@ -556,7 +566,18 @@ const PRODUCTS = [
   {id:'PD-VN-RL', ent:'E-VN', biz:'리테일', name:'개인대출', svcs:['SV-LN-01','SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05'], bal:210, rev:24, tx:38000, cust:21000},
   {id:'PD-VN-DP', ent:'E-VN', biz:'수신', name:'외화·현지통화 예금', svcs:['SV-DP-01','SV-DP-02'], bal:380, rev:6, tx:52000, cust:9800},
   {id:'PD-VN-MB', ent:'E-VN', biz:'디지털', name:'모바일뱅킹', svcs:['SV-DG-01'], bal:null, rev:3.5, tx:410000, cust:85000},
-  {id:'PD-VN-PY', ent:'E-VN', biz:'지급결제', name:'현지 지급결제', svcs:['SV-PY-01'], bal:null, rev:2.8, tx:180000, cust:30000}
+  {id:'PD-VN-PY', ent:'E-VN', biz:'지급결제', name:'현지 지급결제', svcs:['SV-PY-01'], bal:null, rev:2.8, tx:180000, cust:30000},
+  {id:'PD-HN-CL', ent:'E-HN', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:520, rev:21, tx:1800, cust:240},
+  {id:'PD-HN-DP', ent:'E-HN', biz:'수신', name:'외화·현지통화 예금', svcs:['SV-DP-01','SV-DP-02'], bal:290, rev:4, tx:21000, cust:4100},
+  {id:'PD-MM-CL', ent:'E-MM', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:120, rev:7, tx:340, cust:45},
+  {id:'PD-MM-DP', ent:'E-MM', biz:'수신', name:'외화예금', svcs:['SV-DP-01','SV-DP-02'], bal:60, rev:1, tx:2100, cust:380},
+  {id:'PD-GG-CL', ent:'E-GG', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:480, rev:16, tx:900, cust:95},
+  {id:'PD-GG-TF', ent:'E-GG', biz:'무역금융', name:'수출입 무역금융', svcs:['SV-FX-01','SV-LN-03'], bal:210, rev:5, tx:2600, cust:120},
+  {id:'PD-GG-DP', ent:'E-GG', biz:'수신', name:'외화예금', svcs:['SV-DP-01','SV-DP-02'], bal:180, rev:2, tx:4300, cust:520},
+  {id:'PD-PN-CL', ent:'E-PN', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:260, rev:9, tx:520, cust:60},
+  {id:'PD-PN-DP', ent:'E-PN', biz:'수신', name:'외화예금', svcs:['SV-DP-01','SV-DP-02'], bal:90, rev:1, tx:1900, cust:260},
+  {id:'PD-CN-CL', ent:'E-CN', biz:'기업금융', name:'기업여신', svcs:['SV-LN-02','SV-LN-03','SV-LN-04','SV-LN-05','SV-LN-06'], bal:310, rev:11, tx:610, cust:70},
+  {id:'PD-CN-TF', ent:'E-CN', biz:'무역금융', name:'수출입 무역금융', svcs:['SV-FX-01','SV-LN-03'], bal:150, rev:4, tx:1800, cust:85}
 ];
 /* ===== Service layer: unit tasks under each 단위업무 ===== */
 const TASKS = {
@@ -587,7 +608,12 @@ const CASE = {
     {ent:'E-HK', rate:'HIBOR',dc:'ACT/365', cut:'23:30 (홍콩)', kst:'익일 00:30'},
     {ent:'E-SG', rate:'SORA', dc:'ACT/365', cut:'23:30 (싱가포르)', kst:'익일 00:30'},
     {ent:'E-TKO',rate:'TONA', dc:'ACT/365', cut:'23:30 (도쿄)', kst:'23:30'},
-    {ent:'E-VN', rate:'현지 기준금리',dc:'ACT/365', cut:'23:30 (호치민)', kst:'익일 01:30'}
+    {ent:'E-HN', rate:'현지 기준금리',dc:'ACT/365', cut:'23:30 (하노이)', kst:'익일 01:30'},
+    {ent:'E-VN', rate:'현지 기준금리',dc:'ACT/365', cut:'23:30 (호치민)', kst:'익일 01:30'},
+    {ent:'E-MM', rate:'CBM 기준금리',dc:'ACT/365', cut:'23:30 (양곤)', kst:'익일 02:00'},
+    {ent:'E-GG', rate:'MIBOR',dc:'ACT/365', cut:'23:30 (구루그람)', kst:'익일 03:00'},
+    {ent:'E-PN', rate:'MIBOR',dc:'ACT/365', cut:'23:30 (푸네)', kst:'익일 03:00'},
+    {ent:'E-CN', rate:'MIBOR',dc:'ACT/365', cut:'23:30 (첸나이)', kst:'익일 03:00'}
   ],
   funcs:[
     {name:'일별 이자발생(Accrual)', tx:'LN_DAILY_ACCR', progs:['BJ-LN-ACCR-110','PG-LNINT-010','PG-LNINT-020','DB-LN-INT-ACCR']},
@@ -687,7 +713,12 @@ const INV = {
   'ND-HKGW01':{own:'홍콩지점 IT',sub:'',cap:86,cert:'2026-12',comp:[['.NET Framework','제3자','4.6.2','지원종료'],['OpenSSL','OSS','1.0.2u','지원종료']],ext:['CHATS 연계(현지)']},
   'ND-SGGW01':{own:'싱가포르지점 IT',sub:'글로벌IT개발부 운영팀',cap:52,cert:'2028-02',comp:[['Netty','OSS','4.1.115','정상']],ext:['MEPS+ 연계(현지)']},
   'ND-TKGW01':{own:'도쿄지점 IT',sub:'글로벌IT개발부 운영팀',cap:47,cert:'2027-10',comp:[['Netty','OSS','4.1.115','정상']],ext:['Zengin 연계(현지)']},
-  'ND-VNGW01':{own:'호치민지점 IT',sub:'글로벌IT개발부 운영팀',cap:74,cert:'2027-11',comp:[['Netty','OSS','4.1.110','정상'],['현지 결제망 SDK','제3자','2.3','정상']],ext:['NAPAS 연계(현지)']}
+  'ND-VNGW01':{own:'호치민지점 IT',sub:'글로벌IT개발부 운영팀',cap:74,cert:'2027-11',comp:[['Netty','OSS','4.1.110','정상'],['현지 결제망 SDK','제3자','2.3','정상']],ext:['NAPAS 연계(현지)']},
+  'ND-HNGW01':{own:'하노이지점 IT',sub:'글로벌IT개발부 운영팀',cap:44,cert:'2028-01',comp:[['Netty','OSS','4.1.115','정상']],ext:['NAPAS 연계(현지)']},
+  'ND-MMGW01':{own:'미얀마 IT',sub:'',cap:82,cert:'2026-12',comp:[['.NET Framework','제3자','4.7.2','지원종료']],ext:['MEPS 연계(현지)']},
+  'ND-GGGW01':{own:'구루그람지점 IT',sub:'글로벌IT개발부 운영팀',cap:51,cert:'2028-02',comp:[['Netty','OSS','4.1.115','정상']],ext:['NEFT·RTGS 연계(현지)']},
+  'ND-PNGW01':{own:'푸네지점 IT',sub:'글로벌IT개발부 운영팀',cap:33,cert:'2028-03',comp:[['Netty','OSS','4.1.115','정상']],ext:['NEFT·RTGS 연계(현지)']},
+  'ND-CNGW01':{own:'첸나이지점 IT',sub:'',cap:69,cert:'2027-12',comp:[['Netty','OSS','4.1.110','정상']],ext:['NEFT·RTGS 연계(현지)']}
 };
 const NOW_M = 2026*12+11;
 const mon = s => { const [y,m]=s.split('-').map(Number); return y*12+m-NOW_M; };
@@ -877,7 +908,7 @@ function renderBusiness(){
   const good=ITREL.filter(relGood).length;
   const hiNodes=NODES.filter(a=>nodeScore(a)>=70).length;
   const k=[
-    [num(tot),'총 잔액 (USD 백만)', st.ent==='all'?'국외지점 6곳 합계':BY[st.ent].name],
+    [num(tot),'총 잔액 (USD 백만)', st.ent==='all'?`국외점포 ${ENT.length}곳 합계`:BY[st.ent].name],
     [num(rev),'연 수익 (USD 백만)', '상품 '+list.length+'개'],
     [tot?Math.round(exp/tot*100)+'%':'—','위험 자산 노출 잔액', 'USD '+num(exp)+'백만 · 위험점수 70+ 자산 의존'],
     [SVC.filter(s=>s.crit).length,'중요 업무서비스', '단위업무 '+SVC.length+'개 중'],
@@ -910,7 +941,7 @@ function drawQuad(){
   const W=620,H=380,L=64,R=24,T=24,B=56;
   const xmax=Math.max(...pts.map(p=>p.bal))*1.15, ymax=Math.max(...pts.map(p=>p.risk))*1.25;
   const X=v=>L+v/xmax*(W-L-R), Y=v=>H-B-v/ymax*(H-T-B);
-  const med=a=>{const s=[...a].sort((x,y)=>x-y);return (s[2]+s[3])/2;};
+  const med=a=>{const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2;};
   const mx=med(pts.map(p=>p.bal)), my=med(pts.map(p=>p.risk));
   let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="국외지점별 실적 대비 IT 위험">`;
   g+=`<rect x="${X(mx)}" y="${T}" width="${W-R-X(mx)}" height="${Y(my)-T}" fill="var(--bad-soft)"/>`;
@@ -919,8 +950,21 @@ function drawQuad(){
   const ql=(x,y,t,a)=>`<text x="${x}" y="${y}" font-size="12" fill="var(--muted)" text-anchor="${a}">${t}</text>`;
   g+=ql(W-R-6,T+16,'우선 투자·이중화','end')+ql(W-R-6,H-B-8,'유지','end')+ql(L+6,T+16,'통합·효율화 검토','start')+ql(L+6,H-B-8,'관찰','start');
   g+=`<text x="${(L+W-R)/2}" y="${H-16}" font-size="12" text-anchor="middle" fill="var(--muted)">총 잔액 (USD 백만) →</text><text x="16" y="${(T+H-B)/2}" font-size="12" text-anchor="middle" fill="var(--muted)" transform="rotate(-90 16 ${(T+H-B)/2})">IT 위험지수 →</text>`;
-  pts.forEach(p=>{const hot=p.bal>=mx&&p.risk>=my; const r=7+Math.sqrt(p.rev)*1.6;
-    g+=`<g class="qpt" data-e="${p.e.id}" style="cursor:pointer"><circle cx="${X(p.bal)}" cy="${Y(p.risk)}" r="${r}" fill="${hot?'var(--bad)':'var(--svc)'}" fill-opacity="${hot?0.85:0.55}"><title>${p.e.name}: 잔액 ${num(p.bal)} · 연 수익 ${p.rev} · IT 위험지수 ${p.risk}</title></circle><text x="${X(p.bal)+r+5}" y="${Y(p.risk)+4}" font-size="13" font-weight="700" fill="var(--ink)">${p.e.name} <tspan font-weight="400" fill="var(--muted)">${p.risk}</tspan></text></g>`;});
+  const placed=[], labs=[];
+  const tw=p=>(p.e.name.length*13.5+22);
+  const sorted=[...pts].sort((a,b)=>b.rev-a.rev);
+  sorted.forEach(p=>{const r=7+Math.sqrt(p.rev)*1.6, cx=X(p.bal), cy=Y(p.risk), w=tw(p), h=16;
+    const cands=[[cx+r+5,cy+4,'start'],[cx-r-5,cy+4,'end'],[cx,cy-r-6,'middle'],[cx,cy+r+15,'middle'],[cx+r+5,cy-r+2,'start'],[cx+r+5,cy+r+6,'start'],[cx-r-5,cy-r+2,'end'],[cx-r-5,cy+r+6,'end']];
+    const box=([x,y,a])=>{const x0=a==='start'?x:a==='end'?x-w:x-w/2;return [x0,y-12,x0+w,y-12+h];};
+    const hit=(b,c)=>!(b[2]<c[0]||b[0]>c[2]||b[3]<c[1]||b[1]>c[3]);
+    const circs=pts.map(q=>{const rq=7+Math.sqrt(q.rev)*1.6,qx=X(q.bal),qy=Y(q.risk);return [qx-rq,qy-rq,qx+rq,qy+rq];});
+    let best=cands[0],bs=1e9;
+    for(const c of cands){const b=box(c);let sc=0;placed.forEach(o=>{if(hit(b,o))sc+=10;});circs.forEach(o=>{if(hit(b,o))sc+=3;});if(b[0]<L||b[2]>W-2||b[1]<2||b[3]>H-B)sc+=20;if(sc<bs){bs=sc;best=c;}if(!sc)break;}
+    placed.push(box(best)); labs.push({p,r,best});
+  });
+  pts.forEach(p=>{const hot=p.bal>=mx&&p.risk>=my, r=7+Math.sqrt(p.rev)*1.6;
+    g+=`<g class="qpt" data-e="${p.e.id}" style="cursor:pointer"><circle cx="${X(p.bal)}" cy="${Y(p.risk)}" r="${r}" fill="${hot?'var(--bad)':'var(--svc)'}" fill-opacity="${hot?0.85:0.55}"><title>${p.e.name}: 잔액 ${num(p.bal)} · 연 수익 ${p.rev} · IT 위험지수 ${p.risk}</title></circle></g>`;});
+  labs.forEach(({p,best})=>{g+=`<text class="qpt" data-e="${p.e.id}" style="cursor:pointer;paint-order:stroke" stroke="var(--card,#fff)" stroke-width="3" x="${best[0]}" y="${best[1]}" text-anchor="${best[2]}" font-size="13" font-weight="700" fill="var(--ink)">${p.e.name} <tspan font-weight="400" fill="var(--muted)">${p.risk}</tspan></text>`;});
   g+='</svg>';
   const box=document.getElementById('quad'); box.innerHTML=g;
   box.querySelectorAll('.qpt').forEach(el=>el.addEventListener('click',()=>setScope(el.dataset.e,'all')));
@@ -1044,7 +1088,8 @@ const SCEN=[
   ['IF-LN-RATE-01','지연: 기준금리 수신 IF'],
   ['PG-COM-DT-001','취약점: 영업일 공통모듈'],
   ['CAP-LN','Top-down: 여신'],
-  ['E-VN','Top-down: 베트남(호치민)']
+  ['E-VN','Top-down: 호치민'],
+  ['E-GG','Top-down: 구루그람']
 ];
 function initImpactControls(){
   const box=document.getElementById('scen');
@@ -1194,7 +1239,7 @@ function renderCase(){
         <span class="pill crit">중요 서비스 · SLA ${s.sla}</span>
         <span class="pill norm">책임부서 ${s.dept}</span>
         <span class="pill norm">${BY[app.sys].code} 글로벌뱅킹시스템 · ${app.code}</span>
-        <span class="pill norm">제공 6개 지점</span>
+        <span class="pill norm">제공 ${ENT.length}개 점포</span>
         <span class="pill ${good===rels.length?'lv0':'lv1'}">관계 검증 ${good} / ${rels.length}</span>
       </div>
       <div class="flow">
@@ -1326,7 +1371,7 @@ const AI_SUGGEST = [
   '검증이 필요한 관계는?',
   '인증서 만료나 지원종료 구성요소가 있는 서버는?'
 ];
-const CN = {'E-NY':['뉴욕','미국','ny'],'E-LDN':['런던','영국','ldn'],'E-HK':['홍콩','hk'],'E-SG':['싱가포르','sg'],'E-TKO':['도쿄','일본','동경','tokyo'],'E-VN':['베트남','호치민','vn']};
+const CN = {'E-NY':['뉴욕','미국','ny'],'E-LDN':['런던','영국','ldn'],'E-HK':['홍콩','hk'],'E-SG':['싱가포르','sg'],'E-TKO':['도쿄','일본','동경','tokyo'],'E-VN':['호치민','베트남','vn'],'E-HN':['하노이','hanoi'],'E-MM':['미얀마','양곤','myanmar'],'E-GG':['구루그람','인도','gurugram'],'E-PN':['푸네','pune'],'E-CN':['첸나이','chennai']};
 function aiFind(q){
   const lq=q.toLowerCase(), f={};
   f.ent=ENT.find(e=>CN[e.id].some(k=>lq.includes(k)));
