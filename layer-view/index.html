@@ -276,6 +276,29 @@ pre.draft{white-space:pre-wrap;font-family:var(--body);font-size:13px;background
 .comp.tp{background:#f3f0ff;color:#5b3fb0}
 .comp.cr{background:#ecfdf3;color:#18794e}
 .comp.eol{border-color:#d92d20;color:#b42318;background:#fef3f2}
+
+/* v7 business portfolio & device exposure */
+.pf-seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.pf-seg button{font:700 13px inherit;font-family:inherit;border:0;background:none;padding:8px 12px;min-height:38px;cursor:pointer;color:var(--muted)}
+.pf-seg button.on{background:var(--ink);color:#fff}
+.pf-find{font-weight:700;margin:2px 0 10px}
+.pf-leg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);margin:0 0 10px}
+.pf-leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.pf-rows{display:grid;gap:6px}
+.pf-row{display:grid;grid-template-columns:7em minmax(0,1fr) 6em;gap:10px;align-items:center}
+.pf-row .n{font-weight:800;font-size:14px;background:none;border:0;text-align:left;cursor:pointer;padding:4px 0;font-family:inherit;color:var(--ink)}
+.pf-row .n:hover{text-decoration:underline}
+.pf-row.sel .n{color:#c2410c}.pf-row.dim{opacity:.4}
+.pf-row .v,.dv-row .v{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;font-size:14px}
+.pf-bar{display:flex;height:24px;border-radius:6px;overflow:hidden;background:#f1efea}
+.pf-bar i{display:block;height:100%;min-width:2px}
+.dv-rows{display:grid;gap:10px}
+.dv-row{display:grid;grid-template-columns:16em minmax(0,1fr) 7em;gap:12px;align-items:center;background:none;border:0;text-align:left;font-family:inherit;color:inherit;cursor:pointer;padding:4px;border-radius:8px}
+.dv-row:hover{background:#faf8f4}
+.dv-row .n b{display:block;font-size:14px}.dv-row .n span{font-size:12px;color:var(--muted)}
+.dv-row .v b{font-size:15px}.dv-row .v span{display:block;font-size:12px;color:var(--muted)}
+.dv-flag{display:inline-block;font-size:11px;font-weight:800;border:1px solid;border-radius:5px;padding:0 5px;margin-left:6px;vertical-align:1px}
+@media(max-width:700px){.pf-row{grid-template-columns:5.2em minmax(0,1fr) 4.6em}.dv-row{grid-template-columns:minmax(0,1fr)}.dv-row .v{text-align:left}}
 </style>
 </head>
 <body>
@@ -311,9 +334,11 @@ pre.draft{white-space:pre-wrap;font-family:var(--body);font-size:13px;background
     <div class="kpis" id="kpis"></div>
     <div class="grid2">
       <div class="card">
-        <div class="sec-h"><h2>국가별 실적 대비 IT 위험</h2><p>점 크기 = 연 수익 · 점을 누르면 그 국가로 범위 설정</p></div>
-        <div id="quad"></div>
-        <p class="foot">IT 위험지수 = (본점 공용 서버 위험점수 평균 + 지점 현지 서버 최고 위험점수) ÷ 2. 오른쪽 위(붉은 영역)는 실적이 크고 IT 위험도 높은 국가로, 우선 투자·이중화 대상입니다.</p>
+        <div class="sec-h"><h2>국가별 사업 포트폴리오</h2><div class="pf-seg" id="pf-m" role="group" aria-label="기준 지표"><button data-m="rev" class="on">연 수익</button><button data-m="bal">잔액</button><button data-m="cust">고객 수</button><button data-m="tx">월 거래</button></div></div>
+        <p class="pf-find" id="pf-find"></p>
+        <div class="pf-leg" id="pf-leg"></div>
+        <div class="pf-rows" id="pf-rows"></div>
+        <p class="foot">막대 = 점포 실적, 색 = 상품군 · 점포 이름을 누르면 그 점포로 범위 설정</p>
       </div>
       <div class="card">
         <div class="sec-h"><h2>우선 조치 대상 서버·노드</h2><p>영향받는 상품·잔액 기준</p></div>
@@ -916,7 +941,7 @@ function renderBusiness(){
     [Math.round(good/ITREL.length*100)+'%','관계 검증률', '검증 완료 '+good+' / '+ITREL.length]
   ];
   document.getElementById('kpis').innerHTML=k.map(([v,l,s])=>`<div class="kpi"><span class="l">${l}</span><span class="v">${v}</span><span class="s">${s}</span></div>`).join('');
-  drawQuad();
+  drawPortfolio();
   const top=[...NODES].sort((a,b)=>nodeScore(b)-nodeScore(a)).slice(0,5);
   document.getElementById('toprisk').innerHTML=top.map(a=>{
     const A=analyze(a.id), R=A.conf.R, s=nodeScore(a);
@@ -936,6 +961,43 @@ function renderBusiness(){
   const pt=document.getElementById('prodtbl'); pt.innerHTML=h+'</tbody>';
   pt.querySelectorAll('tr.click').forEach(tr=>{const f=()=>{const p=PRODUCTS.find(x=>x.id===tr.dataset.p); st.svcSel=p.svcs[0]; setScope(p.ent,'all'); go('service');}; tr.onclick=f; tr.onkeydown=e=>{if(e.key==='Enter')f();};});
 }
+
+/* ===== Business: portfolio (A) & device exposure (C) ===== */
+const PF_BIZ=['기업금융','무역금융','수신','외환·송금','리테일','디지털','지급결제'];
+const PF_COL={'기업금융':'#2f5d9e','무역금융':'#5aa0c8','수신':'#3c9a6e','외환·송금':'#d4a017','리테일':'#c45a7a','디지털':'#8a63c2','지급결제':'#7a8597'};
+const PF_ENTC=['#2f5d9e','#5aa0c8','#3c9a6e','#8fc49b','#d4a017','#e8590c','#c45a7a','#8a63c2','#b9a3e0','#7a8597','#a9b0bb'];
+const PF_ML={rev:['연 수익','USD 백만'],bal:['잔액','USD 백만'],cust:['고객 수','명'],tx:['월 거래','건']};
+let pfM='rev';
+const pfV=p=>p[pfM]||0;
+const pfF=v=>pfM==='rev'?(Math.round(v*10)/10).toLocaleString('ko-KR'):Math.round(v).toLocaleString('ko-KR');
+const pfShort=e=>BY[e].name.replace(/지점$/,'');
+function pfOrder(){return ENT.map(e=>{const ps=PRODUCTS.filter(p=>p.ent===e.id);return {e:e.id,ps,t:ps.reduce((a,p)=>a+pfV(p),0)}}).sort((a,b)=>b.t-a.t);}
+function drawPortfolio(){
+  const [ml,mu]=PF_ML[pfM], byE=pfOrder(), tot=byE.reduce((a,x)=>a+x.t,0), mx=byE[0].t||1;
+  const used=PF_BIZ.filter(b=>PRODUCTS.some(p=>p.biz===b&&pfV(p)>0));
+  const top3=byE.slice(0,3);
+  document.getElementById('pf-find').textContent=st.ent==='all'
+    ? `${ml} 기준 상위 3개 점포(${top3.map(x=>pfShort(x.e)).join('·')})가 전체의 ${Math.round(top3.reduce((a,x)=>a+x.t,0)/tot*100)}%를 차지합니다.`
+    : (()=>{const x=byE.find(y=>y.e===st.ent),r=byE.indexOf(x)+1;return `${BY[st.ent].name}: ${ml} ${pfF(x.t)} ${mu}, 11개 점포 중 ${r}위 (전체의 ${Math.round(x.t/tot*100)}%)`;})();
+  document.getElementById('pf-leg').innerHTML=used.map(b=>`<span><i style="background:${PF_COL[b]}"></i>${b}</span>`).join('');
+  document.getElementById('pf-rows').innerHTML=byE.map(x=>`<div class="pf-row${st.ent===x.e?' sel':st.ent!=='all'?' dim':''}"><button class="n" data-e="${x.e}">${pfShort(x.e)}</button><div class="pf-bar" style="width:${Math.max(x.t/mx*100,1)}%">${used.map(b=>{const v=x.ps.filter(p=>p.biz===b).reduce((a,p)=>a+pfV(p),0);return v>0?`<i style="flex:0 0 ${v/x.t*100}%;background:${PF_COL[b]}" title="${pfShort(x.e)} · ${b}: ${pfF(v)} ${mu} (${Math.round(v/x.t*100)}%)"></i>`:''}).join('')}</div><span class="v">${pfF(x.t)}</span></div>`).join('');
+  document.querySelectorAll('#pf-rows .n').forEach(b=>b.onclick=()=>setScope(st.ent===b.dataset.e?'all':b.dataset.e,'all'));
+}
+function drawDevices(){
+  const [ml,mu]=PF_ML[pfM], byE=pfOrder(), ents=byE.map(x=>x.e);
+  const list=st.ent==='all'?PRODUCTS:PRODUCTS.filter(p=>p.ent===st.ent);
+  const tot=list.reduce((a,p)=>a+pfV(p),0)||1;
+  const pn=new Map(list.map(p=>[p.id,productNodes(p,true)]));
+  const sc=v=>v>=70?'#c92a2a':v>=50?'#e8590c':'#b08800';
+  const dev=NODES.map(n=>({n,s:nodeScore(n)})).filter(x=>x.s>=40).map(x=>{const ps=list.filter(p=>pn.get(p.id).has(x.n.id));const by=ents.map(e=>ps.filter(p=>p.ent===e).reduce((a,p)=>a+pfV(p),0));return {...x,ps,by,t:by.reduce((a,v)=>a+v,0),ne:new Set(ps.map(p=>p.ent)).size}}).filter(r=>r.t>0).sort((a,b)=>b.s-a.s||b.t-a.t);
+  const f=dev[0];
+  document.getElementById('dv-find').textContent=f?`${f.n.name}(${f.n.host}) 한 대에 ${ml} ${pfF(f.t)} ${mu}, ${st.ent==='all'?'전체':BY[st.ent].name}의 ${Math.round(f.t/tot*100)}%가 걸려 있습니다. ${f.n.eos<'2026-11'?'지원종료('+f.n.eos+')가 지나 ':''}가장 먼저 손봐야 할 장비입니다.`:'위험 점수 40 이상 장비에 걸린 실적이 없습니다.';
+  document.getElementById('dv-leg').innerHTML=ents.filter(e=>dev.some(r=>r.by[ents.indexOf(e)]>0)).map(e=>`<span><i style="background:${PF_ENTC[ents.indexOf(e)]}"></i>${pfShort(e)}</span>`).join('');
+  document.getElementById('dv-rows').innerHTML=dev.map(r=>`<button class="dv-row" data-id="${r.n.id}"><span class="n"><b>${r.n.name}<span class="dv-flag" style="color:${sc(r.s)};border-color:${sc(r.s)}">위험 ${r.s}</span></b><span>${r.n.host} · 지원종료 ${r.n.eos} · ${r.ne}개 점포 · 상품 ${r.ps.length}개</span></span><span class="pf-bar" style="width:${Math.max(r.t/tot*100,1.5)}%">${r.by.map((v,i)=>v>0?`<i style="flex:0 0 ${v/r.t*100}%;background:${PF_ENTC[i]}" title="${r.n.host} · ${pfShort(ents[i])}: ${pfF(v)} ${mu}"></i>`:'').join('')}</span><span class="v"><b>${pfF(r.t)}</b><span>${Math.round(r.t/tot*100)}%</span></span></button>`).join('');
+  document.querySelectorAll('#dv-rows .dv-row').forEach(b=>b.onclick=()=>openImpact(b.dataset.id));
+}
+function initPortfolio(){document.querySelectorAll('#pf-m button').forEach(b=>b.onclick=()=>{pfM=b.dataset.m;document.querySelectorAll('#pf-m button').forEach(x=>x.classList.toggle('on',x===b));drawPortfolio();});}
+
 function drawQuad(){
   const pts=ENT.map(e=>{const l=PRODUCTS.filter(p=>p.ent===e.id); return {e, bal:sumBal(l), rev:sumRev(l), risk:countryRiskIndex(e.id)};});
   const W=620,H=380,L=64,R=24,T=24,B=56;
@@ -1461,7 +1523,7 @@ function initAI(){
 
 /* ================= Boot ================= */
 function renderAll(){ renderScopeBar(); renderCrumb(); renderBusiness(); renderService(); renderSystem(); if(curView==='impact') renderImpact(); }
-initImpactControls(); initAI(); renderQuality(); renderAll(); route();
+initImpactControls(); initAI(); initPortfolio(); renderQuality(); renderAll(); route();
 
 </script>
 </body>
