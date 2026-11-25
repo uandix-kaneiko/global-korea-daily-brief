@@ -299,6 +299,12 @@ pre.draft{white-space:pre-wrap;font-family:var(--body);font-size:13px;background
 .dv-row .v b{font-size:15px}.dv-row .v span{display:block;font-size:12px;color:var(--muted)}
 .dv-flag{display:inline-block;font-size:11px;font-weight:800;border:1px solid;border-radius:5px;padding:0 5px;margin-left:6px;vertical-align:1px}
 @media(max-width:700px){.pf-row{grid-template-columns:5.2em minmax(0,1fr) 4.6em}.dv-row{grid-template-columns:minmax(0,1fr)}.dv-row .v{text-align:left}}
+
+.ct-rows{display:grid;gap:12px}
+.ct-row{display:grid;grid-template-columns:6.2em minmax(0,1fr) 5.4em;gap:10px;align-items:center}
+.ct-row .n{font-weight:800;font-size:14px}.ct-row .n span{display:block;font-size:12px;color:var(--muted);font-weight:400}
+.ct-row .v{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;font-size:14px}.ct-row .v span{display:block;font-size:12px;color:var(--muted)}
+.dv-row{grid-template-columns:13em minmax(0,1fr) 5.4em}
 </style>
 </head>
 <body>
@@ -341,14 +347,14 @@ pre.draft{white-space:pre-wrap;font-family:var(--body);font-size:13px;background
         <p class="foot">막대 = 점포 실적, 색 = 상품군 · 점포 이름을 누르면 그 점포로 범위 설정</p>
       </div>
       <div class="card">
-        <div class="sec-h"><h2>우선 조치 대상 서버·노드</h2><p>영향받는 상품·잔액 기준</p></div>
-        <div class="risk-list" id="toprisk"></div>
-        <p class="foot" style="margin-top:12px">위험점수(샘플 산식) = 지원종료 경과 40 · 1년 내 25 · 그 외 5 + 취약점 × 8 + 최근 90일 장애 × 10, 최대 100</p>
+        <div class="sec-h"><h2>상품군별 실적</h2><p id="ct-sub">판매 점포 수 · 기준 지표는 왼쪽과 같음</p></div>
+        <p class="pf-find" id="ct-find"></p>
+        <div class="ct-rows" id="ct-rows"></div>
       </div>
     </div>
     <div class="card">
-      <div class="sec-h"><h2>국가별 상품 실적과 지원 IT</h2><p>단위: 잔액·연 수익 USD 백만 · 행을 누르면 서비스 뷰로 이동</p></div>
-      <div class="scroll"><table class="simple" id="prodtbl" style="min-width:1100px"></table></div>
+      <div class="sec-h"><h2>국가별 상품 실적</h2><p>단위: 잔액·연 수익 USD 백만 · 행을 누르면 이 상품을 처리하는 업무(서비스 뷰)로 이동</p></div>
+      <div class="scroll"><table class="simple" id="prodtbl" style="min-width:820px"></table></div>
     </div>
   </section>
 
@@ -366,6 +372,20 @@ pre.draft{white-space:pre-wrap;font-family:var(--body);font-size:13px;background
     <div class="grid2">
       <div class="card"><div class="sec-h"><h2>시스템별 프로그램 수</h2><p>유형별 · 행을 누르면 영향도</p></div><div class="scroll"><table class="simple" id="kindmatrix" style="min-width:620px"></table></div></div>
       <div class="card"><div class="sec-h"><h2>많이 호출되는 프로그램</h2><p>바뀌면 영향이 큰 순서</p></div><div class="risk-list" id="fanin"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="sec-h"><h2>위험 장비에 걸려 있는 실적</h2><p>장비 한 대가 멈추면 영향받는 연 수익 · 행을 누르면 영향도 분석</p></div>
+        <p class="pf-find" id="dv-find"></p>
+        <div class="pf-leg" id="dv-leg"></div>
+        <div class="dv-rows" id="dv-rows"></div>
+        <p class="foot" style="margin-top:12px">위험 점수 40 이상이면서 실적이 연결된 장비(검증된 관계 기준). 장비마다 따로 계산하므로 합계는 겹칩니다.</p>
+      </div>
+      <div class="card">
+        <div class="sec-h"><h2>우선 조치 대상 서버·노드</h2><p id="tr-sub">영향받는 상품·잔액 기준</p></div>
+        <div class="risk-list" id="toprisk"></div>
+        <p class="foot" style="margin-top:12px">위험점수(샘플 산식) = 지원종료 경과 40 · 1년 내 25 · 그 외 5 + 취약점 × 8 + 최근 90일 장애 × 10, 최대 100</p>
+      </div>
     </div>
     <div class="card">
       <div class="sec-h"><h2>자산 인벤토리 · 규제 대응 항목</h2><p id="invsum"></p></div>
@@ -932,13 +952,16 @@ function renderBusiness(){
   const expList=list.filter(productExposed), exp=sumBal(expList);
   const good=ITREL.filter(relGood).length;
   const hiNodes=NODES.filter(a=>nodeScore(a)>=70).length;
+  const cust=list.reduce((t,p)=>t+(p.cust||0),0), tx=list.reduce((t,p)=>t+(p.tx||0),0);
+  const bizN=new Set(list.map(p=>p.biz)).size;
+  const rk=st.ent==='all'?null:[...ENT].map(e=>({e:e.id,r:sumRev(PRODUCTS.filter(p=>p.ent===e.id))})).sort((x,y)=>y.r-x.r).findIndex(x=>x.e===st.ent)+1;
   const k=[
     [num(tot),'총 잔액 (USD 백만)', st.ent==='all'?`국외점포 ${ENT.length}곳 합계`:BY[st.ent].name],
-    [num(rev),'연 수익 (USD 백만)', '상품 '+list.length+'개'],
-    [tot?Math.round(exp/tot*100)+'%':'—','위험 자산 노출 잔액', 'USD '+num(exp)+'백만 · 위험점수 70+ 자산 의존'],
-    [SVC.filter(s=>s.crit).length,'중요 업무서비스', '단위업무 '+SVC.length+'개 중'],
-    [hiNodes,'고위험 서버·노드', '지원종료·취약점·장애 기준'],
-    [Math.round(good/ITREL.length*100)+'%','관계 검증률', '검증 완료 '+good+' / '+ITREL.length]
+    [num(rev),'연 수익 (USD 백만)', st.ent==='all'?'전 점포 합계':`${ENT.length}개 점포 중 ${rk}위`],
+    [num(cust),'고객 수', '상품별 고객 합계'],
+    [num(tx),'월 거래건수', '상품별 거래 합계'],
+    [list.length,'판매 상품', '상품군 '+bizN+'개'],
+    [st.ent==='all'?ENT.length:1,'국외점포', st.ent==='all'?'8개 국가·지역':BY[st.ent].name]
   ];
   document.getElementById('kpis').innerHTML=k.map(([v,l,s])=>`<div class="kpi"><span class="l">${l}</span><span class="v">${v}</span><span class="s">${s}</span></div>`).join('');
   drawPortfolio();
@@ -950,12 +973,15 @@ function renderBusiness(){
     return `<button class="risk-row" data-id="${a.id}"><span class="score lv${lv(s)}">${s}</span><span><b>${a.name} <span class="mono">${a.host}</span></b><span>${a.cluster} · ${nodeWhy(a)}</span><br><span>${eff}</span></span></button>`;
   }).join('');
   document.querySelectorAll('#toprisk .risk-row').forEach(b=>b.onclick=()=>openImpact(b.dataset.id));
+  document.getElementById('tr-sub').textContent=`고위험(70+) ${hiNodes}대 · 위험 장비 의존 잔액 ${tot?Math.round(exp/tot*100):0}%`;
+  drawCategories();
+  drawDevices();
   // product table
-  let h='<thead><tr><th>국가</th><th>사업부문</th><th>상품</th><th class="num">잔액</th><th class="num">연 수익</th><th class="num">월 거래건수</th><th class="num">고객 수</th><th>처리 단위업무</th><th>지원 시스템</th><th class="num">IT 위험</th></tr></thead><tbody>';
+  let h='<thead><tr><th>국가</th><th>사업부문</th><th>상품</th><th class="num">잔액</th><th class="num">연 수익</th><th class="num">월 거래건수</th><th class="num">고객 수</th><th class="num">점포 내 수익 비중</th></tr></thead><tbody>';
   let prev='';
   list.forEach(p=>{
-    const r=productRisk(p), ex=productExposed(p);
-    h+=`<tr class="click" tabindex="0" data-p="${p.id}"><td>${p.ent!==prev?`<b>${BY[p.ent].name}</b>`:''}</td><td>${p.biz}</td><td><b>${p.name}</b></td><td class="num">${num(p.bal)}</td><td class="num">${num(p.rev)}</td><td class="num">${num(p.tx)}</td><td class="num">${num(p.cust)}</td><td>${p.svcs.map(s=>BY[s].name).join(', ')}</td><td class="mono">${productSystems(p).map(y=>BY[y].code).join(' · ')}</td><td class="num"><span class="pill lv${lv(r)}" title="${ex?'위험점수 70 이상 자산에 의존':''}">${r}${ex?' · 노출':''}</span></td></tr>`;
+    const er=sumRev(PRODUCTS.filter(x=>x.ent===p.ent));
+    h+=`<tr class="click" tabindex="0" data-p="${p.id}"><td>${p.ent!==prev?`<b>${BY[p.ent].name}</b>`:''}</td><td>${p.biz}</td><td><b>${p.name}</b></td><td class="num">${num(p.bal)}</td><td class="num">${num(p.rev)}</td><td class="num">${num(p.tx)}</td><td class="num">${num(p.cust)}</td><td class="num">${er?Math.round(p.rev/er*100):0}%</td></tr>`;
     prev=p.ent;
   });
   const pt=document.getElementById('prodtbl'); pt.innerHTML=h+'</tbody>';
@@ -984,6 +1010,9 @@ function drawPortfolio(){
   document.querySelectorAll('#pf-rows .n').forEach(b=>b.onclick=()=>setScope(st.ent===b.dataset.e?'all':b.dataset.e,'all'));
 }
 function drawDevices(){
+  const pfM0=pfM; pfM='rev'; try{ drawDevices0(); } finally { pfM=pfM0; }
+}
+function drawDevices0(){
   const [ml,mu]=PF_ML[pfM], byE=pfOrder(), ents=byE.map(x=>x.e);
   const list=st.ent==='all'?PRODUCTS:PRODUCTS.filter(p=>p.ent===st.ent);
   const tot=list.reduce((a,p)=>a+pfV(p),0)||1;
@@ -996,7 +1025,15 @@ function drawDevices(){
   document.getElementById('dv-rows').innerHTML=dev.map(r=>`<button class="dv-row" data-id="${r.n.id}"><span class="n"><b>${r.n.name}<span class="dv-flag" style="color:${sc(r.s)};border-color:${sc(r.s)}">위험 ${r.s}</span></b><span>${r.n.host} · 지원종료 ${r.n.eos} · ${r.ne}개 점포 · 상품 ${r.ps.length}개</span></span><span class="pf-bar" style="width:${Math.max(r.t/tot*100,1.5)}%">${r.by.map((v,i)=>v>0?`<i style="flex:0 0 ${v/r.t*100}%;background:${PF_ENTC[i]}" title="${r.n.host} · ${pfShort(ents[i])}: ${pfF(v)} ${mu}"></i>`:'').join('')}</span><span class="v"><b>${pfF(r.t)}</b><span>${Math.round(r.t/tot*100)}%</span></span></button>`).join('');
   document.querySelectorAll('#dv-rows .dv-row').forEach(b=>b.onclick=()=>openImpact(b.dataset.id));
 }
-function initPortfolio(){document.querySelectorAll('#pf-m button').forEach(b=>b.onclick=()=>{pfM=b.dataset.m;document.querySelectorAll('#pf-m button').forEach(x=>x.classList.toggle('on',x===b));drawPortfolio();});}
+function drawCategories(){
+  const [ml,mu]=PF_ML[pfM], list=st.ent==='all'?PRODUCTS:PRODUCTS.filter(p=>p.ent===st.ent);
+  const rows=PF_BIZ.map(b=>{const ps=list.filter(p=>p.biz===b);return {b,ps,t:ps.reduce((a,p)=>a+pfV(p),0),ne:new Set(ps.map(p=>p.ent)).size}}).filter(r=>r.ps.length).sort((a,b)=>b.t-a.t);
+  const tot=rows.reduce((a,r)=>a+r.t,0)||1, mx=rows[0]?rows[0].t||1:1;
+  const f=rows[0];
+  document.getElementById('ct-find').textContent=f?`${f.b} 비중이 ${ml}의 ${Math.round(f.t/tot*100)}%입니다${st.ent==='all'?` (${f.ne}개 점포 판매)`:''}.`:'';
+  document.getElementById('ct-rows').innerHTML=rows.map(r=>`<div class="ct-row"><span class="n">${r.b}<span>${st.ent==='all'?r.ne+'개 점포':'상품 '+r.ps.length+'개'}</span></span><span class="pf-bar" style="width:${Math.max(r.t/mx*100,1.5)}%"><i style="flex:1 1 auto;background:${PF_COL[r.b]}"></i></span><span class="v">${pfF(r.t)}<span>${Math.round(r.t/tot*100)}%</span></span></div>`).join('');
+}
+function initPortfolio(){document.querySelectorAll('#pf-m button').forEach(b=>b.onclick=()=>{pfM=b.dataset.m;document.querySelectorAll('#pf-m button').forEach(x=>x.classList.toggle('on',x===b));drawPortfolio();drawCategories();});}
 
 function drawQuad(){
   const pts=ENT.map(e=>{const l=PRODUCTS.filter(p=>p.ent===e.id); return {e, bal:sumBal(l), rev:sumRev(l), risk:countryRiskIndex(e.id)};});
