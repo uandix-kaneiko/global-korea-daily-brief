@@ -125,6 +125,31 @@ p{margin:0 0 12px;max-width:72ch}
 .note{font-size:13px;color:var(--mute)}
 @media(max-width:900px){.plays{grid-template-columns:repeat(2,minmax(0,1fr))}.logic{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){.plays,.split2{grid-template-columns:minmax(0,1fr)}.dec{grid-template-columns:minmax(0,1fr)}}
+/* core */
+.core{margin:0 0 clamp(28px,4vw,48px)}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--yel);margin:0 0 10px}
+.big{font-size:clamp(22px,2.8vw,32px);line-height:1.3;font-weight:800;letter-spacing:-.02em;margin:0 0 22px;max-width:none}
+.big em{font-style:normal;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--yel) 55%,transparent) 62%)}
+.vs{display:grid;grid-template-columns:9.5em minmax(0,1fr) minmax(0,1fr);border-top:2px solid var(--ink)}
+.vs&gt;div{padding:12px 14px;border-bottom:1px solid var(--rule);font-size:15px;display:flex;align-items:center;gap:8px}
+.vs .h{font-size:13px;font-weight:700;color:var(--mute)}
+.vs .h.us{color:var(--yel)}
+.vs .k{font-weight:700}
+.vs .sep{color:var(--mute)}
+.vs .us{background:color-mix(in srgb,var(--yel) 10%,transparent);box-shadow:inset 3px 0 0 var(--yel)}
+.vs .n{display:inline-grid;place-items:center;min-width:1.9em;height:1.9em;padding:0 6px;font-size:13px;font-weight:800;border:1.5px solid var(--mute);color:var(--mute)}
+.vs .us .n{border-color:var(--yel);background:var(--yel);color:#111}
+.peer{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:14px;margin-top:22px;align-items:stretch}
+.peer .lbl{padding:16px 0;font-size:15px}
+.peer .lbl b{display:block;font-size:17px;margin-bottom:4px}
+.peer .lbl span{color:var(--mute);font-size:14px}
+.stat{background:var(--bg);padding:16px 18px}
+.stat .v{font:800 clamp(30px,3.6vw,42px)/1 &quot;Hanken Grotesk&quot;,&quot;Noto Sans KR&quot;,sans-serif;letter-spacing:-.02em}
+.stat .v small{font-size:.5em;margin-left:2px}
+.stat .t{font-size:14px;color:var(--mute);margin-top:8px}
+.stat .bar{height:6px;background:var(--plane);margin-top:12px;overflow:hidden}
+.stat .bar i{display:block;height:100%;width:0;background:var(--yel);transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+@media(max-width:760px){.vs{grid-template-columns:6.2em minmax(0,1fr) minmax(0,1fr)}.vs&gt;div{padding:10px 8px;font-size:13.5px;flex-wrap:wrap;gap:4px}.peer{grid-template-columns:1fr 1fr}.peer .lbl{grid-column:1/-1;padding:0}}
 &lt;/style&gt;
 &lt;style&gt;
 html{-webkit-font-smoothing:antialiased}
@@ -155,6 +180,22 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
 &lt;/div&gt;&lt;/section&gt;
 
 &lt;section class=&quot;band alt&quot;&gt;&lt;div class=&quot;wrap&quot;&gt;
+  &lt;div class=&quot;core&quot;&gt;
+   &lt;p class=&quot;kicker&quot;&gt;시너지 한 줄 요약&lt;/p&gt;
+   &lt;p class=&quot;big&quot;&gt;해외결제 연결을 &lt;em&gt;한 번만 만들어&lt;/em&gt; 은행과 카드가 &lt;em&gt;함께 씁니다&lt;/em&gt;.&lt;br&gt;은행은 돈길(연결·환전·정산), 카드는 그 위에서 고객과 결제를 넓힙니다.&lt;/p&gt;
+   &lt;div class=&quot;vs&quot; role=&quot;table&quot; aria-label=&quot;따로 할 때와 같이 할 때 비교&quot;&gt;
+    &lt;div class=&quot;h&quot; role=&quot;columnheader&quot;&gt;&lt;/div&gt;&lt;div class=&quot;h&quot; role=&quot;columnheader&quot;&gt;따로 하면&lt;/div&gt;&lt;div class=&quot;h us&quot; role=&quot;columnheader&quot;&gt;같이 하면&lt;/div&gt;
+    &lt;div class=&quot;k&quot;&gt;허브·현지망 연결&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;n&quot;&gt;2번&lt;/span&gt;은행·카드 각자 참가&lt;/div&gt;&lt;div class=&quot;us&quot;&gt;&lt;span class=&quot;n&quot;&gt;1번&lt;/span&gt;모행 연결을 같이 사용&lt;/div&gt;
+    &lt;div class=&quot;k&quot;&gt;환전·정산&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;n&quot;&gt;각자&lt;/span&gt;카드는 외부에 맡김&lt;/div&gt;&lt;div class=&quot;us&quot;&gt;&lt;span class=&quot;n&quot;&gt;모행&lt;/span&gt;환전 수익이 그룹 안에 남음&lt;/div&gt;
+    &lt;div class=&quot;k&quot;&gt;앱 해외결제 화면&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;n&quot;&gt;2번&lt;/span&gt;KB Pay·스타뱅킹 따로 개발&lt;/div&gt;&lt;div class=&quot;us&quot;&gt;&lt;span class=&quot;n&quot;&gt;1번&lt;/span&gt;공통 모듈을 두 앱에 탑재&lt;/div&gt;
+    &lt;div class=&quot;k&quot;&gt;리스크 통제&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;n&quot;&gt;2개&lt;/span&gt;기준이 둘&lt;/div&gt;&lt;div class=&quot;us&quot;&gt;&lt;span class=&quot;n&quot;&gt;1개&lt;/span&gt;제재·이상거래 기준 통일&lt;/div&gt;
+   &lt;/div&gt;
+   &lt;div class=&quot;peer&quot;&gt;
+    &lt;div class=&quot;lbl&quot;&gt;&lt;b&gt;이미 이 구조로 가는 곳: 하나금융 트래블로그&lt;/b&gt;&lt;span&gt;은행 외화(환전·외화예금)와 카드 결제를 하나로 묶은 상품. KB는 연결 기반은 있으나 은행·카드가 아직 따로 씁니다.&lt;/span&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;v&quot; data-to=&quot;45.3&quot;&gt;0&lt;small&gt;%&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;t&quot;&gt;해외 체크카드 점유율&lt;/div&gt;&lt;div class=&quot;bar&quot;&gt;&lt;i data-w=&quot;45.3&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;v&quot; data-to=&quot;18.8&quot;&gt;0&lt;small&gt;%&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;t&quot;&gt;카드 수익 중 해외 비중&lt;/div&gt;&lt;div class=&quot;bar&quot;&gt;&lt;i data-w=&quot;18.8&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+   &lt;/div&gt;
+  &lt;/div&gt;
   &lt;h2&gt;은행·카드 시너지 방안 6가지&lt;/h2&gt;
   &lt;div class=&quot;plays&quot;&gt;
     &lt;article class=&quot;play top&quot;&gt;&lt;h3&gt;① 허브 연결은 하나로&lt;/h3&gt;&lt;div class=&quot;roles&quot;&gt;&lt;b&gt;은행&lt;/b&gt;&lt;span&gt;금결원 허브·국가결제망 참가, 국가별 라우팅&lt;/span&gt;&lt;b class=&quot;c&quot;&gt;카드&lt;/b&gt;&lt;span&gt;별도 참가 없이 모행 연결 사용&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;eff&quot;&gt;중복 참가·개발 제거&lt;/div&gt;&lt;/article&gt;
@@ -274,6 +315,13 @@ lane(&#x27;s2&#x27;,&#x27;t2&#x27;,{lanes:[
  {name:&#x27;인도 진출기업 수납 (검토)&#x27;,steps:[[&#x27;c&#x27;,&#x27;n&#x27;,&#x27;UPI 등으로 지급&#x27;,&#x27;처리&#x27;],[&#x27;n&#x27;,&#x27;g&#x27;,&#x27;입금&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;g&#x27;,&#x27;가상계좌 매칭·대사&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;e&#x27;,&#x27;입금 통지·ERP 반영&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;b&#x27;,&#x27;일별 자금·보고&#x27;,&#x27;일마감&#x27;,&#x27;d&#x27;]]}
  ]});
 }
+&lt;/script&gt;
+&lt;script&gt;
+(function(){const els=[...document.querySelectorAll(&#x27;.stat&#x27;)];if(!els.length)return;
+function run(st){const v=st.querySelector(&#x27;.v&#x27;),to=+v.dataset.to,b=st.querySelector(&#x27;.bar i&#x27;),t0=performance.now();b.style.width=b.dataset.w+&#x27;%&#x27;;
+ (function f(now){const p=Math.min(1,Math.max(0,now-t0)/1400),e=1-Math.pow(1-p,3);v.firstChild.nodeValue=(to*e).toFixed(1);if(p&lt;1)requestAnimationFrame(f)})(t0)}
+if(&#x27;IntersectionObserver&#x27; in window){const io=new IntersectionObserver(es=&gt;es.forEach(x=&gt;{if(x.isIntersecting){run(x.target);io.unobserve(x.target)}}),{threshold:.4});els.forEach(e=&gt;io.observe(e))}else els.forEach(run);
+setTimeout(()=&gt;els.forEach(st=&gt;{const v=st.querySelector(&#x27;.v&#x27;);if(v.firstChild.nodeValue===&#x27;0&#x27;)run(st)}),4000);})();
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
