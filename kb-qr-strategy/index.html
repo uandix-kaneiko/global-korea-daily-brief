@@ -1,18 +1,61 @@
 <!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>KB 그룹 QR·해외결제 전략</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Hanken+Grotesk:wght@300;500;700&display=swap">
 <style>
-*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:'Noto Sans KR',system-ui,sans-serif;background:#fff;color:#111}
-header{position:sticky;top:0;z-index:5;background:#111;color:#fff;display:flex;align-items:center;gap:16px;padding:0 16px;height:56px;overflow-x:auto;white-space:nowrap}
-header b{font-size:15px;letter-spacing:-.2px;margin-right:8px}header b i{font-style:normal;background:#ffe600;color:#111;padding:2px 6px;margin-right:6px}
-nav{display:flex;gap:4px}
-nav button{background:none;border:0;color:#bbb;font:inherit;font-size:14px;padding:18px 10px;cursor:pointer;border-bottom:3px solid transparent}
-nav button.on{color:#fff;font-weight:700;border-bottom-color:#ffe600}
-iframe{display:block;width:100%;height:calc(100vh - 56px);height:calc(100dvh - 56px);border:0}
-iframe[hidden]{display:none}
-@media(max-width:600px){header b{display:none}header{padding:0 6px}nav button{padding:18px 8px}}
+:root{--ink:#0d0d0c;--ink2:#1a1a18;--line:rgba(255,255,255,.12);--gold:#ffe600;--muted:#9a978f;--paper:#fbfaf7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:'Noto Sans KR',system-ui,sans-serif;background:var(--paper);color:var(--ink);word-break:keep-all;-webkit-font-smoothing:antialiased}
+.cover{position:relative;background:var(--ink);color:#f4f2ec;overflow:hidden;padding:clamp(28px,5vw,56px) clamp(20px,6vw,88px) clamp(48px,7vw,96px)}
+.cover:before{content:"";position:absolute;inset:0;background:radial-gradient(900px 500px at 85% -10%,rgba(255,230,0,.10),transparent 60%),radial-gradient(700px 400px at -10% 110%,rgba(255,255,255,.05),transparent 60%);pointer-events:none}
+.grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:88px 88px;opacity:.18;mask-image:linear-gradient(180deg,#000,transparent 85%);pointer-events:none}
+.top{position:relative;display:flex;justify-content:space-between;align-items:center;font-family:'Hanken Grotesk','Noto Sans KR';font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.brand{display:flex;align-items:center;gap:10px;color:#f4f2ec;letter-spacing:.12em}
+.brand b{background:var(--gold);color:var(--ink);font-weight:700;padding:3px 7px;letter-spacing:0;font-size:13px}
+.hero{position:relative;max-width:1080px;margin-top:clamp(56px,9vw,120px)}
+.eyebrow{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--gold);letter-spacing:.08em;font-weight:500}
+.eyebrow:before{content:"";width:40px;height:1px;background:var(--gold)}
+h1{font-family:'Noto Serif KR',serif;font-weight:700;font-size:clamp(34px,5.6vw,72px);line-height:1.18;letter-spacing:-.035em;margin:22px 0 0}
+h1 span{color:var(--gold)}
+.lede{max-width:640px;margin:28px 0 0;font-size:clamp(15px,1.4vw,18px);line-height:1.8;color:#c9c6bd;font-weight:300}
+.cards{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(48px,7vw,88px)}
+.card{display:flex;flex-direction:column;gap:14px;padding:28px 26px 26px;background:var(--ink);color:#f4f2ec;text-decoration:none;transition:background .35s}
+.card:hover{background:var(--ink2)}
+.card em{font-style:normal;font-family:'Hanken Grotesk';font-size:13px;color:var(--gold);letter-spacing:.1em}
+.card h3{margin:0;font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;letter-spacing:-.02em}
+.card p{margin:0;font-size:14px;line-height:1.7;color:#b5b2a9;flex:1}
+.card span{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);letter-spacing:.04em}
+.card i{font-style:normal;color:var(--gold);transition:transform .35s}.card:hover i{transform:translateX(6px)}
+nav{position:sticky;top:0;z-index:10;display:flex;align-items:stretch;background:rgba(251,250,247,.86);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid #e6e3dc;padding:0 clamp(8px,4vw,72px);overflow-x:auto}
+nav .mark{display:flex;align-items:center;gap:8px;margin-right:auto;padding-right:24px;font-size:13px;font-weight:700;white-space:nowrap}
+nav .mark b{background:var(--ink);color:var(--gold);padding:2px 6px;font-size:11px}
+nav button{position:relative;background:none;border:0;font:inherit;font-size:14px;color:#77746c;padding:20px 18px;cursor:pointer;white-space:nowrap;transition:color .25s}
+nav button em{font-style:normal;font-family:'Hanken Grotesk';font-size:11px;letter-spacing:.1em;margin-right:8px;color:#b0ada4}
+nav button:after{content:"";position:absolute;left:18px;right:18px;bottom:-1px;height:2px;background:var(--ink);transform:scaleX(0);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+nav button.on{color:var(--ink);font-weight:700}nav button.on em{color:var(--ink)}nav button.on:after{transform:scaleX(1)}
+nav button:hover{color:var(--ink)}
+main{background:var(--paper)}
+iframe{display:block;width:100%;height:calc(100vh - 62px);border:0;background:var(--paper);opacity:1;transition:opacity .4s}
+iframe[hidden]{display:none}iframe.fade{opacity:0}
+footer{background:var(--ink);color:var(--muted);padding:36px clamp(20px,6vw,88px);font-size:12px;letter-spacing:.06em;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer b{color:#f4f2ec;font-weight:500}
+.fade-up{opacity:0;transform:translateY(18px);animation:up .9s cubic-bezier(.2,.8,.2,1) forwards}
+.d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}
+@keyframes up{to{opacity:1;transform:none}}
+@media(max-width:760px){.cards{grid-template-columns:1fr}.top .meta{display:none}nav .mark{display:none}nav button{padding:18px 12px;font-size:13px}nav button:after{left:12px;right:12px}}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none;opacity:1;transform:none}}
 </style></head><body>
-<header><b><i>KB</i>그룹 QR·해외결제 전략</b><nav><button data-i="0" class=on>은행·카드 시너지</button><button data-i="1">통합 구조맵</button><button data-i="2">현지결제망 검토</button></nav></header>
-<iframe id="f0" title="은행·카드 시너지" srcdoc="&lt;!DOCTYPE html&gt;
+<header class="cover"><div class="grid"></div>
+ <div class="top"><div class="brand"><b>KB</b>Financial Group</div><div class="meta">Global IT Development · Strategy Review · 2026.11</div></div>
+ <div class="hero">
+  <div class="eyebrow fade-up d1">그룹 결제 전략 검토(안) · 글로벌IT개발부</div>
+  <h1 class="fade-up d2">은행과 카드, 그리고 해외 현지망을<br><span>하나의 결제</span>로 잇습니다</h1>
+  <p class="lede fade-up d3">국민은행 모행이 해외결제를 한 번에 처리하고, KB Pay와 스타뱅킹이 같은 연결을 함께 씁니다. 베트남·인도 현지 결제망은 글로벌IT가 별도로 운영합니다.</p>
+ </div>
+ <div class="cards fade-up d4"><a class="card" data-i="0" href="#c0"><em>01</em><h3>은행·카드 시너지</h3><p>해외결제는 모행이 한 번에 처리하고, 카드는 그 연결을 함께 씁니다</p><span>스타뱅킹 · KB Pay 흐름도<i>→</i></span></a><a class="card" data-i="1" href="#c1"><em>02</em><h3>통합 구조맵</h3><p>카드·은행·글로벌 현지망을 하나의 결제 구조로 묶습니다</p><span>5단 구조 · 평가 · 로드맵<i>→</i></span></a><a class="card" data-i="2" href="#c2"><em>03</em><h3>현지결제망 검토</h3><p>베트남은 키우고, 인도는 준비하고, 미얀마는 지킵니다</p><span>글로벌IT 현지망 분석<i>→</i></span></a></div>
+</header>
+<nav id="nav"><div class="mark"><b>KB</b>그룹 QR·해외결제 전략</div><button data-i="0" class=on><em>01</em>은행·카드 시너지</button><button data-i="1"><em>02</em>통합 구조맵</button><button data-i="2"><em>03</em>현지결제망 검토</button></nav>
+<main id="main"><iframe id="f0" title="은행·카드 시너지" scrolling="no" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ko&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -83,7 +126,12 @@ p{margin:0 0 12px;max-width:72ch}
 @media(max-width:900px){.plays{grid-template-columns:repeat(2,minmax(0,1fr))}.logic{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){.plays,.split2{grid-template-columns:minmax(0,1fr)}.dec{grid-template-columns:minmax(0,1fr)}}
 &lt;/style&gt;
-&lt;/head&gt;
+&lt;style&gt;
+html{-webkit-font-smoothing:antialiased}
+body{background:#fbfaf7!important}
+h1,h2{letter-spacing:-.025em!important}
+::selection{background:#ffe600;color:#111}
+&lt;/style&gt;&lt;/head&gt;
 &lt;body&gt;
 
 &lt;section class=&quot;band&quot;&gt;&lt;div class=&quot;wrap&quot;&gt;
@@ -218,7 +266,7 @@ lane(&#x27;s2&#x27;,&#x27;t2&#x27;,{lanes:[
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-"></iframe><iframe id="f1" title="통합 구조맵" srcdoc="&lt;!DOCTYPE html&gt;
+"></iframe><iframe id="f1" title="통합 구조맵" scrolling="no" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ko&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -360,7 +408,12 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
 @media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:10px 0;border-bottom:1px solid var(--rule)}.stack td{border:0;padding:6px}.stack td:first-child{grid-column:1/-1}.stack td.verdict{grid-column:1/-1;text-align:left;padding-left:0}.stack td.v::before{content:attr(data-l);display:block;font-size:11px;font-weight:500;color:inherit;opacity:.75}.dgrid{grid-template-columns:minmax(0,1fr)}}
 &lt;/style&gt;
 &lt;script&gt;new MutationObserver(()=&gt;{for(const c of document.querySelectorAll(&#x27;.stack td:not([data-l])&#x27;)){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest(&#x27;table&#x27;).rows[0].cells[i]?.textContent||&#x27;&#x27;}}).observe(document,{childList:true,subtree:true})&lt;/script&gt;
-&lt;/head&gt;
+&lt;style&gt;
+html{-webkit-font-smoothing:antialiased}
+body{background:#fbfaf7!important}
+h1,h2{letter-spacing:-.025em!important}
+::selection{background:#ffe600;color:#111}
+&lt;/style&gt;&lt;/head&gt;
 &lt;body&gt;
 
 &lt;section class=&quot;band&quot;&gt;&lt;div class=&quot;wrap&quot;&gt;
@@ -555,7 +608,7 @@ show(0);raf=requestAnimationFrame(loop);
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-" hidden></iframe><iframe id="f2" title="현지결제망 검토" srcdoc="&lt;!DOCTYPE html&gt;
+" hidden></iframe><iframe id="f2" title="현지결제망 검토" scrolling="no" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ko&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -646,7 +699,12 @@ li{margin-bottom:6px;max-width:80ch}
 @keyframes pulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--yel) 60%,transparent)}}
 &lt;/style&gt;
 &lt;script&gt;new MutationObserver(()=&gt;{for(const c of document.querySelectorAll(&#x27;.stack td:not([data-l])&#x27;)){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest(&#x27;table&#x27;).rows[0].cells[i]?.textContent||&#x27;&#x27;}}).observe(document,{childList:true,subtree:true})&lt;/script&gt;
-&lt;/head&gt;
+&lt;style&gt;
+html{-webkit-font-smoothing:antialiased}
+body{background:#fbfaf7!important}
+h1,h2{letter-spacing:-.025em!important}
+::selection{background:#ffe600;color:#111}
+&lt;/style&gt;&lt;/head&gt;
 &lt;body&gt;
 
 &lt;section class=&quot;band&quot;&gt;&lt;div class=&quot;wrap&quot;&gt;
@@ -785,10 +843,15 @@ li{margin-bottom:6px;max-width:80ch}
 
 &lt;/body&gt;
 &lt;/html&gt;
-" hidden></iframe>
+" hidden></iframe></main>
+<footer><span><b>KB국민은행 글로벌IT개발부</b> · 그룹 결제 전략 검토(안)</span><span>2026.11 · 내부 검토용</span></footer>
 <script>
-const bs=[...document.querySelectorAll('nav button')];
-function show(i){bs.forEach((b,k)=>b.classList.toggle('on',k==i));document.querySelectorAll('iframe').forEach((f,k)=>f.hidden=k!=i);try{history.replaceState(null,'','#'+i)}catch(e){}}
-bs.forEach(b=>b.onclick=()=>show(+b.dataset.i));
-const h=parseInt(location.hash.slice(1));if(h>=0&&h<3)show(h);
+const bs=[...document.querySelectorAll('nav button')],fs=[...document.querySelectorAll('iframe')];
+function fit(f){try{const d=f.contentDocument;if(!d||!d.body)return;const h=Math.max(d.documentElement.scrollHeight,d.body.scrollHeight);if(h>200)f.style.height=h+'px';}catch(e){f.setAttribute('scrolling','yes')}}
+fs.forEach(f=>{f.addEventListener('load',()=>{fit(f);try{new ResizeObserver(()=>fit(f)).observe(f.contentDocument.body)}catch(e){};setTimeout(()=>fit(f),800);setTimeout(()=>fit(f),2500)})});
+addEventListener('resize',()=>fs.forEach(fit));
+function show(i,go){bs.forEach((b,k)=>b.classList.toggle('on',k==i));fs.forEach((f,k)=>{f.hidden=k!=i});const f=fs[i];f.classList.add('fade');requestAnimationFrame(()=>{fit(f);requestAnimationFrame(()=>f.classList.remove('fade'))});
+ if(go){const y=document.getElementById('nav').getBoundingClientRect().top+scrollY;window.scrollTo({top:y,behavior:'smooth'})}}
+bs.forEach(b=>b.onclick=()=>show(+b.dataset.i,true));
+document.querySelectorAll('.card').forEach(c=>c.onclick=e=>{e.preventDefault();show(+c.dataset.i,true)});
 </script></body></html>
