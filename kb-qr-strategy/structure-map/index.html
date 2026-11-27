@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>그룹 결제 통합 구조맵</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<style>
+/* VOICE work: an architecture review for executives, exact and dense
+   IDEA an architect's section drawing: stacked floors of the system, new floor in safety yellow
+   PICTURE five-layer structure map with every block marked owned / to fix / new / isolated
+   COLOUR white, black, concrete #d8d8d4, safety yellow #ffe600 only on the new layer and the top-priority items
+   TYPE Hanken Grotesk + Noto Sans KR
+   LAYOUT finding across the top, structure map full width; evaluation table, then priority map beside its legend; phone stacks */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#1a1a19);--ink:light-dark(#111111,#ededeb);--mute:light-dark(#5b5b57,#a9a9a4);--plane:light-dark(#e4e4e0,#2a2a28);--soft:light-dark(#f1f1ee,#232321);--rule:light-dark(#cfcfca,#3a3a37);--yel:#ffe600;--yel2:light-dark(#fff6a6,#5b5416);--red:light-dark(#c62d1f,#ff7b6b)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Hanken Grotesk","Noto Sans KR",system-ui,sans-serif;overflow-x:clip;word-break:keep-all;overflow-wrap:break-word}
+.band{padding:clamp(28px,4vw,56px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+.alt{background:var(--soft)}
+h1{font-size:clamp(30px,4vw,46px);line-height:1.12;letter-spacing:-.02em;margin:0 0 14px;font-weight:800;text-wrap:balance;max-width:22ch}
+h2{font-size:clamp(22px,2.6vw,28px);line-height:1.2;margin:0 0 10px;font-weight:800;text-wrap:balance}
+p{margin:0 0 12px;max-width:72ch}
+.meta{color:var(--mute);font-size:14px;margin-bottom:16px}
+.lead{font-size:18px}
+.top{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:32px;align-items:end}
+.keys{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.key{background:var(--soft);padding:12px 14px}
+.key b{display:block;font-size:clamp(24px,2.6vw,30px);line-height:1.1}
+.key span{font-size:13px;color:var(--mute)}
+.key.y{background:var(--yel);color:#111}
+.key.y span{color:#333}
+/* structure */
+.map{margin-top:28px;border-top:3px solid var(--ink)}
+.lyr{display:grid;grid-template-columns:9.5em minmax(0,1fr);gap:16px;padding:12px 0;border-bottom:1px solid var(--rule);align-items:stretch}
+.lyr>.lab b{display:block;font-size:16px}
+.lyr>.lab span{font-size:13px;color:var(--mute)}
+.blocks{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:10px}
+.blk{padding:10px 12px;border:1.5px solid transparent;background:var(--plane)}
+.blk b{display:block;font-size:15px;line-height:1.35}
+.blk span{display:block;font-size:13px;color:var(--mute);line-height:1.45}
+.blk.fix{background:var(--bg);border-color:var(--ink)}
+.blk.ctl{background:var(--bg);border:1.5px dashed var(--red)}
+.blk.ctl b{color:var(--red)}
+.lyr.new{background:var(--yel);color:#111;padding:12px;margin:0 -12px;border-bottom:0}
+.lyr.new .lab span{color:#333}
+.lyr.new .blk{background:#fffbe0;color:#111;border-color:#111}
+.lyr.new .blk span{color:#444}
+.split{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:16px;padding:14px 0 0;margin-left:calc(9.5em + 16px)}
+.lane{display:flex;flex-direction:column;gap:10px}
+.lanehead{border-top:6px solid var(--ink);padding-top:8px}
+.lanehead b{display:block;font-size:16px}
+.lanehead span{font-size:13px;color:var(--mute)}
+.lab2{font-size:14px;font-weight:700;margin-bottom:6px}
+.lab2 em{font-style:normal;font-weight:400;color:var(--mute);font-size:13px;margin-left:6px}
+.lane.direct{background:var(--soft);padding:0 14px 0}
+.lane.direct .lanehead{margin:0 -14px;padding:8px 14px 0}
+.lane.direct p{font-size:14px;margin:0}
+.lane.direct ul{margin:0;padding-left:1.2em;font-size:14px}
+.lane.direct li{margin-bottom:4px}
+.flow{margin-top:auto;font-size:13px;font-weight:700;color:var(--mute);padding:6px 0;border-bottom:2px solid var(--ink)}
+.lane.direct .flow{margin-left:-14px;margin-right:-14px;padding-left:14px}
+.lyr.gitl{border-top:3px solid var(--ink);margin-top:0}
+.blk .use{display:block;margin-top:4px;font-size:13px;color:var(--ink)}
+.blk.ctl .use{color:var(--red)}
+.flows{display:grid;gap:14px;margin-top:8px}
+.fl{border-top:1px solid var(--rule);padding-top:12px}
+.flh{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:10px}
+.flh b{font-size:16px}
+.path{font-size:13px;color:var(--mute)}
+.tag2{font-size:12px;font-weight:700;padding:2px 8px;border:1.5px solid var(--ink);white-space:nowrap}
+.tag2.on{background:var(--ink);color:var(--bg)}
+.tag2.plan{border-style:dashed}
+.tag2.rev{color:var(--mute);border-color:var(--mute)}
+.steps{list-style:none;margin:0;padding:0;display:flex;align-items:stretch;gap:22px}
+.st{flex:1 1 0;position:relative;padding:8px 10px;background:var(--plane);border:1.5px solid transparent}
+.st b{display:block;font-size:14px;line-height:1.35}
+.st span{display:block;font-size:12.5px;color:var(--mute);line-height:1.4}
+.st.kb{background:var(--bg);border-color:var(--ink)}
+.st.new{background:var(--yel);color:#111;border-color:#111}
+.st.new span{color:#333}
+.st+.st::before{content:"→";position:absolute;left:-19px;top:50%;transform:translateY(-50%);font-weight:800;color:var(--mute)}
+@media(max-width:800px){.steps{flex-direction:column;gap:18px}.st+.st::before{content:"↓";left:14px;top:-18px;transform:none}}
+.fbtns{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.fbtns button{font:inherit;font-size:14px;min-height:44px;padding:8px 14px;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);cursor:pointer}
+.fbtns button[aria-selected=true]{background:var(--ink);color:var(--bg)}
+.fbtns button:focus-visible{outline:3px solid var(--yel);outline-offset:2px}
+.anim{min-width:820px}
+.anim svg{display:block;width:100%;height:auto}
+.fcap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:10px;font-size:16px;font-weight:700;min-height:32px}
+.fcap .tag2{font-size:13px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--mute);margin-top:12px}
+.legend i{display:inline-block;width:22px;height:14px;vertical-align:-2px;margin-right:6px;background:var(--plane)}
+.legend i.f{background:var(--bg);border:1.5px solid var(--ink)}
+.legend i.n{background:var(--yel)}
+.legend i.c{background:var(--bg);border:1.5px dashed var(--red)}
+/* table */
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:middle}
+th{font-size:13px;color:var(--mute);font-weight:600;border-bottom:2px solid var(--ink)}
+td.v{text-align:center;font-size:14px;white-space:nowrap}
+td.h{background:var(--yel);color:#111;font-weight:700}
+td.m{background:var(--yel2)}
+td.l{background:var(--plane);color:var(--mute)}
+td .sub{display:block;font-size:13px;color:var(--mute)}
+td.verdict{font-weight:800;white-space:nowrap}
+.go{color:var(--ink)}.step{color:var(--mute)}.hold{color:var(--red)}
+.defs{font-size:13px;color:var(--mute);margin-top:10px}
+/* priority */
+.pri{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:stretch}
+.fig{position:relative;min-height:420px}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
+.ql{display:grid;gap:10px}
+.q{padding:14px 16px;background:var(--bg)}
+.q.y{background:var(--yel);color:#111}
+.q b{display:block;font-size:16px}
+.q span{font-size:14px}
+/* roadmap */
+.phases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.ph{border-top:6px solid var(--ink);padding-top:12px}
+.ph.y{border-top-color:var(--yel)}
+.ph b{display:block;font-size:17px}
+.ph small{color:var(--mute);font-size:13px}
+.ph ul{margin:10px 0 0;padding-left:1.2em}
+.ph li{margin-bottom:6px;font-size:15px}
+.dec{margin-top:28px;border:1.5px dashed var(--ink);padding:18px 20px}
+.dec h3{margin:0 0 4px;font-size:18px}
+.dec p{font-size:14px;color:var(--mute)}
+.dgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:10px}
+.dgrid b{display:block;font-size:15px}
+.dgrid span{font-size:14px;color:var(--mute)}
+.note{font-size:14px;color:var(--mute)}
+@media(max-width:900px){.split{grid-template-columns:minmax(0,1fr)}.top,.pri{grid-template-columns:minmax(0,1fr)}.dgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.split{grid-template-columns:minmax(0,1fr);margin-left:0}.lyr{grid-template-columns:minmax(0,1fr);gap:8px}.blocks{grid-template-columns:repeat(2,minmax(0,1fr))}.phases{grid-template-columns:minmax(0,1fr)}.lyr.new{margin:0}}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:10px 0;border-bottom:1px solid var(--rule)}.stack td{border:0;padding:6px}.stack td:first-child{grid-column:1/-1}.stack td.verdict{grid-column:1/-1;text-align:left;padding-left:0}.stack td.v::before{content:attr(data-l);display:block;font-size:11px;font-weight:500;color:inherit;opacity:.75}.dgrid{grid-template-columns:minmax(0,1fr)}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+
+<section class="band"><div class="wrap">
+  <div class="top">
+    <div>
+      <div class="meta">글로벌IT개발부 검토(안) · 2026.11.27 · 기술·실효성·수익성·실현가능성 관점</div>
+      <h1>국민카드·국민은행·글로벌을 잇는 구조는 기술적으로 가능, 새로 만들 것은 공통 결제 플랫폼 하나</h1>
+      <p class="lead">채널, 국내 인프라, 국가 간 망, 글로벌IT개발부가 연결한 현지망은 이미 보유하고 있습니다. 이를 한 API로 잇는 공통 계층만 신규로 구축하면 되고, 효과와 실현성을 함께 갖춘 국가별 라우팅·한·캄 결제 연결(한국 고객 → PRASAC 가맹점)·베트남 기업 수납부터 착수하는 것이 효과적입니다.</p>
+    </div>
+    <div class="keys">
+      <div class="key y"><b>1개</b><span>신규 구축 계층</span></div>
+      <div class="key"><b>9개</b><span>평가 과제</span></div>
+      <div class="key"><b>3개</b><span>우선 착수 과제</span></div>
+    </div>
+  </div>
+
+  <div class="map" aria-label="통합 구조맵">
+    <div class="lyr"><div class="lab"><b>고객 채널</b><span>앱은 그대로</span></div>
+      <div class="blocks" style="--n:3">
+        <div class="blk"><b>KB Pay (국민카드)</b><span>카드·Pay머니·외화머니</span></div>
+        <div class="blk"><b>KB스타뱅킹 지갑 (국민은행)</b><span>계좌·외화통장·계좌 QR</span></div>
+        <div class="blk fix"><b>현지법인 앱</b><span>PRASAC·KBI 모바일, 연계 필요</span></div>
+      </div></div>
+    <div class="lyr new"><div class="lab"><b>그룹 공통 결제 플랫폼</b><span>신규 구축</span></div>
+      <div class="blocks" style="--n:6">
+        <div class="blk"><b>API·인증</b><span>통합 ID·동의</span></div>
+        <div class="blk"><b>자금원 연결</b><span>카드·계좌·외화머니</span></div>
+        <div class="blk"><b>국가별 라우팅</b><span>허브·직접·제휴 선택</span></div>
+        <div class="blk"><b>환율·정산·대사</b><span>다통화 정산</span></div>
+        <div class="blk"><b>AML·제재</b><span>SafeWatch 공동 사용</span></div>
+        <div class="blk"><b>모니터링</b><span>미결·장애 대응</span></div>
+      </div></div>
+    <div class="split">
+      <div class="lane">
+        <div class="lanehead"><b>① 국가 간 결제 경로</b><span>한국 고객의 해외결제, 외국인의 국내 결제</span></div>
+        <div class="sub"><div class="lab2">국내 인프라 <em>보유</em></div>
+          <div class="blocks" style="--n:3">
+            <div class="blk"><b>카드 승인계 (국민카드)</b><span>승인·매입·해외 정산</span></div>
+            <div class="blk"><b>계정계·외환계 (국민은행)</b><span>계좌 출금·환전·외화예금</span></div>
+            <div class="blk"><b>대외 접속계 (국민은행)</b><span>금결원 허브·직접 연계 전문</span></div>
+          </div></div>
+        <div class="sub"><div class="lab2">국가 간 망 <em>연결 경로</em></div>
+          <div class="blocks" style="--n:3">
+            <div class="blk fix"><b>금결원 국가 간 QR 허브</b><span>인니 개통, 베트남·인도 예정</span></div>
+            <div class="blk"><b>국가결제망 직접 연계</b><span>중국 NUCC</span></div>
+            <div class="blk"><b>제휴망</b><span>GLN·유니온페이·Visa QR</span></div>
+          </div></div>
+        <div class="flow">국가 간 망을 거쳐 현지망으로 ↓</div>
+      </div>
+      <div class="lane direct">
+        <div class="lanehead"><b>② 현지 직접 경로</b><span>한국을 거치지 않는 현지 고객·기업 거래</span></div>
+        <p>공통 플랫폼의 국가별 어댑터가 현지망에 바로 연결됩니다. 현재 실적이 가장 큰 경로입니다.</p>
+        <ul>
+          <li>베트남 기업 수납: 가상계좌 QR 월 25.3만 건('26.9)</li>
+          <li>캄보디아 가맹점 수납: KHQR·입금 알림</li>
+          <li>인도 진출기업 수납·지급(검토)</li>
+          <li>현지법인 앱 결제</li>
+        </ul>
+        <div class="flow">어댑터로 현지망에 직접 ↓</div>
+      </div>
+    </div>
+    <div class="lyr gitl"><div class="lab"><b>글로벌IT 현지망 연결</b><span>국가별 어댑터 · 글로벌IT개발부 운영</span></div>
+      <div class="blocks" style="--n:5">
+        <div class="blk"><b>캄보디아 KHQR</b><span>KB PRASAC</span><span class="use">가맹점 수납 · 한·캄 결제</span></div>
+        <div class="blk fix"><b>인니 QRIS</b><span>KBI</span><span class="use">한·인니 결제 연계, 역할 확인</span></div>
+        <div class="blk"><b>베트남 NAPAS</b><span>하노이·호치민지점</span><span class="use">기업 수납·대사(기업뱅킹)</span></div>
+        <div class="blk fix"><b>인도 NPCI</b><span>구루그람·첸나이·푸네지점</span><span class="use">진출기업 수납, 서비스 범위 확인</span></div>
+        <div class="blk ctl"><b>미얀마 MPU·MMQR</b><span>KB미얀마은행</span><span class="use">현지 한정, 국가 간 연결 분리</span></div>
+      </div></div>
+  </div>
+  <div class="legend"><span><i></i>보유</span><span><i class="f"></i>보완·확인</span><span><i class="n"></i>신규</span><span><i class="c"></i>분리 통제</span></div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <h2>흐름도: 돈이 움직이는 길 (베트남·인도)</h2>
+  <div class="fbtns" id="fb" role="tablist"></div>
+  <div class="scroll"><div class="anim"><svg id="fsv" viewBox="0 0 1100 560" role="img" aria-label="베트남·인도 결제 흐름 애니메이션"></svg></div></div>
+  <div class="fcap" id="fcap" aria-live="polite"></div>
+</div></section>
+
+<section class="band alt"><div class="wrap">
+  <h2>관점별 평가: 라우팅·캄보디아·베트남이 효과와 실현성을 함께 갖춤</h2>
+  <p>9개 연결 과제를 기술 준비도·실효성·수익성·실현가능성 3단계로 평가했습니다. 검토 의견이며, 내부 실적과 비용 자료로 확정해야 합니다.</p>
+  <div class="scroll"><table class="stack" id="ev"><thead><tr><th>과제</th><th>기술 준비도</th><th>실효성</th><th>수익성</th><th>실현가능성</th><th>종합</th></tr></thead><tbody></tbody></table></div>
+  <p class="defs">기술 준비도: 기존 연결·시스템 재사용 정도 · 실효성: 고객 이용·순증 효과 · 수익성: 외환·예금·수납 잔액 등 수익원 크기 · 실현가능성: 제도·일정·외부 의존도</p>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <h2>우선순위 맵: 실현 쉬운 연결부터, 효과 큰 국가 간 결제 경로로</h2>
+  <div class="pri">
+    <div class="fig"><svg id="pm" role="img" aria-label="실현가능성과 효과 기준 우선순위 맵"></svg></div>
+    <div class="ql">
+      <div class="q y"><b>우선 착수</b><span>③ 국가별 라우팅, ④ 한·캄 결제 연결(한국 고객 → PRASAC 가맹점), ⑤ 베트남 기업 수납·허브 참가</span></div>
+      <div class="q alt"><b>기반 과제</b><span>② 외화머니↔외화통장 연결. 효과는 보통이나 빠르게 가능하고 다른 과제의 토대</span></div>
+      <div class="q alt"><b>전략 과제</b><span>① 두 앱 공통 해외결제 모듈(은행·카드 합의 필요), ⑥ 인바운드(제도·국내 수납 참여 확인)</span></div>
+      <div class="q alt"><b>보류·관찰</b><span>⑦ 인니 QRIS(KBI 정상화와 연동), ⑧ 인도(서비스 범위 확인 후), ⑨ 미얀마(현지 한정 유지)</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="band alt"><div class="wrap">
+  <h2>기술 추진 단계: 연결 → 한·캄 결제로 효과 검증 → 확장</h2>
+  <div class="phases">
+    <div class="ph y"><b>1단계 연결 기반</b><small>0~6개월</small><ul><li>국가별 라우팅 테이블 통합(③)</li><li>외화머니↔외화통장 상호 충전(②)</li><li>현지 결제망 연결 현황 표준화: 연결 서비스·참가 방식·메시지 표준</li></ul></div>
+    <div class="ph"><b>2단계 효과 검증</b><small>6~12개월</small><ul><li>한·캄 결제 연결: 한국 고객 결제 대금을 PRASAC 가맹점 계좌로 입금(④)</li><li>베트남 기업 수납 표준 기능, 허브 참가 준비(⑤)</li><li>공통 플랫폼 1차: 라우팅·정산·AML</li></ul></div>
+    <div class="ph"><b>3단계 확장</b><small>12~24개월</small><ul><li>두 앱 공통 해외결제 모듈(①)</li><li>인바운드 국내 가맹점 연계(⑥)</li><li>인니·인도 연결 확대(⑦⑧)</li></ul></div>
+  </div>
+  <div class="dec">
+    <h3>경영진 의사결정 사항</h3>
+    <p>본 검토의 평가 범위 밖이며, 착수 전 경영진 판단이 필요한 사항입니다.</p>
+    <div class="dgrid">
+      <div><b>손익 배분</b><span>은행·카드·현지법인 간 수익 배분과 성과 평가 기준</span></div>
+      <div><b>플랫폼 주관</b><span>공통 결제 플랫폼의 소유·운영 주체(은행·카드·지주)</span></div>
+      <div><b>채널 원칙</b><span>두 앱 유지와 공통 모듈 탑재 여부</span></div>
+      <div><b>고위험국 정책</b><span>미얀마 등 국가 간 연결 허용 범위</span></div>
+    </div>
+  </div>
+  <p class="note" style="margin-top:16px">기간은 검토 의견이며 IT 사전 검토로 확정이 필요합니다. 인도·미얀마 연결 서비스 범위, 참가 방식, 거래 실적은 내부 자료로 확인해야 합니다.</p>
+</div></section>
+
+<script>
+{
+const H=3,M=2,L=1,lv=['','낮음','보통','높음'],cls=['','l','m','h'];
+const items=[
+ ['① 두 앱 공통 해외결제 모듈','카드 승인계·은행 계정계를 한 API로',M,H,M,M,0.42,0.68],
+ ['② 외화머니↔외화통장 연결','선불과 예금 간 상호 충전',H,M,M,H,0.82,0.45],
+ ['③ 국가별 라우팅','허브·직접·제휴 중 최적 경로, GLN 의존 축소',M,H,M,H,0.86,0.74],
+ ['④ 한·캄 결제 연결','한국 고객이 캄보디아에서 결제 → PRASAC 가맹점 계좌 입금',M,H,H,M,0.64,0.9],
+ ['⑤ 베트남 기업 수납·허브 참가','NAPAS 연결·수납 실적 기반',H,H,M,M,0.72,0.79],
+ ['⑥ 인바운드(국내 가맹점)','카드 가맹점망 + 은행 외환·수납',M,M,M,L,0.22,0.56],
+ ['⑦ 인니 QRIS(KBI)','모행 한·인니 결제와 KBI 역할 연계',M,M,L,M,0.55,0.3],
+ ['⑧ 인도 기업 수납(NPCI)','진출기업 수납·지급 자동화',L,M,M,L,0.3,0.4],
+ ['⑨ 미얀마 연결','FATF 고위험국, 현지 한정',M,L,L,L,0.12,0.12]
+];
+const VD=['전략 과제','기반 과제','우선 착수','우선 착수','우선 착수','전략 과제','보류·관찰','보류·관찰','보류·관찰'];const vc={'우선 착수':'go','기반 과제':'step','전략 과제':'step','보류·관찰':'hold'};
+document.querySelector('#ev tbody').innerHTML=items.map((it,i)=>{
+ const v=it.slice(2,6),t=VD[i],c=vc[t];
+ return `<tr><td><b>${it[0]}</b><span class="sub">${it[1]}</span></td>${v.map(x=>`<td class="v ${cls[x]}">${lv[x]}</td>`).join('')}<td class="verdict ${c}">${t}</td></tr>`;
+}).join('');
+const sv=document.getElementById('pm');
+const draw=()=>{
+ const W=sv.clientWidth,Hh=sv.clientHeight,ml=34,mb=30,mt=8,mr=8,gw=W-ml-mr,gh=Hh-mt-mb,cs=getComputedStyle(document.body);
+ const q=(x,y,w,h,f,t)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"/><text x="${x+10}" y="${y+20}" font-size="13" font-weight="700" fill="var(--mute)">${t}</text>`;
+ let o=q(ml+gw/2+2,mt,gw/2-2,gh/2-2,'var(--yel2)','우선 착수')+q(ml,mt,gw/2-2,gh/2-2,'var(--soft)','전략 과제')+q(ml+gw/2+2,mt+gh/2+2,gw/2-2,gh/2-2,'var(--soft)','기반 과제')+q(ml,mt+gh/2+2,gw/2-2,gh/2-2,'var(--soft)','보류·관찰');
+ o+=`<text x="${ml+gw}" y="${Hh-8}" font-size="13" text-anchor="end" fill="var(--mute)">실현가능성 →</text><text transform="translate(16 ${mt+60}) rotate(-90)" font-size="13" text-anchor="end" fill="var(--mute)">효과 →</text>`;
+ const r=W<520?14:17;
+ items.forEach(it=>{const cx=ml+it[6]*gw,cy=mt+(1-it[7])*gh,red=it[0].startsWith('⑨'),top=it[7]>=0.74&&it[6]>=0.6;
+  o+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${red?'var(--bg)':top?'var(--yel)':'var(--ink)'}" stroke="${red?'var(--red)':'var(--ink)'}" stroke-width="2"/><text x="${cx}" y="${cy+5}" font-size="${r<16?13:15}" font-weight="800" text-anchor="middle" fill="${red?'var(--red)':top?'#111':'var(--bg)'}" style="stroke:none">${it[0].slice(0,1)}</text>`;});
+ sv.innerHTML=o;
+};
+const ro=new ResizeObserver(draw);ro.observe(sv);
+}
+
+{
+const sv=document.getElementById('fsv'),fb=document.getElementById('fb'),cap=document.getElementById('fcap');
+const N={KRC:[110,150,'한국 고객','KB Pay·스타뱅킹','kb'],PLT:[300,150,'공통 플랫폼','라우팅·환율·대사','new'],EXT:[300,400,'국민은행','외환·대외 접속','kb'],HUB:[500,400,'금결원 허브','국가 간 QR','ext'],
+NAP:[760,90,'NAPAS','베트남 결제망','ext'],VNB:[760,200,'KB 베트남지점','기업뱅킹','kb'],VCU:[970,90,'현지 고객·가맹점','','ext'],VCO:[970,200,'고객사','계좌·ERP','ext'],
+NPC:[760,360,'NPCI','인도 결제망','ext'],INB:[760,470,'KB 인도지점','3개 지점','kb'],ICU:[970,360,'구매자·가맹점','','ext'],ICO:[970,470,'진출기업','계좌·ERP','ext']};
+const F=[
+ ['베트남 QR 수납',['VCU','NAP','VNB','VCO'],'운영 중','on','수납 고객이 QR로 내면 KB 베트남지점 계좌로'],
+ ['베트남 펌뱅킹 지급',['VCO','VNB','NAP','VCU'],'운영 중','on','고객사 지시로 KB 지점이 현지로 이체'],
+ ['베트남 한국 고객 결제',['KRC','PLT','EXT','HUB','NAP','VNB'],'허브 개통 후','plan','한국 고객 결제 대금이 KB 베트남지점으로'],
+ ['인도 진출기업 수납',['ICU','NPC','INB','ICO'],'검토','rev','인도 대금이 KB 인도지점을 거쳐 진출기업으로'],
+ ['인도 한국 고객 결제',['KRC','PLT','EXT','HUB','NPC','INB'],'한·인 개통 후','plan','한국 고객 결제 대금이 KB 인도지점으로']];
+const bw=156,bh=56,E=new Set();F.forEach(f=>f[1].forEach((k,i)=>{if(i)E.add([f[1][i-1],k].sort().join('|'))}));
+const zone=(x,y,w,h,t)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="var(--soft)"/><text x="${x+14}" y="${y+26}" font-size="16" font-weight="800" fill="var(--mute)">${t}</text>`;
+let base=zone(20,20,610,520,'한국')+zone(650,20,430,250,'베트남')+zone(650,290,430,250,'인도');
+base+=[...E].map(e=>{const[a,b]=e.split('|');return `<line data-e="${e}" x1="${N[a][0]}" y1="${N[a][1]}" x2="${N[b][0]}" y2="${N[b][1]}" stroke="var(--rule)" stroke-width="3"/>`}).join('');
+base+=['VNB','INB'].map(k=>`<line x1="${N.PLT[0]}" y1="${N.PLT[1]}" x2="${N[k][0]}" y2="${N[k][1]}" stroke="var(--mute)" stroke-width="1.5" stroke-dasharray="5 6" opacity=".6"/>`).join('');
+base+=`<text x="560" y="205" font-size="13" fill="var(--mute)" text-anchor="middle">어댑터 연결</text>`;
+base+='<g id="hlL"></g>';
+base+=Object.entries(N).map(([k,n])=>{const f=n[4]==='new'?'var(--yel)':n[4]==='kb'?'var(--bg)':'var(--plane)',st=n[4]==='ext'?'transparent':'var(--ink)';
+ return `<g data-n="${k}"><rect x="${n[0]-bw/2}" y="${n[1]-bh/2}" width="${bw}" height="${bh}" fill="${f}" stroke="${st}" stroke-width="2"/><text x="${n[0]}" y="${n[1]+(n[3]?-3:6)}" font-size="16" font-weight="800" text-anchor="middle" fill="${n[4]==='new'?'#111':'var(--ink)'}" style="stroke:none">${n[2]}</text>${n[3]?`<text x="${n[0]}" y="${n[1]+16}" font-size="12.5" text-anchor="middle" fill="${n[4]==='new'?'#333':'var(--mute)'}" style="stroke:none">${n[3]}</text>`:''}</g>`}).join('');
+sv.innerHTML=base+'<g id="hl"></g><circle id="tok" r="11" fill="var(--yel)" stroke="var(--ink)" stroke-width="3" opacity="0"/>';
+const hl=sv.querySelector('#hl'),hlL=sv.querySelector('#hlL'),tok=sv.querySelector('#tok');
+fb.innerHTML=F.map((f,i)=>`<button role="tab" id="fl${i}" aria-selected="false">${f[0]}</button>`).join('');
+const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cur=0,t0=0,auto=true,raf;
+const pts=i=>F[i][1].map(k=>[N[k][0],N[k][1]]);
+const show=i=>{cur=i;t0=performance.now();
+ fb.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-selected',j===i));
+ const P=pts(i);hlL.innerHTML=`<polyline points="${P.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linejoin="round"/>`;hl.innerHTML=P.map((p,j)=>`<rect x="${p[0]-bw/2-4}" y="${p[1]-bh/2-4}" width="${bw+8}" height="${bh+8}" fill="none" stroke="var(--ink)" stroke-width="3"/><circle cx="${p[0]-bw/2}" cy="${p[1]-bh/2}" r="12" fill="var(--ink)"/><text x="${p[0]-bw/2}" y="${p[1]-bh/2+5}" font-size="13" font-weight="800" text-anchor="middle" fill="var(--bg)" style="stroke:none">${j+1}</text>`).join('');
+ cap.innerHTML=`<span>${F[i][4]}</span><span class="tag2 ${F[i][3]}">${F[i][2]}</span>`;};
+const at=(P,u)=>{const L=P.slice(1).map((p,j)=>Math.hypot(p[0]-P[j][0],p[1]-P[j][1])),T=L.reduce((a,b)=>a+b,0);let d=u*T;for(let j=0;j<L.length;j++){if(d<=L[j]){const r=d/L[j];return[P[j][0]+(P[j+1][0]-P[j][0])*r,P[j][1]+(P[j+1][1]-P[j][1])*r]}d-=L[j]}return P[P.length-1]};
+const loop=now=>{const P=pts(cur),dur=900*(P.length-1),e=now-t0,u=Math.min(1,e/dur),q=at(P,red?1:u);
+ tok.setAttribute('cx',q[0]);tok.setAttribute('cy',q[1]);tok.setAttribute('opacity',(!red&&u<1)?1:0);
+ if(auto&&e>dur+1400)show((cur+1)%F.length);else if(!auto&&e>dur+1400)t0=now;
+ raf=requestAnimationFrame(loop)};
+fb.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;auto=false;show(+b.id.slice(2))});
+show(0);raf=requestAnimationFrame(loop);
+}
+</script>
+</body>
+</html>

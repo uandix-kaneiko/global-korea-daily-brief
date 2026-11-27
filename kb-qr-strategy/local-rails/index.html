@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>인도·베트남·미얀마 결제망 검토</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<style>
+/* VOICE work: a review memo for executives, dense and exact
+   IDEA a rail timetable: each country is a line, each segment a connection with its status
+   PICTURE three country rails (KB entity, local network, link to Korea, verdict) drawn as track segments
+   COLOUR white, black, concrete #d8d8d4 planes, safety yellow on the one recommended line; status in ink weights
+   TYPE Hanken Grotesk + Noto Sans KR
+   LAYOUT title and verdict across the top, rail board full width beneath; phone stacks each rail vertically */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#1a1a19);--ink:light-dark(#111111,#ededeb);--mute:light-dark(#5b5b57,#a9a9a4);--plane:light-dark(#d8d8d4,#2a2a28);--soft:light-dark(#efefec,#232321);--rule:light-dark(#cfcfca,#3a3a37);--yel:#ffe600;--red:light-dark(#c62d1f,#ff7b6b)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Hanken Grotesk","Noto Sans KR",system-ui,sans-serif;overflow-x:clip;word-break:keep-all;overflow-wrap:break-word}
+.band{padding:clamp(28px,4vw,56px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+h1{font-size:clamp(30px,4.2vw,46px);line-height:1.12;letter-spacing:-.02em;margin:0 0 14px;font-weight:800;text-wrap:balance}
+h2{font-size:clamp(22px,2.6vw,28px);line-height:1.2;letter-spacing:-.01em;margin:0 0 12px;font-weight:800;text-wrap:balance}
+h3{font-size:18px;margin:0 0 6px;font-weight:700}
+p{margin:0 0 12px;max-width:70ch}
+.meta{color:var(--mute);font-size:14px;margin-bottom:18px}
+.lead{font-size:18px;max-width:78ch}
+.top{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.verdicts{display:grid;gap:8px}
+.vd{display:grid;grid-template-columns:5.2em minmax(0,1fr);gap:12px;align-items:center;padding:10px 14px;background:var(--soft)}
+.vd b{font-size:15px}
+.vd span{font-size:14px;color:var(--mute)}
+.vd.go{background:var(--yel);color:#111}
+.vd.go span{color:#333}
+.tag{display:inline-block;font-size:13px;font-weight:700;padding:2px 8px;border:1.5px solid currentColor;white-space:nowrap}
+/* rail board */
+.board{margin-top:28px;border-top:3px solid var(--ink)}
+.bhead,.rail{display:grid;grid-template-columns:8.5em repeat(3,minmax(0,1fr)) minmax(0,.9fr);gap:0}
+.bhead div{font-size:13px;color:var(--mute);padding:10px 12px 8px}
+.rail{border-bottom:1px solid var(--rule);position:relative}
+.rail>div{padding:16px 12px 18px;position:relative}
+.rail .cty{font-weight:800;font-size:20px;line-height:1.2}
+.rail .cty small{display:block;font-size:13px;font-weight:500;color:var(--mute)}
+.seg{position:relative;padding-top:22px!important}
+.seg::before{content:"";position:absolute;left:0;right:0;top:14px;height:6px;background:var(--ink)}
+.seg.plan::before{background:repeating-linear-gradient(90deg,var(--ink) 0 10px,transparent 10px 18px)}
+.seg.stop::before{background:repeating-linear-gradient(90deg,var(--red) 0 4px,transparent 4px 10px)}
+.seg.local::before{background:var(--plane)}
+.seg::after{content:"";position:absolute;left:0;top:9px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:3px solid var(--ink)}
+.seg.stop::after{border-color:var(--red)}
+.seg b{display:block;font-size:15px;margin-top:6px}
+.seg span{display:block;font-size:14px;color:var(--mute);line-height:1.5}
+.call{font-size:15px}
+.call .tag{margin:6px 0 6px}
+.rail.best{background:linear-gradient(90deg,transparent 8.5em,color-mix(in srgb,var(--yel) 22%,transparent) 8.5em)}
+.legend{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--mute);margin-top:12px}
+.legend i{display:inline-block;width:34px;height:6px;vertical-align:middle;margin-right:6px;background:var(--ink)}
+.legend i.p{background:repeating-linear-gradient(90deg,var(--ink) 0 8px,transparent 8px 13px)}
+.legend i.s{background:repeating-linear-gradient(90deg,var(--red) 0 3px,transparent 3px 7px)}
+.legend i.l{background:var(--plane)}
+.alt{background:var(--soft)}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.card{background:var(--bg);padding:20px;border-top:3px solid var(--ink)}
+.card.best{border-top-color:var(--yel);box-shadow:inset 0 3px 0 var(--yel)}
+.card dl{margin:0;display:grid;grid-template-columns:5.5em minmax(0,1fr);gap:6px 10px;font-size:14px}
+.card dt{color:var(--mute)}
+.card dd{margin:0}
+.stats{display:flex;flex-wrap:wrap;gap:8px 22px;margin:8px 0 14px}
+.stats div{font-size:13px;color:var(--mute)}
+.stats b{display:block;font-size:clamp(22px,2.4vw,28px);color:var(--ink);line-height:1.1;white-space:nowrap}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--rule)}
+th{font-size:13px;color:var(--mute);font-weight:600;border-bottom:2px solid var(--ink)}
+td:first-child{font-weight:700;white-space:nowrap}
+.scroll{overflow-x:auto}
+ol,ul{margin:0 0 12px;padding-left:1.3em}
+li{margin-bottom:6px;max-width:80ch}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px}
+.src{font-size:14px;color:var(--mute)}
+.src a{color:inherit}
+.note{font-size:14px;color:var(--mute)}
+@media(max-width:900px){.top,.two{grid-template-columns:minmax(0,1fr)}.grid3{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){.bhead{display:none}.rail{grid-template-columns:minmax(0,1fr);padding-bottom:6px}.rail>div{padding:10px 4px 10px 36px}.rail .cty{padding-left:4px}.seg::before{left:6px;right:auto;top:0;bottom:0;width:6px;height:auto}.seg.plan::before{background:repeating-linear-gradient(180deg,var(--ink) 0 10px,transparent 10px 18px)}.seg.stop::before{background:repeating-linear-gradient(180deg,var(--red) 0 4px,transparent 4px 10px)}.seg::after{left:1px;top:14px}.seg{padding-top:10px!important}.seg .lbl{display:block;font-size:12px;color:var(--mute)}.rail.best{background:color-mix(in srgb,var(--yel) 18%,transparent)}}
+@media(min-width:761px){.seg .lbl{display:none}}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--rule)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:6.5em;white-space:normal}.stack td::before{content:attr(data-l);float:inline-start;width:6em;margin-inline-start:-6.5em;color:var(--mute);font-weight:500}}
+@media(prefers-reduced-motion:no-preference){.rail.best .seg:not(.plan)::after{animation:pulse 2.4s ease-in-out infinite}}
+@keyframes pulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--yel) 60%,transparent)}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+
+<section class="band"><div class="wrap">
+  <div class="top">
+    <div>
+      <div class="meta">글로벌IT개발부 검토(안) · 2026.11.27 · 그룹 결제 통합 전략맵 후속</div>
+      <h1>현지 결제망 3곳은 같은 자산이 아님: 베트남은 키우고, 인도는 준비하고, 미얀마는 지킴</h1>
+      <p class="lead">세 나라 모두 현지 지급결제망에 연결돼 있지만, 한국과의 국가 간 연결 여부와 규제 위험이 다릅니다. 전략맵의 '현지 정산·수납' 계층에 넣을 때 국가별로 역할을 달리 정해야 합니다.</p>
+    </div>
+    <div class="verdicts" aria-label="국가별 판단">
+      <div class="vd go"><b>베트남</b><span>확대. NAPAS 연결 + 기업 수납 실적 + 한·베 QR 개통</span></div>
+      <div class="vd"><b>인도</b><span>준비. 기업 수납 우선, 한·인 연결은 개통 일정 확인 후</span></div>
+      <div class="vd"><b>미얀마</b><span>유지·통제. FATF 고위험국, 국가 간 연결 보류</span></div>
+    </div>
+  </div>
+
+  <div class="board" role="table" aria-label="국가별 연결 현황">
+    <div class="bhead" role="row"><div>국가</div><div>KB 거점</div><div>현지 결제망 연결</div><div>한국과의 국가 간 QR 연결</div><div>검토 의견</div></div>
+
+    <div class="rail best" role="row">
+      <div class="cty">베트남<small>VND · NAPAS</small></div>
+      <div class="seg local"><span class="lbl">KB 거점</span><b>하노이·호치민지점</b><span>기업뱅킹 전용. 펌뱅킹·가상계좌 QR 수납 6개 고객사</span></div>
+      <div class="seg"><span class="lbl">현지 결제망</span><b>NAPAS 연결</b><span>VietQR 기반 기업 수납 월 25.3만 건 ('26.9 내부)</span></div>
+      <div class="seg plan"><span class="lbl">국가 간 연결</span><b>한·베 개통('26.4), KB는 미참여</b><span>BIDV·하나은행·GLN이 선점. 금결원 허브 경로는 개통 일정 확인</span></div>
+      <div class="call"><span class="tag">확대</span><br>현지 측 수납·정산을 KB 지점이 맡는 구조 검토</div>
+    </div>
+
+    <div class="rail" role="row">
+      <div class="cty">인도<small>INR · NPCI/RBI</small></div>
+      <div class="seg local"><span class="lbl">KB 거점</span><b>구루그람·첸나이·푸네지점</b><span>'19년 1호점, '24.10 2·3호점. 기업금융·IB·공급망 금융</span></div>
+      <div class="seg"><span class="lbl">현지 결제망</span><b>현지 결제망 연결</b><span>연결 서비스 범위(이체·UPI·수납) 내부 확인 필요</span></div>
+      <div class="seg plan"><span class="lbl">국가 간 연결</span><b>미개통</b><span>UPI 해외 가맹점 결제는 11개국 가동, 한국은 미포함. 금결원·NPCI 연결 추진</span></div>
+      <div class="call"><span class="tag">준비</span><br>한국계 진출기업 수납·지급 자동화부터</div>
+    </div>
+
+    <div class="rail" role="row">
+      <div class="cty">미얀마<small>MMK · CBM</small></div>
+      <div class="seg local"><span class="lbl">KB 거점</span><b>KB미얀마은행·KB마이크로파이낸스</b><span>현지 법인 운영</span></div>
+      <div class="seg"><span class="lbl">현지 결제망</span><b>현지 결제망 연결</b><span>CBM-NET → MPU → MMQR 체계. 연결 범위 내부 확인</span></div>
+      <div class="seg stop"><span class="lbl">국가 간 연결</span><b>추진 보류 권고</b><span>FATF 고위험국(블랙리스트) '22.10 이후 유지, 강화된 고객확인 대상</span></div>
+      <div class="call"><span class="tag" style="color:var(--red)">유지·통제</span><br>국내 결제만, 제재·AML 통제 우선</div>
+    </div>
+  </div>
+  <div class="legend"><span><i class="l"></i>KB 현지 거점</span><span><i></i>연결 운영 중</span><span><i class="p"></i>미연결·추진 중</span><span><i class="s"></i>보류 권고</span></div>
+</div></section>
+
+<section class="band alt"><div class="wrap">
+  <h2>국가별 분석: 기회는 셋 다 있으나 무게가 다름</h2>
+  <div class="grid3">
+    <article class="card best">
+      <h3>베트남: 수납 실적과 국가 간 연결이 이미 맞물림</h3>
+      <div class="stats"><div><b>25.3만 건</b>QR 수납 월 건수('26.9)</div><div><b>6개국</b>NAPAS 국가 간 QR 연결('26.7)</div></div>
+      <dl>
+        <dt>시장</dt><dd>NAPAS는 2026.4.23 한국과 국가 간 QR을 열었고, 7월 싱가포르까지 6개국으로 넓힘. 베트남 이용자의 한국 결제(역방향)도 계획 중</dd>
+        <dt>KB 강점</dt><dd>NAPAS 연결과 병원·보험·PG 기업 수납 실적. 기업뱅킹 전용이라 소매 QR은 PG사를 통한 간접 방식</dd>
+        <dt>제약</dt><dd>한·베 연결의 현지 정산은행은 BIDV, 한국 측은 하나·GLN. 수납자금의 예금 정착 미흡(월평잔 6.7백만 USD)</dd>
+        <dt>검토</dt><dd>금결원 허브의 베트남 개통 시 KB 지점의 현지 측 역할(수납·정산·대사) 확보, NAPAS 2.0 대응과 일정 묶기</dd>
+      </dl>
+    </article>
+    <article class="card">
+      <h3>인도: 시장은 가장 크지만 KB는 기업 고객 중심</h3>
+      <div class="stats"><div><b>약 10억 건</b>UPI 일 거래</div><div><b>11개국</b>UPI 해외 가맹점 결제</div></div>
+      <dl>
+        <dt>시장</dt><dd>UPI가 결제를 지배. 해외 연결은 UAE·싱가포르·프랑스·캄보디아 등 11개국, 말레이시아('26.2 협약)·일본(MoU)으로 확대 중. 방문객용 UPI One World 지갑 운영</dd>
+        <dt>KB 강점</dt><dd>3개 지점과 한국계 제조·공급망 고객. 연결된 현지망을 기업 수납·지급 자동화에 재사용 가능</dd>
+        <dt>제약</dt><dd>소매 기반이 없어 UPI 가맹점 수납 직접 사업은 제한적. NPCI는 2025년 UPI 정보보호 준수 체계를 별도로 운영</dd>
+        <dt>검토</dt><dd>한·인 연결 개통 일정과 참가 조건 확인. 그 전까지는 진출기업 대금 수납·급여·세금 납부 자동화</dd>
+      </dl>
+    </article>
+    <article class="card">
+      <h3>미얀마: 현지 QR은 급성장, 국가 간 연결은 위험</h3>
+      <div class="stats"><div><b>2,400만 명</b>MMQR 이용자</div><div><b>42만 곳</b>MMQR 가맹점</div></div>
+      <dl>
+        <dt>시장</dt><dd>MMQR은 2025.2 출범 후 2026.1까지 3천만 건, 12.7조 짯 처리. 중앙은행이 CBM-NET, MPU, MMQR 순으로 결제 인프라 구축</dd>
+        <dt>KB 강점</dt><dd>현지 법인 2곳과 현지 결제망 연결</dd>
+        <dt>제약</dt><dd>FATF는 2022.10부터 고위험국으로 지정. 2026.6 성명에서 10월까지 진전이 없으면 대응조치를 검토한다고 경고했고, 10월에도 사기·스캠 문제로 성명을 갱신</dd>
+        <dt>검토</dt><dd>현지 결제는 유지하되 한국·제3국 연결은 보류. 거래 모니터링·제재 필터링 강화와 철수 시 영향 점검</dd>
+      </dl>
+    </article>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <h2>추가 검토 사항: '연결되어 있다'를 같은 말로 정리해야 함</h2>
+  <p>세 나라의 연결은 연결 계층과 참가 방식이 다를 가능성이 큽니다. 같은 표로 정리해야 전략맵의 공통 엔진에서 재사용할 수 있는 부분과 국가별로 따로 가야 하는 부분이 갈립니다. 아래 항목은 글로벌IT개발부 내부 자료로 채워야 합니다.</p>
+  <div class="scroll"><table class="stack">
+    <thead><tr><th>확인 항목</th><th>왜 중요한가</th><th>베트남</th><th>인도</th><th>미얀마</th></tr></thead>
+    <tbody>
+      <tr><td>연결 서비스</td><td>이체(RTGS·즉시이체), QR 수납, 카드망 중 무엇인지에 따라 사업 범위가 정해짐</td><td>NAPAS 이체·VietQR 수납</td><td>확인 필요</td><td>확인 필요</td></tr>
+      <tr><td>참가 방식</td><td>직접 참가인지, 다른 은행을 통한 간접 참가인지에 따라 비용·통제력·국가 간 연결 자격이 다름</td><td>확인 필요</td><td>확인 필요</td><td>확인 필요</td></tr>
+      <tr><td>메시지 표준</td><td>ISO 20022 등 표준이 같으면 공통 어댑터로 재사용 가능</td><td>NAPAS 2.0 전환</td><td>확인 필요</td><td>확인 필요</td></tr>
+      <tr><td>운영 시간·정산</td><td>24×7 즉시결제는 장애 대응·유동성(예치금) 부담이 큼</td><td>확인 필요</td><td>확인 필요</td><td>확인 필요</td></tr>
+      <tr><td>보안·인증 주기</td><td>현지 기관 인증이 일정과 비용을 좌우</td><td>NAPAS 2.0 대응 중</td><td>NPCI 정보보호 준수 체계</td><td>확인 필요</td></tr>
+      <tr><td>거래 실적</td><td>연결이 실제 수익으로 이어지는지 판단 근거</td><td>QR 수납 월 25.3만 건</td><td>확인 필요</td><td>확인 필요</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section class="band alt"><div class="wrap two">
+  <div>
+    <h2>전략맵 반영: 세 연결을 '현지 결제망 어댑터'로 묶기</h2>
+    <ol>
+      <li><b>공통 엔진의 현지 계층으로 편입.</b> 앞서 제안한 그룹 공통 결제 엔진 아래에 NAPAS·인도·미얀마 연결을 국가별 어댑터로 둡니다. KB PRASAC(KHQR), KBI(QRIS)와 함께 현지 결제망 5곳이 됩니다.</li>
+      <li><b>기업 수납 공통 상품을 먼저 재사용.</b> 베트남의 청구·QR 발급·입금 통지·자동대사를 표준 기능으로 만들고 인도에 이식합니다. 국가별 QR·이체 표준은 어댑터가 맡습니다.</li>
+      <li><b>국가 간 연결은 허브 개통에 맞춰 참가.</b> 금결원 허브가 베트남·인도로 열릴 때 KB 현지 지점이 현지 측 수납·정산을 맡을 수 있는지 협의합니다. 하나금융이 GLN과 현지 정산은행으로 양쪽을 다 잡은 구조에 대응하는 방법입니다.</li>
+      <li><b>미얀마는 엔진과 분리.</b> 고위험국 거래가 공통 엔진에 섞이면 그룹 전체의 제재·AML 부담이 커집니다. 별도 통제 구역으로 둡니다.</li>
+    </ol>
+  </div>
+  <div>
+    <h2>다음 단계(안)</h2>
+    <div class="scroll"><table>
+      <thead><tr><th>시점</th><th>할 일</th></tr></thead>
+      <tbody>
+        <tr><td>1개월</td><td>세 나라 연결 현황을 위 확인 항목으로 정리, 연결별 거래·비용·장애 이력 확보</td></tr>
+        <tr><td>3개월</td><td>베트남 기업 수납 표준 기능 정의, 금결원 허브 베트남·인도 참가 조건 확인</td></tr>
+        <tr><td>6개월</td><td>인도 진출기업 1~2곳 수납 시범, 공통 어댑터 설계</td></tr>
+        <tr><td>상시</td><td>미얀마 FATF 결정과 제재 동향 점검, 거래 모니터링 기준 갱신</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">연결 서비스·참가 방식·실적 중 '확인 필요' 항목은 공개 자료로 확인할 수 없어 비워 두었습니다. 판단은 확인 결과에 따라 바뀔 수 있습니다.</p>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <h2>출처</h2>
+  <ul class="src">
+    <li><a href="https://en.napas.com.vn/new-milestone-in-vietnamkorea-financial-connectivity-launch-of-cross-border-qr-payment-service-184260526100013798.htm">NAPAS, 한·베 국가 간 QR 결제 개시</a> (2026.4) · <a href="https://technode.global/2026/04/23/vietnam-south-korea-launch-cross-border-qr-payment-service/">TechNode Global</a> · <a href="https://www.crowdfundinsider.com/2026/04/275498-cross-border-qr-payments-gain-ground-as-vietnam-korea-connect-retail-networks/">Crowdfund Insider</a></li>
+    <li><a href="https://sbv.gov.vn/en/w/official-launch-of-the-vietnam-singapore-cross-border-qr-payment-service">베트남 중앙은행, 베트남·싱가포르 QR 개시</a> (2026.7.2)</li>
+    <li><a href="https://www.etoday.co.kr/news/view/1723871">이투데이, KB국민은행 인도 구루그람지점 개설</a> (2019.2) · <a href="https://www.smarttoday.co.kr/ko-kr/articles/62172">스마트투데이, 첸나이·푸네 지점 개점</a> (2024.10)</li>
+    <li><a href="https://khaleejtimes.com/uae/uae-among-countries-linked-to-indias-upi-and-rupay-network-as-digital-payments-expand-globally">Khaleej Times, UPI 해외 11개국·일 10억 건</a> · <a href="https://paynet.my/about-us/media-centre/press-release/payments-network-malaysia-and-india-npci-international-sign-agreement-to-enable-cross-border-qr-payments.html">PayNet, 말레이시아·인도 QR 협약</a> (2026.2) · <a href="https://www.npci.org.in/uploads/NPCI_Extends_UPI_One_World_Wallet_Service_to_International_Delegates_at_the_India_AI_Impact_Summit_2026_f1b7e11410.pdf">NPCI, UPI One World</a> (2026.2) · <a href="https://assets.kpmg.com/content/dam/kpmgsites/in/pdf/2025/07/unified-payments-interface-upi-information-security-compliance-framework-2025.pdf">KPMG, UPI 정보보호 준수 체계 2025</a></li>
+    <li><a href="https://elevenmyanmar.com/node/310008">Eleven Myanmar, MMQR 이용자 2,400만 명</a> (2026.2) · <a href="https://mdn.gov.mm/my/node/199483">미얀마 정부, CBM MMQR 실적</a></li>
+    <li><a href="https://www.fatf-gafi.org/en/publications/High-risk-and-other-monitored-jurisdictions/call-for-action-june-2026.html">FATF, 고위험국 성명</a> (2026.6) · <a href="https://www.fatf-gafi.org/en/publications/Fatfgeneral/outcomes-fatf-plenary-october-2026.html">FATF 총회 결과</a> (2026.10) · <a href="https://www.mas.gov.sg/publications/fatf-statement/2026/october-2026">MAS, 2026.10 FATF 성명</a></li>
+    <li>내부: 펌뱅킹·가상계좌 거래현황 및 처리흐름(2026.10.27), 글로벌IT개발부 사업계획</li>
+  </ul>
+</div></section>
+
+</body>
+</html>
