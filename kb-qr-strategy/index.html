@@ -154,6 +154,7 @@ p{margin:0 0 12px;max-width:72ch}
 &lt;style&gt;
 html{-webkit-font-smoothing:antialiased}
 :root,:root[data-theme]{color-scheme:dark!important;--bg:#2b2924!important;--ink:#efebe2!important;--mute:#bfb9ad!important;--plane:#3a3731!important;--soft:#33302a!important;--rule:#57524a!important;--yel:#ffbc00!important;--yel2:#5c4a12!important;--red:#ff8f7f!important}
+#fsv{--flow:#ffbc00!important}
 body{background:#2b2924!important;color:#efebe2}
 h1{font-size:clamp(22px,2.6vw,30px)!important;max-width:none!important;letter-spacing:-.025em!important}
 h2{letter-spacing:-.025em!important}
@@ -478,11 +479,12 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
 @media(max-width:900px){.split{grid-template-columns:minmax(0,1fr)}.top,.pri{grid-template-columns:minmax(0,1fr)}.dgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.split{grid-template-columns:minmax(0,1fr);margin-left:0}.lyr{grid-template-columns:minmax(0,1fr);gap:8px}.blocks{grid-template-columns:repeat(2,minmax(0,1fr))}.phases{grid-template-columns:minmax(0,1fr)}.lyr.new{margin:0}}
 @media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:10px 0;border-bottom:1px solid var(--rule)}.stack td{border:0;padding:6px}.stack td:first-child{grid-column:1/-1}.stack td.verdict{grid-column:1/-1;text-align:left;padding-left:0}.stack td.v::before{content:attr(data-l);display:block;font-size:11px;font-weight:500;color:inherit;opacity:.75}.dgrid{grid-template-columns:minmax(0,1fr)}}
-.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}&lt;/style&gt;
+.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}#fsv{--flow:var(--ink)}#fsv .flow{animation:fdash 1.1s linear infinite}@keyframes fdash{to{stroke-dashoffset:-36}}&lt;/style&gt;
 &lt;script&gt;new MutationObserver(()=&gt;{for(const c of document.querySelectorAll(&#x27;.stack td:not([data-l])&#x27;)){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest(&#x27;table&#x27;).rows[0].cells[i]?.textContent||&#x27;&#x27;}}).observe(document,{childList:true,subtree:true})&lt;/script&gt;
 &lt;style&gt;
 html{-webkit-font-smoothing:antialiased}
 :root,:root[data-theme]{color-scheme:dark!important;--bg:#2b2924!important;--ink:#efebe2!important;--mute:#bfb9ad!important;--plane:#3a3731!important;--soft:#33302a!important;--rule:#57524a!important;--yel:#ffbc00!important;--yel2:#5c4a12!important;--red:#ff8f7f!important}
+#fsv{--flow:#ffbc00!important}
 body{background:#2b2924!important;color:#efebe2}
 h1{font-size:clamp(22px,2.6vw,30px)!important;max-width:none!important;letter-spacing:-.025em!important}
 h2{letter-spacing:-.025em!important}
@@ -664,27 +666,38 @@ const F=[
 const bw=156,bh=56,E=new Set();F.forEach(f=&gt;f[1].forEach((k,i)=&gt;{if(i)E.add([f[1][i-1],k].sort().join(&#x27;|&#x27;))}));
 const zone=(x,y,w,h,t)=&gt;`&lt;rect x=&quot;${x}&quot; y=&quot;${y}&quot; width=&quot;${w}&quot; height=&quot;${h}&quot; fill=&quot;var(--soft)&quot;/&gt;&lt;text x=&quot;${x+14}&quot; y=&quot;${y+26}&quot; font-size=&quot;16&quot; font-weight=&quot;800&quot; fill=&quot;var(--mute)&quot;&gt;${t}&lt;/text&gt;`;
 let base=zone(20,20,610,520,&#x27;한국&#x27;)+zone(650,20,430,250,&#x27;베트남&#x27;)+zone(650,290,430,250,&#x27;인도&#x27;);
-base+=[...E].map(e=&gt;{const[a,b]=e.split(&#x27;|&#x27;);return `&lt;line data-e=&quot;${e}&quot; x1=&quot;${N[a][0]}&quot; y1=&quot;${N[a][1]}&quot; x2=&quot;${N[b][0]}&quot; y2=&quot;${N[b][1]}&quot; stroke=&quot;var(--rule)&quot; stroke-width=&quot;3&quot;/&gt;`}).join(&#x27;&#x27;);
-base+=[&#x27;VNB&#x27;,&#x27;INB&#x27;].map(k=&gt;`&lt;line x1=&quot;${N.PLT[0]}&quot; y1=&quot;${N.PLT[1]}&quot; x2=&quot;${N[k][0]}&quot; y2=&quot;${N[k][1]}&quot; stroke=&quot;var(--mute)&quot; stroke-width=&quot;1.5&quot; stroke-dasharray=&quot;5 6&quot; opacity=&quot;.6&quot;/&gt;`).join(&#x27;&#x27;);
-base+=`&lt;text x=&quot;560&quot; y=&quot;205&quot; font-size=&quot;13&quot; fill=&quot;var(--mute)&quot; text-anchor=&quot;middle&quot;&gt;어댑터 연결&lt;/text&gt;`;
+const port=(a,b)=&gt;{const A=N[a],B=N[b],dx=B[0]-A[0],dy=B[1]-A[1];
+ if(Math.abs(dx)&lt;4){const s=Math.sign(dy);return[[A[0],A[1]+s*bh/2],[B[0],B[1]-s*bh/2],&#x27;v&#x27;]}
+ const s=Math.sign(dx);return[[A[0]+s*bw/2,A[1]],[B[0]-s*bw/2,B[1]],&#x27;h&#x27;]};
+const curve=(p,q,o)=&gt;{if(o===&#x27;v&#x27;){const m=(q[1]-p[1])*.5;return `C${p[0]} ${p[1]+m} ${q[0]} ${q[1]-m} ${q[0]} ${q[1]}`}
+ const m=(q[0]-p[0])*.5;return `C${p[0]+m} ${p[1]} ${q[0]-m} ${q[1]} ${q[0]} ${q[1]}`};
+const seg=(a,b)=&gt;{const[p,q,o]=port(a,b);return `M${p[0]} ${p[1]} ${curve(p,q,o)}`};
+const route=ks=&gt;ks.slice(1).map((k,i)=&gt;{const[p,q,o]=port(ks[i],k);return `${i?&#x27;L&#x27;:&#x27;M&#x27;}${p[0]} ${p[1]} ${curve(p,q,o)}`}).join(&#x27; &#x27;);
+base=&#x27;&lt;defs&gt;&lt;marker id=&quot;fah&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;8&quot; refY=&quot;5&quot; markerWidth=&quot;5&quot; markerHeight=&quot;5&quot; orient=&quot;auto&quot;&gt;&lt;path d=&quot;M1 1L9 5L1 9&quot; fill=&quot;none&quot; stroke=&quot;var(--flow)&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/marker&gt;&lt;/defs&gt;&#x27;+base;
+base+=[...E].map(e=&gt;{const[a,b]=e.split(&#x27;|&#x27;);return `&lt;path data-e=&quot;${e}&quot; d=&quot;${seg(a,b)}&quot; fill=&quot;none&quot; stroke=&quot;var(--rule)&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;/&gt;`}).join(&#x27;&#x27;);
+base+=[&#x27;VNB&#x27;,&#x27;INB&#x27;].map(k=&gt;`&lt;path d=&quot;${seg(&#x27;PLT&#x27;,k)}&quot; fill=&quot;none&quot; stroke=&quot;var(--mute)&quot; stroke-width=&quot;1.5&quot; stroke-dasharray=&quot;1 7&quot; stroke-linecap=&quot;round&quot; opacity=&quot;.7&quot;/&gt;`).join(&#x27;&#x27;);
+base+=`&lt;text x=&quot;540&quot; y=&quot;240&quot; font-size=&quot;12.5&quot; fill=&quot;var(--mute)&quot; text-anchor=&quot;middle&quot; letter-spacing=&quot;.04em&quot;&gt;어댑터 연결&lt;/text&gt;`;
 base+=&#x27;&lt;g id=&quot;hlL&quot;&gt;&lt;/g&gt;&#x27;;
-base+=Object.entries(N).map(([k,n])=&gt;{const f=n[4]===&#x27;new&#x27;?&#x27;var(--yel)&#x27;:n[4]===&#x27;kb&#x27;?&#x27;var(--bg)&#x27;:&#x27;var(--plane)&#x27;,st=n[4]===&#x27;ext&#x27;?&#x27;transparent&#x27;:&#x27;var(--ink)&#x27;;
- return `&lt;g data-n=&quot;${k}&quot;&gt;&lt;rect x=&quot;${n[0]-bw/2}&quot; y=&quot;${n[1]-bh/2}&quot; width=&quot;${bw}&quot; height=&quot;${bh}&quot; fill=&quot;${f}&quot; stroke=&quot;${st}&quot; stroke-width=&quot;2&quot;/&gt;&lt;text x=&quot;${n[0]}&quot; y=&quot;${n[1]+(n[3]?-3:6)}&quot; font-size=&quot;16&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;${n[4]===&#x27;new&#x27;?&#x27;#111&#x27;:&#x27;var(--ink)&#x27;}&quot; style=&quot;stroke:none&quot;&gt;${n[2]}&lt;/text&gt;${n[3]?`&lt;text x=&quot;${n[0]}&quot; y=&quot;${n[1]+16}&quot; font-size=&quot;12.5&quot; text-anchor=&quot;middle&quot; fill=&quot;${n[4]===&#x27;new&#x27;?&#x27;#333&#x27;:&#x27;var(--mute)&#x27;}&quot; style=&quot;stroke:none&quot;&gt;${n[3]}&lt;/text&gt;`:&#x27;&#x27;}&lt;/g&gt;`}).join(&#x27;&#x27;);
-sv.innerHTML=base+&#x27;&lt;g id=&quot;hl&quot;&gt;&lt;/g&gt;&lt;circle id=&quot;tok&quot; r=&quot;11&quot; fill=&quot;var(--yel)&quot; stroke=&quot;var(--ink)&quot; stroke-width=&quot;3&quot; opacity=&quot;0&quot;/&gt;&#x27;;
-const hl=sv.querySelector(&#x27;#hl&#x27;),hlL=sv.querySelector(&#x27;#hlL&#x27;),tok=sv.querySelector(&#x27;#tok&#x27;);
+base+=Object.entries(N).map(([k,n])=&gt;{const f=n[4]===&#x27;new&#x27;?&#x27;var(--yel)&#x27;:n[4]===&#x27;kb&#x27;?&#x27;var(--bg)&#x27;:&#x27;var(--plane)&#x27;,st=n[4]===&#x27;ext&#x27;?&#x27;transparent&#x27;:n[4]===&#x27;new&#x27;?&#x27;var(--yel)&#x27;:&#x27;var(--rule)&#x27;;
+ return `&lt;g data-n=&quot;${k}&quot;&gt;&lt;rect x=&quot;${n[0]-bw/2}&quot; y=&quot;${n[1]-bh/2}&quot; width=&quot;${bw}&quot; height=&quot;${bh}&quot; rx=&quot;8&quot; fill=&quot;${f}&quot; stroke=&quot;${st}&quot; stroke-width=&quot;1.5&quot;/&gt;&lt;text x=&quot;${n[0]}&quot; y=&quot;${n[1]+(n[3]?-3:6)}&quot; font-size=&quot;16&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;${n[4]===&#x27;new&#x27;?&#x27;#111&#x27;:&#x27;var(--ink)&#x27;}&quot; style=&quot;stroke:none&quot;&gt;${n[2]}&lt;/text&gt;${n[3]?`&lt;text x=&quot;${n[0]}&quot; y=&quot;${n[1]+16}&quot; font-size=&quot;12.5&quot; text-anchor=&quot;middle&quot; fill=&quot;${n[4]===&#x27;new&#x27;?&#x27;#333&#x27;:&#x27;var(--mute)&#x27;}&quot; style=&quot;stroke:none&quot;&gt;${n[3]}&lt;/text&gt;`:&#x27;&#x27;}&lt;/g&gt;`}).join(&#x27;&#x27;);
+sv.innerHTML=base+&#x27;&lt;g id=&quot;hl&quot;&gt;&lt;/g&gt;&lt;circle id=&quot;tokh&quot; r=&quot;16&quot; fill=&quot;var(--yel)&quot; opacity=&quot;0&quot;/&gt;&lt;circle id=&quot;tok&quot; r=&quot;7&quot; fill=&quot;var(--yel)&quot; stroke=&quot;var(--bg)&quot; stroke-width=&quot;3&quot; opacity=&quot;0&quot;/&gt;&#x27;;
+const hl=sv.querySelector(&#x27;#hl&#x27;),hlL=sv.querySelector(&#x27;#hlL&#x27;),tok=sv.querySelector(&#x27;#tok&#x27;),tokh=sv.querySelector(&#x27;#tokh&#x27;);
 fb.innerHTML=F.map((f,i)=&gt;`&lt;button role=&quot;tab&quot; id=&quot;fl${i}&quot; aria-selected=&quot;false&quot;&gt;${f[0]}&lt;/button&gt;`).join(&#x27;&#x27;);
 const red=matchMedia(&#x27;(prefers-reduced-motion: reduce)&#x27;).matches;
-let cur=0,t0=0,auto=true,raf;
-const pts=i=&gt;F[i][1].map(k=&gt;[N[k][0],N[k][1]]);
+let cur=0,t0=0,auto=true,raf,rp=null,rl=0;
 const show=i=&gt;{cur=i;t0=performance.now();
  fb.querySelectorAll(&#x27;button&#x27;).forEach((b,j)=&gt;b.setAttribute(&#x27;aria-selected&#x27;,j===i));
- const P=pts(i);hlL.innerHTML=`&lt;polyline points=&quot;${P.map(p=&gt;p.join(&#x27;,&#x27;)).join(&#x27; &#x27;)}&quot; fill=&quot;none&quot; stroke=&quot;var(--ink)&quot; stroke-width=&quot;5&quot; stroke-linejoin=&quot;round&quot;/&gt;`;hl.innerHTML=P.map((p,j)=&gt;`&lt;rect x=&quot;${p[0]-bw/2-4}&quot; y=&quot;${p[1]-bh/2-4}&quot; width=&quot;${bw+8}&quot; height=&quot;${bh+8}&quot; fill=&quot;none&quot; stroke=&quot;var(--ink)&quot; stroke-width=&quot;3&quot;/&gt;&lt;circle cx=&quot;${p[0]-bw/2}&quot; cy=&quot;${p[1]-bh/2}&quot; r=&quot;12&quot; fill=&quot;var(--ink)&quot;/&gt;&lt;text x=&quot;${p[0]-bw/2}&quot; y=&quot;${p[1]-bh/2+5}&quot; font-size=&quot;13&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--bg)&quot; style=&quot;stroke:none&quot;&gt;${j+1}&lt;/text&gt;`).join(&#x27;&#x27;);
+ const ks=F[i][1],d=route(ks);
+ hlL.innerHTML=`&lt;path d=&quot;${d}&quot; fill=&quot;none&quot; stroke=&quot;var(--flow)&quot; stroke-width=&quot;12&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; opacity=&quot;.14&quot;/&gt;&lt;path id=&quot;rpath&quot; d=&quot;${d}&quot; fill=&quot;none&quot; stroke=&quot;var(--flow)&quot; stroke-width=&quot;2.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; marker-end=&quot;url(#fah)&quot;/&gt;&lt;path class=&quot;${red?&#x27;&#x27;:&#x27;flow&#x27;}&quot; d=&quot;${d}&quot; fill=&quot;none&quot; stroke=&quot;var(--bg)&quot; stroke-width=&quot;2.6&quot; stroke-dasharray=&quot;2 16&quot; stroke-linecap=&quot;round&quot; opacity=&quot;.55&quot;/&gt;`;
+ rp=sv.querySelector(&#x27;#rpath&#x27;);rl=rp.getTotalLength();
+ hl.innerHTML=ks.map((k,j)=&gt;{const p=N[k];return `&lt;rect x=&quot;${p[0]-bw/2-4}&quot; y=&quot;${p[1]-bh/2-4}&quot; width=&quot;${bw+8}&quot; height=&quot;${bh+8}&quot; rx=&quot;11&quot; fill=&quot;none&quot; stroke=&quot;var(--flow)&quot; stroke-width=&quot;1.5&quot; opacity=&quot;.9&quot;/&gt;&lt;circle cx=&quot;${p[0]-bw/2+2}&quot; cy=&quot;${p[1]-bh/2+2}&quot; r=&quot;11&quot; fill=&quot;var(--flow)&quot;/&gt;&lt;text x=&quot;${p[0]-bw/2+2}&quot; y=&quot;${p[1]-bh/2+6.5}&quot; font-size=&quot;12.5&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--bg)&quot; style=&quot;stroke:none&quot;&gt;${j+1}&lt;/text&gt;`}).join(&#x27;&#x27;);
  const sk=F[i][0].includes(&#x27;한국 고객&#x27;)?(F[i][0].startsWith(&#x27;베트남&#x27;)?&#x27;VNB&#x27;:&#x27;INB&#x27;):null;
- if(sk){const n=N[sk];hl.innerHTML+=`&lt;rect x=&quot;${n[0]-bw/2-4}&quot; y=&quot;${n[1]-bh/2-4}&quot; width=&quot;${bw+8}&quot; height=&quot;${bh+8}&quot; fill=&quot;var(--bg)&quot; stroke=&quot;var(--mute)&quot; stroke-width=&quot;2&quot; stroke-dasharray=&quot;6 5&quot;/&gt;&lt;text x=&quot;${n[0]}&quot; y=&quot;${n[1]-2}&quot; font-size=&quot;15&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;stroke:none&quot;&gt;${n[2]} 미경유&lt;/text&gt;&lt;text x=&quot;${n[0]}&quot; y=&quot;${n[1]+16}&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;stroke:none&quot;&gt;국내 고객 계좌 없음&lt;/text&gt;`;}
+ if(sk){const n=N[sk];hl.innerHTML+=`&lt;rect x=&quot;${n[0]-bw/2-4}&quot; y=&quot;${n[1]-bh/2-4}&quot; width=&quot;${bw+8}&quot; height=&quot;${bh+8}&quot; rx=&quot;11&quot; fill=&quot;var(--bg)&quot; stroke=&quot;var(--mute)&quot; stroke-width=&quot;1.5&quot; stroke-dasharray=&quot;4 5&quot;/&gt;&lt;text x=&quot;${n[0]}&quot; y=&quot;${n[1]-2}&quot; font-size=&quot;15&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;stroke:none&quot;&gt;${n[2]} 미경유&lt;/text&gt;&lt;text x=&quot;${n[0]}&quot; y=&quot;${n[1]+16}&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;stroke:none&quot;&gt;국내 고객 계좌 없음&lt;/text&gt;`;}
  cap.innerHTML=`&lt;span&gt;${F[i][4]}&lt;/span&gt;&lt;span class=&quot;tag2 ${F[i][3]}&quot;&gt;${F[i][2]}&lt;/span&gt;`;};
-const at=(P,u)=&gt;{const L=P.slice(1).map((p,j)=&gt;Math.hypot(p[0]-P[j][0],p[1]-P[j][1])),T=L.reduce((a,b)=&gt;a+b,0);let d=u*T;for(let j=0;j&lt;L.length;j++){if(d&lt;=L[j]){const r=d/L[j];return[P[j][0]+(P[j+1][0]-P[j][0])*r,P[j][1]+(P[j+1][1]-P[j][1])*r]}d-=L[j]}return P[P.length-1]};
-const loop=now=&gt;{const P=pts(cur),dur=900*(P.length-1),e=now-t0,u=Math.min(1,e/dur),q=at(P,red?1:u);
- tok.setAttribute(&#x27;cx&#x27;,q[0]);tok.setAttribute(&#x27;cy&#x27;,q[1]);tok.setAttribute(&#x27;opacity&#x27;,(!red&amp;&amp;u&lt;1)?1:0);
+const ease=u=&gt;u&lt;.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
+const loop=now=&gt;{const dur=900*(F[cur][1].length-1),e=Math.max(0,now-t0),u=Math.min(1,e/dur);
+ if(rp&amp;&amp;!red){const q=rp.getPointAtLength(rl*ease(u));tok.setAttribute(&#x27;cx&#x27;,q.x);tok.setAttribute(&#x27;cy&#x27;,q.y);tokh.setAttribute(&#x27;cx&#x27;,q.x);tokh.setAttribute(&#x27;cy&#x27;,q.y);}
+ const op=(!red&amp;&amp;u&lt;1)?1:0;tok.setAttribute(&#x27;opacity&#x27;,op);tokh.setAttribute(&#x27;opacity&#x27;,op*.22);
  if(auto&amp;&amp;e&gt;dur+1400)show((cur+1)%F.length);else if(!auto&amp;&amp;e&gt;dur+1400)t0=now;
  raf=requestAnimationFrame(loop)};
 fb.addEventListener(&#x27;click&#x27;,e=&gt;{const b=e.target.closest(&#x27;button&#x27;);if(!b)return;auto=false;show(+b.id.slice(2))});
@@ -797,6 +810,7 @@ li{margin-bottom:6px;max-width:80ch}
 &lt;style&gt;
 html{-webkit-font-smoothing:antialiased}
 :root,:root[data-theme]{color-scheme:dark!important;--bg:#2b2924!important;--ink:#efebe2!important;--mute:#bfb9ad!important;--plane:#3a3731!important;--soft:#33302a!important;--rule:#57524a!important;--yel:#ffbc00!important;--yel2:#5c4a12!important;--red:#ff8f7f!important}
+#fsv{--flow:#ffbc00!important}
 body{background:#2b2924!important;color:#efebe2}
 h1{font-size:clamp(22px,2.6vw,30px)!important;max-width:none!important;letter-spacing:-.025em!important}
 h2{letter-spacing:-.025em!important}

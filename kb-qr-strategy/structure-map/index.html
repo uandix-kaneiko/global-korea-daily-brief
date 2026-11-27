@@ -138,7 +138,7 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
 @media(max-width:900px){.split{grid-template-columns:minmax(0,1fr)}.top,.pri{grid-template-columns:minmax(0,1fr)}.dgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.split{grid-template-columns:minmax(0,1fr);margin-left:0}.lyr{grid-template-columns:minmax(0,1fr);gap:8px}.blocks{grid-template-columns:repeat(2,minmax(0,1fr))}.phases{grid-template-columns:minmax(0,1fr)}.lyr.new{margin:0}}
 @media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:10px 0;border-bottom:1px solid var(--rule)}.stack td{border:0;padding:6px}.stack td:first-child{grid-column:1/-1}.stack td.verdict{grid-column:1/-1;text-align:left;padding-left:0}.stack td.v::before{content:attr(data-l);display:block;font-size:11px;font-weight:500;color:inherit;opacity:.75}.dgrid{grid-template-columns:minmax(0,1fr)}}
-.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}</style>
+.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}#fsv{--flow:var(--ink)}#fsv .flow{animation:fdash 1.1s linear infinite}@keyframes fdash{to{stroke-dashoffset:-36}}</style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
@@ -308,27 +308,38 @@ const F=[
 const bw=156,bh=56,E=new Set();F.forEach(f=>f[1].forEach((k,i)=>{if(i)E.add([f[1][i-1],k].sort().join('|'))}));
 const zone=(x,y,w,h,t)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="var(--soft)"/><text x="${x+14}" y="${y+26}" font-size="16" font-weight="800" fill="var(--mute)">${t}</text>`;
 let base=zone(20,20,610,520,'한국')+zone(650,20,430,250,'베트남')+zone(650,290,430,250,'인도');
-base+=[...E].map(e=>{const[a,b]=e.split('|');return `<line data-e="${e}" x1="${N[a][0]}" y1="${N[a][1]}" x2="${N[b][0]}" y2="${N[b][1]}" stroke="var(--rule)" stroke-width="3"/>`}).join('');
-base+=['VNB','INB'].map(k=>`<line x1="${N.PLT[0]}" y1="${N.PLT[1]}" x2="${N[k][0]}" y2="${N[k][1]}" stroke="var(--mute)" stroke-width="1.5" stroke-dasharray="5 6" opacity=".6"/>`).join('');
-base+=`<text x="560" y="205" font-size="13" fill="var(--mute)" text-anchor="middle">어댑터 연결</text>`;
+const port=(a,b)=>{const A=N[a],B=N[b],dx=B[0]-A[0],dy=B[1]-A[1];
+ if(Math.abs(dx)<4){const s=Math.sign(dy);return[[A[0],A[1]+s*bh/2],[B[0],B[1]-s*bh/2],'v']}
+ const s=Math.sign(dx);return[[A[0]+s*bw/2,A[1]],[B[0]-s*bw/2,B[1]],'h']};
+const curve=(p,q,o)=>{if(o==='v'){const m=(q[1]-p[1])*.5;return `C${p[0]} ${p[1]+m} ${q[0]} ${q[1]-m} ${q[0]} ${q[1]}`}
+ const m=(q[0]-p[0])*.5;return `C${p[0]+m} ${p[1]} ${q[0]-m} ${q[1]} ${q[0]} ${q[1]}`};
+const seg=(a,b)=>{const[p,q,o]=port(a,b);return `M${p[0]} ${p[1]} ${curve(p,q,o)}`};
+const route=ks=>ks.slice(1).map((k,i)=>{const[p,q,o]=port(ks[i],k);return `${i?'L':'M'}${p[0]} ${p[1]} ${curve(p,q,o)}`}).join(' ');
+base='<defs><marker id="fah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--flow)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>'+base;
+base+=[...E].map(e=>{const[a,b]=e.split('|');return `<path data-e="${e}" d="${seg(a,b)}" fill="none" stroke="var(--rule)" stroke-width="2" stroke-linecap="round"/>`}).join('');
+base+=['VNB','INB'].map(k=>`<path d="${seg('PLT',k)}" fill="none" stroke="var(--mute)" stroke-width="1.5" stroke-dasharray="1 7" stroke-linecap="round" opacity=".7"/>`).join('');
+base+=`<text x="540" y="240" font-size="12.5" fill="var(--mute)" text-anchor="middle" letter-spacing=".04em">어댑터 연결</text>`;
 base+='<g id="hlL"></g>';
-base+=Object.entries(N).map(([k,n])=>{const f=n[4]==='new'?'var(--yel)':n[4]==='kb'?'var(--bg)':'var(--plane)',st=n[4]==='ext'?'transparent':'var(--ink)';
- return `<g data-n="${k}"><rect x="${n[0]-bw/2}" y="${n[1]-bh/2}" width="${bw}" height="${bh}" fill="${f}" stroke="${st}" stroke-width="2"/><text x="${n[0]}" y="${n[1]+(n[3]?-3:6)}" font-size="16" font-weight="800" text-anchor="middle" fill="${n[4]==='new'?'#111':'var(--ink)'}" style="stroke:none">${n[2]}</text>${n[3]?`<text x="${n[0]}" y="${n[1]+16}" font-size="12.5" text-anchor="middle" fill="${n[4]==='new'?'#333':'var(--mute)'}" style="stroke:none">${n[3]}</text>`:''}</g>`}).join('');
-sv.innerHTML=base+'<g id="hl"></g><circle id="tok" r="11" fill="var(--yel)" stroke="var(--ink)" stroke-width="3" opacity="0"/>';
-const hl=sv.querySelector('#hl'),hlL=sv.querySelector('#hlL'),tok=sv.querySelector('#tok');
+base+=Object.entries(N).map(([k,n])=>{const f=n[4]==='new'?'var(--yel)':n[4]==='kb'?'var(--bg)':'var(--plane)',st=n[4]==='ext'?'transparent':n[4]==='new'?'var(--yel)':'var(--rule)';
+ return `<g data-n="${k}"><rect x="${n[0]-bw/2}" y="${n[1]-bh/2}" width="${bw}" height="${bh}" rx="8" fill="${f}" stroke="${st}" stroke-width="1.5"/><text x="${n[0]}" y="${n[1]+(n[3]?-3:6)}" font-size="16" font-weight="800" text-anchor="middle" fill="${n[4]==='new'?'#111':'var(--ink)'}" style="stroke:none">${n[2]}</text>${n[3]?`<text x="${n[0]}" y="${n[1]+16}" font-size="12.5" text-anchor="middle" fill="${n[4]==='new'?'#333':'var(--mute)'}" style="stroke:none">${n[3]}</text>`:''}</g>`}).join('');
+sv.innerHTML=base+'<g id="hl"></g><circle id="tokh" r="16" fill="var(--yel)" opacity="0"/><circle id="tok" r="7" fill="var(--yel)" stroke="var(--bg)" stroke-width="3" opacity="0"/>';
+const hl=sv.querySelector('#hl'),hlL=sv.querySelector('#hlL'),tok=sv.querySelector('#tok'),tokh=sv.querySelector('#tokh');
 fb.innerHTML=F.map((f,i)=>`<button role="tab" id="fl${i}" aria-selected="false">${f[0]}</button>`).join('');
 const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let cur=0,t0=0,auto=true,raf;
-const pts=i=>F[i][1].map(k=>[N[k][0],N[k][1]]);
+let cur=0,t0=0,auto=true,raf,rp=null,rl=0;
 const show=i=>{cur=i;t0=performance.now();
  fb.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-selected',j===i));
- const P=pts(i);hlL.innerHTML=`<polyline points="${P.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linejoin="round"/>`;hl.innerHTML=P.map((p,j)=>`<rect x="${p[0]-bw/2-4}" y="${p[1]-bh/2-4}" width="${bw+8}" height="${bh+8}" fill="none" stroke="var(--ink)" stroke-width="3"/><circle cx="${p[0]-bw/2}" cy="${p[1]-bh/2}" r="12" fill="var(--ink)"/><text x="${p[0]-bw/2}" y="${p[1]-bh/2+5}" font-size="13" font-weight="800" text-anchor="middle" fill="var(--bg)" style="stroke:none">${j+1}</text>`).join('');
+ const ks=F[i][1],d=route(ks);
+ hlL.innerHTML=`<path d="${d}" fill="none" stroke="var(--flow)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity=".14"/><path id="rpath" d="${d}" fill="none" stroke="var(--flow)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fah)"/><path class="${red?'':'flow'}" d="${d}" fill="none" stroke="var(--bg)" stroke-width="2.6" stroke-dasharray="2 16" stroke-linecap="round" opacity=".55"/>`;
+ rp=sv.querySelector('#rpath');rl=rp.getTotalLength();
+ hl.innerHTML=ks.map((k,j)=>{const p=N[k];return `<rect x="${p[0]-bw/2-4}" y="${p[1]-bh/2-4}" width="${bw+8}" height="${bh+8}" rx="11" fill="none" stroke="var(--flow)" stroke-width="1.5" opacity=".9"/><circle cx="${p[0]-bw/2+2}" cy="${p[1]-bh/2+2}" r="11" fill="var(--flow)"/><text x="${p[0]-bw/2+2}" y="${p[1]-bh/2+6.5}" font-size="12.5" font-weight="800" text-anchor="middle" fill="var(--bg)" style="stroke:none">${j+1}</text>`}).join('');
  const sk=F[i][0].includes('한국 고객')?(F[i][0].startsWith('베트남')?'VNB':'INB'):null;
- if(sk){const n=N[sk];hl.innerHTML+=`<rect x="${n[0]-bw/2-4}" y="${n[1]-bh/2-4}" width="${bw+8}" height="${bh+8}" fill="var(--bg)" stroke="var(--mute)" stroke-width="2" stroke-dasharray="6 5"/><text x="${n[0]}" y="${n[1]-2}" font-size="15" font-weight="800" text-anchor="middle" fill="var(--mute)" style="stroke:none">${n[2]} 미경유</text><text x="${n[0]}" y="${n[1]+16}" font-size="12" text-anchor="middle" fill="var(--mute)" style="stroke:none">국내 고객 계좌 없음</text>`;}
+ if(sk){const n=N[sk];hl.innerHTML+=`<rect x="${n[0]-bw/2-4}" y="${n[1]-bh/2-4}" width="${bw+8}" height="${bh+8}" rx="11" fill="var(--bg)" stroke="var(--mute)" stroke-width="1.5" stroke-dasharray="4 5"/><text x="${n[0]}" y="${n[1]-2}" font-size="15" font-weight="800" text-anchor="middle" fill="var(--mute)" style="stroke:none">${n[2]} 미경유</text><text x="${n[0]}" y="${n[1]+16}" font-size="12" text-anchor="middle" fill="var(--mute)" style="stroke:none">국내 고객 계좌 없음</text>`;}
  cap.innerHTML=`<span>${F[i][4]}</span><span class="tag2 ${F[i][3]}">${F[i][2]}</span>`;};
-const at=(P,u)=>{const L=P.slice(1).map((p,j)=>Math.hypot(p[0]-P[j][0],p[1]-P[j][1])),T=L.reduce((a,b)=>a+b,0);let d=u*T;for(let j=0;j<L.length;j++){if(d<=L[j]){const r=d/L[j];return[P[j][0]+(P[j+1][0]-P[j][0])*r,P[j][1]+(P[j+1][1]-P[j][1])*r]}d-=L[j]}return P[P.length-1]};
-const loop=now=>{const P=pts(cur),dur=900*(P.length-1),e=now-t0,u=Math.min(1,e/dur),q=at(P,red?1:u);
- tok.setAttribute('cx',q[0]);tok.setAttribute('cy',q[1]);tok.setAttribute('opacity',(!red&&u<1)?1:0);
+const ease=u=>u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
+const loop=now=>{const dur=900*(F[cur][1].length-1),e=Math.max(0,now-t0),u=Math.min(1,e/dur);
+ if(rp&&!red){const q=rp.getPointAtLength(rl*ease(u));tok.setAttribute('cx',q.x);tok.setAttribute('cy',q.y);tokh.setAttribute('cx',q.x);tokh.setAttribute('cy',q.y);}
+ const op=(!red&&u<1)?1:0;tok.setAttribute('opacity',op);tokh.setAttribute('opacity',op*.22);
  if(auto&&e>dur+1400)show((cur+1)%F.length);else if(!auto&&e>dur+1400)t0=now;
  raf=requestAnimationFrame(loop)};
 fb.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;auto=false;show(+b.id.slice(2))});
