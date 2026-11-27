@@ -150,7 +150,7 @@ p{margin:0 0 12px;max-width:72ch}
 .stat .bar{height:6px;background:var(--plane);margin-top:12px;overflow:hidden}
 .stat .bar i{display:block;height:100%;width:0;background:var(--yel);transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
 @media(max-width:760px){.vs{grid-template-columns:6.2em minmax(0,1fr) minmax(0,1fr)}.vs&gt;div{padding:10px 8px;font-size:13.5px;flex-wrap:wrap;gap:4px}.peer{grid-template-columns:1fr 1fr}.peer .lbl{grid-column:1/-1;padding:0}}
-&lt;/style&gt;
+.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}.status{margin-top:12px;padding:12px 14px;border-left:3px solid var(--yel);background:var(--soft);font-size:14px;line-height:1.65}.status b{color:var(--ink)}&lt;/style&gt;
 &lt;style&gt;
 html{-webkit-font-smoothing:antialiased}
 :root,:root[data-theme]{color-scheme:dark!important;--bg:#2b2924!important;--ink:#efebe2!important;--mute:#bfb9ad!important;--plane:#3a3731!important;--soft:#33302a!important;--rule:#57524a!important;--yel:#ffbc00!important;--yel2:#5c4a12!important;--red:#ff8f7f!important}
@@ -177,6 +177,7 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
   &lt;div class=&quot;tabs&quot; role=&quot;tablist&quot; id=&quot;t1&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;scroll&quot;&gt;&lt;div class=&quot;lane-svg&quot;&gt;&lt;svg id=&quot;s1&quot; role=&quot;img&quot; aria-label=&quot;모행 중심 해외결제 처리 흐름&quot;&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/div&gt;
   &lt;div class=&quot;cap&quot;&gt;&lt;span&gt;&lt;i&gt;&lt;/i&gt;요청·자금 이동&lt;/span&gt;&lt;span&gt;&lt;i class=&quot;d&quot;&gt;&lt;/i&gt;응답·참고&lt;/span&gt;&lt;span&gt;&lt;i class=&quot;y&quot;&gt;&lt;/i&gt;지금 처리 중인 단계&lt;/span&gt;&lt;span&gt;&lt;i class=&quot;g&quot;&gt;&lt;/i&gt;미경유&lt;/span&gt;&lt;/div&gt;
+  &lt;div class=&quot;status&quot;&gt;&lt;b&gt;목표 구조(안)입니다.&lt;/b&gt; 금결원 허브는 인도네시아만 개통(&#x27;26.4.1, KB국민은행 국내 최초 QRIS 직접 연계)됐고, 베트남·인도는 연내 개통 예정입니다. 현재 KB스타뱅킹의 베트남 결제는 GLN(하나은행 자회사) 제휴로 제공됩니다.&lt;/div&gt;
 &lt;/div&gt;&lt;/section&gt;
 
 &lt;section class=&quot;band alt&quot;&gt;&lt;div class=&quot;wrap&quot;&gt;
@@ -185,22 +186,22 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
    &lt;p class=&quot;big&quot;&gt;해외결제 연결을 &lt;em&gt;한 번만 만들어&lt;/em&gt; 은행과 카드가 &lt;em&gt;함께 씁니다&lt;/em&gt;.&lt;br&gt;은행은 돈길(연결·환전·정산), 카드는 그 위에서 고객과 결제를 넓힙니다.&lt;/p&gt;
    &lt;div class=&quot;vs&quot; role=&quot;table&quot; aria-label=&quot;따로 할 때와 같이 할 때 비교&quot;&gt;
     &lt;div class=&quot;h&quot; role=&quot;columnheader&quot;&gt;&lt;/div&gt;&lt;div class=&quot;h&quot; role=&quot;columnheader&quot;&gt;따로 하면&lt;/div&gt;&lt;div class=&quot;h us&quot; role=&quot;columnheader&quot;&gt;같이 하면&lt;/div&gt;
-    &lt;div class=&quot;k&quot;&gt;허브·현지망 연결&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;n&quot;&gt;2번&lt;/span&gt;은행·카드 각자 참가&lt;/div&gt;&lt;div class=&quot;us&quot;&gt;&lt;span class=&quot;n&quot;&gt;1번&lt;/span&gt;모행 연결을 같이 사용&lt;/div&gt;
-    &lt;div class=&quot;k&quot;&gt;환전·정산&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;n&quot;&gt;각자&lt;/span&gt;카드는 외부에 맡김&lt;/div&gt;&lt;div class=&quot;us&quot;&gt;&lt;span class=&quot;n&quot;&gt;모행&lt;/span&gt;환전 수익이 그룹 안에 남음&lt;/div&gt;
+    &lt;div class=&quot;k&quot;&gt;허브·현지망 연결&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;n&quot;&gt;각자&lt;/span&gt;은행은 GLN·금결원·중국 NUCC, 카드는 별도 경로&lt;/div&gt;&lt;div class=&quot;us&quot;&gt;&lt;span class=&quot;n&quot;&gt;1번&lt;/span&gt;모행 연결을 같이 사용&lt;/div&gt;
+    &lt;div class=&quot;k&quot;&gt;환전·정산&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;n&quot;&gt;2곳&lt;/span&gt;스타뱅킹 외화포인트, KB Pay 외화머니로 따로 환전&lt;/div&gt;&lt;div class=&quot;us&quot;&gt;&lt;span class=&quot;n&quot;&gt;모행&lt;/span&gt;환전 수익이 그룹 안에 남음&lt;/div&gt;
     &lt;div class=&quot;k&quot;&gt;앱 해외결제 화면&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;n&quot;&gt;2번&lt;/span&gt;KB Pay·스타뱅킹 따로 개발&lt;/div&gt;&lt;div class=&quot;us&quot;&gt;&lt;span class=&quot;n&quot;&gt;1번&lt;/span&gt;공통 모듈을 두 앱에 탑재&lt;/div&gt;
     &lt;div class=&quot;k&quot;&gt;리스크 통제&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;n&quot;&gt;2개&lt;/span&gt;기준이 둘&lt;/div&gt;&lt;div class=&quot;us&quot;&gt;&lt;span class=&quot;n&quot;&gt;1개&lt;/span&gt;제재·이상거래 기준 통일&lt;/div&gt;
    &lt;/div&gt;
    &lt;div class=&quot;peer&quot;&gt;
-    &lt;div class=&quot;lbl&quot;&gt;&lt;b&gt;이미 이 구조로 가는 곳: 하나금융 트래블로그&lt;/b&gt;&lt;span&gt;은행 외화(환전·외화예금)와 카드 결제를 하나로 묶은 상품. KB는 연결 기반은 있으나 은행·카드가 아직 따로 씁니다.&lt;/span&gt;&lt;/div&gt;
-    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;v&quot; data-to=&quot;45.3&quot;&gt;0&lt;small&gt;%&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;t&quot;&gt;해외 체크카드 점유율&lt;/div&gt;&lt;div class=&quot;bar&quot;&gt;&lt;i data-w=&quot;45.3&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
-    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;v&quot; data-to=&quot;18.8&quot;&gt;0&lt;small&gt;%&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;t&quot;&gt;카드 수익 중 해외 비중&lt;/div&gt;&lt;div class=&quot;bar&quot;&gt;&lt;i data-w=&quot;18.8&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;lbl&quot;&gt;&lt;b&gt;이미 이 구조로 가는 곳: 하나금융&lt;/b&gt;&lt;span&gt;하나카드 트래블로그는 하나은행과 연계해 해외 체크카드 시장 1위. 자회사 GLN은 15개 지역 QR 결제망을 운영하고, 하나은행은 한·베 QR 연결의 한국 측 유일 정산은행입니다. KB스타뱅킹 해외결제도 대부분 GLN 제휴로 제공되고, KB국민카드의 해외 체크카드 점유율은 12.6%(&#x27;25.1~7)입니다.&lt;/span&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;v&quot; data-to=&quot;45.3&quot;&gt;0&lt;small&gt;%&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;t&quot;&gt;하나카드 개인 해외 체크카드 점유율(&#x27;26.1Q)&lt;/div&gt;&lt;div class=&quot;bar&quot;&gt;&lt;i data-w=&quot;45.3&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;stat&quot;&gt;&lt;div class=&quot;v&quot; data-to=&quot;18.8&quot;&gt;0&lt;small&gt;%&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;t&quot;&gt;하나카드 카드수익 중 해외 관련 수익(&#x27;26.1Q)&lt;/div&gt;&lt;div class=&quot;bar&quot;&gt;&lt;i data-w=&quot;18.8&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
    &lt;/div&gt;
   &lt;/div&gt;
   &lt;h2&gt;은행·카드 시너지 방안 6가지&lt;/h2&gt;
   &lt;div class=&quot;plays&quot;&gt;
     &lt;article class=&quot;play top&quot;&gt;&lt;h3&gt;① 허브 연결은 하나로&lt;/h3&gt;&lt;div class=&quot;roles&quot;&gt;&lt;b&gt;은행&lt;/b&gt;&lt;span&gt;금결원 허브·국가결제망 참가, 국가별 라우팅&lt;/span&gt;&lt;b class=&quot;c&quot;&gt;카드&lt;/b&gt;&lt;span&gt;별도 참가 없이 모행 연결 사용&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;eff&quot;&gt;중복 참가·개발 제거&lt;/div&gt;&lt;/article&gt;
     &lt;article class=&quot;play top&quot;&gt;&lt;h3&gt;② 환전·정산은 모행에서&lt;/h3&gt;&lt;div class=&quot;roles&quot;&gt;&lt;b&gt;은행&lt;/b&gt;&lt;span&gt;환율 확정, 외화 차액 정산&lt;/span&gt;&lt;b class=&quot;c&quot;&gt;카드&lt;/b&gt;&lt;span&gt;KB Pay 해외결제의 환전을 모행에 위임&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;eff&quot;&gt;환전 수익이 그룹 안에 남음&lt;/div&gt;&lt;/article&gt;
-    &lt;article class=&quot;play top&quot;&gt;&lt;h3&gt;③ 외화 지갑 연결&lt;/h3&gt;&lt;div class=&quot;roles&quot;&gt;&lt;b&gt;은행&lt;/b&gt;&lt;span&gt;외화통장 = 충전 원천&lt;/span&gt;&lt;b class=&quot;c&quot;&gt;카드&lt;/b&gt;&lt;span&gt;외화머니 = 결제 수단, 자동 충전&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;eff&quot;&gt;외화예금 잔액 증가&lt;/div&gt;&lt;/article&gt;
+    &lt;article class=&quot;play top&quot;&gt;&lt;h3&gt;③ 외화 지갑 연결&lt;/h3&gt;&lt;div class=&quot;roles&quot;&gt;&lt;b&gt;은행&lt;/b&gt;&lt;span&gt;외화통장·외화포인트를 공통 지갑으로&lt;/span&gt;&lt;b class=&quot;c&quot;&gt;카드&lt;/b&gt;&lt;span&gt;트래블러스 체크카드는 이미 외화통장 결제 가능 → QR 결제까지 확대&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;eff&quot;&gt;외화예금 잔액 증가&lt;/div&gt;&lt;/article&gt;
     &lt;article class=&quot;play&quot;&gt;&lt;h3&gt;④ 공통 해외결제 모듈&lt;/h3&gt;&lt;div class=&quot;roles&quot;&gt;&lt;b class=&quot;g&quot;&gt;공동&lt;/b&gt;&lt;span&gt;한 번 만들어 KB Pay·스타뱅킹에 같은 화면·기능 탑재&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;eff&quot;&gt;개발·운영 비용 절감&lt;/div&gt;&lt;/article&gt;
     &lt;article class=&quot;play&quot;&gt;&lt;h3&gt;⑤ 해외여행 묶음 상품&lt;/h3&gt;&lt;div class=&quot;roles&quot;&gt;&lt;b class=&quot;c&quot;&gt;카드&lt;/b&gt;&lt;span&gt;결제 혜택·트래블 카드&lt;/span&gt;&lt;b&gt;은행&lt;/b&gt;&lt;span&gt;환율 우대·외화예금&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;eff&quot;&gt;하나 트래블로그형 상품 대응&lt;/div&gt;&lt;/article&gt;
     &lt;article class=&quot;play&quot;&gt;&lt;h3&gt;⑥ 리스크 공동 운영&lt;/h3&gt;&lt;div class=&quot;roles&quot;&gt;&lt;b class=&quot;g&quot;&gt;공동&lt;/b&gt;&lt;span&gt;AML·제재 필터링(SafeWatch)·이상거래 탐지·미결 처리 기준 통일&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;eff&quot;&gt;통제 일원화&lt;/div&gt;&lt;/article&gt;
@@ -231,7 +232,7 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
 
 &lt;section class=&quot;band alt&quot;&gt;&lt;div class=&quot;wrap&quot;&gt;
   &lt;h2&gt;글로벌뱅킹시스템의 현지 지급결제망 프로세스 (베트남·인도)&lt;/h2&gt;
-  &lt;p&gt;한국 고객 결제와 분리된 현지 거래입니다. 모행과는 실시간으로 연결되지 않고 일별 자금·보고만 오갑니다.&lt;/p&gt;
+  &lt;p&gt;한국 고객 결제와 분리된 현지 거래입니다. 모행과의 실시간 연동 여부와 일별 자금·보고 방식은 내부 자료로 확인이 필요합니다.&lt;/p&gt;
   &lt;div class=&quot;tabs&quot; role=&quot;tablist&quot; id=&quot;t2&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;scroll&quot;&gt;&lt;div class=&quot;lane-svg&quot;&gt;&lt;svg id=&quot;s2&quot; role=&quot;img&quot; aria-label=&quot;글로벌뱅킹시스템 현지 결제망 처리 흐름&quot;&gt;&lt;/svg&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;/section&gt;
@@ -244,6 +245,17 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
     &lt;b&gt;허브 참가 방식&lt;/b&gt;&lt;span&gt;카드의 별도 참가 대신 모행 연결 공유 여부&lt;/span&gt;
   &lt;/div&gt;
   &lt;p class=&quot;note&quot; style=&quot;margin-top:14px&quot;&gt;흐름은 구조(안)입니다. 금결원 허브의 승인·정산 방식, 카드 선불 자금의 정산 경로, 인도 현지망 연결 범위는 참가 규약과 내부 자료로 확인이 필요합니다.&lt;/p&gt;
+  &lt;h2 style=&quot;margin-top:28px&quot;&gt;출처&lt;/h2&gt;
+  &lt;ul class=&quot;srcs&quot;&gt;
+   &lt;li&gt;&lt;a href=&quot;https://www.smarttoday.co.kr/ko-kr/articles/106071&quot;&gt;스마트투데이, KB국민은행 한·인니 QR결제 출시(금결원 허브, 12개국)&lt;/a&gt; (2026.4.2)&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://www.smarttoday.co.kr/ko-kr/articles/92703&quot;&gt;스마트투데이, KB스타뱅킹 해외결제는 GLN 제휴로 제공&lt;/a&gt; (2025.9.30) · &lt;a href=&quot;https://www.smarttoday.co.kr/ko-kr/articles/113031&quot;&gt;중국 NUCC 연계&lt;/a&gt; (2026.10.22)&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://v.daum.net/v/20260503180009016&quot;&gt;금결원장, 인도·베트남 QR결제 연내 론칭 예정&lt;/a&gt; (2026.5.3)&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://en.napas.com.vn/new-milestone-in-vietnamkorea-financial-connectivity-launch-of-cross-border-qr-payment-service-184260526100013798.htm&quot;&gt;NAPAS, 한·베 QR 개시(GLN, 정산은행 BIDV·하나은행)&lt;/a&gt; (2026.4.23)&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://ibtomato.com/mobile/mExternalView.aspx?no=19102&amp;amp;type=1&quot;&gt;IB토마토, 하나카드 해외 체크카드 점유율 45.3%·해외 관련 수익 18.8%&lt;/a&gt; (2026.8)&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://news.dealsitetv.com/articles/158564&quot;&gt;딜사이트, 개인 해외 체크카드 점유율(KB국민카드 12.57%)&lt;/a&gt; (2025.8)&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://www.economist.co.kr/article/view/ecn202611030051&quot;&gt;이코노미스트, GLN 15개 지역 운영&lt;/a&gt; (2026.11) · &lt;a href=&quot;https://newspim.com/news/view/20240627000227&quot;&gt;뉴스핌, KB Pay 외화머니 56종&lt;/a&gt; (2024.6) · &lt;a href=&quot;https://kbthink.com/card/travelers-card.html&quot;&gt;KB Think, 트래블러스 체크카드 해외 결제계좌(외화머니·외화통장)&lt;/a&gt;&lt;/li&gt;
+   &lt;li&gt;내부: 베트남지점 기업뱅킹·PG 중계·수납 흐름은 글로벌IT개발부 자료 기준&lt;/li&gt;
+  &lt;/ul&gt;
 &lt;/div&gt;&lt;/section&gt;
 
 &lt;script&gt;
@@ -301,7 +313,7 @@ lane(&#x27;s1&#x27;,&#x27;t1&#x27;,{lanes:[
  {id:&#x27;g&#x27;,name:&#x27;글로벌뱅킹시스템&#x27;,sub:&#x27;해외 지점&#x27;,kind:&#x27;skip&#x27;,note:&#x27;미경유&#x27;}],
  flows:[
  {name:&#x27;스타뱅킹 계좌 결제&#x27;,steps:[[&#x27;c&#x27;,&#x27;b&#x27;,&#x27;QR 스캔·결제 요청&#x27;,&#x27;승인&#x27;],[&#x27;b&#x27;,&#x27;b&#x27;,&#x27;계좌 출금·환율 확정·AML&#x27;,&#x27;승인&#x27;],[&#x27;b&#x27;,&#x27;h&#x27;,&#x27;승인 요청&#x27;,&#x27;승인&#x27;],[&#x27;h&#x27;,&#x27;n&#x27;,&#x27;승인 요청&#x27;,&#x27;승인&#x27;],[&#x27;n&#x27;,&#x27;m&#x27;,&#x27;결제 승인&#x27;,&#x27;승인&#x27;],[&#x27;n&#x27;,&#x27;c&#x27;,&#x27;승인 결과 (역순)&#x27;,&#x27;승인&#x27;,&#x27;d&#x27;],[&#x27;b&#x27;,&#x27;h&#x27;,&#x27;외화 차액 정산&#x27;,&#x27;정산&#x27;],[&#x27;h&#x27;,&#x27;n&#x27;,&#x27;정산&#x27;,&#x27;정산&#x27;],[&#x27;n&#x27;,&#x27;m&#x27;,&#x27;가맹점 대금 입금&#x27;,&#x27;정산&#x27;],[&#x27;n&#x27;,&#x27;g&#x27;,&#x27;KB 지점 고객이면 일반 입금&#x27;,&#x27;정산&#x27;,&#x27;x&#x27;]]},
- {name:&#x27;KB Pay 결제&#x27;,steps:[[&#x27;c&#x27;,&#x27;k&#x27;,&#x27;QR 스캔 (KB Pay)&#x27;,&#x27;승인&#x27;],[&#x27;k&#x27;,&#x27;k&#x27;,&#x27;외화머니·연결 계좌 확인&#x27;,&#x27;승인&#x27;],[&#x27;k&#x27;,&#x27;b&#x27;,&#x27;결제 처리 요청&#x27;,&#x27;승인&#x27;],[&#x27;b&#x27;,&#x27;b&#x27;,&#x27;환율 확정·AML·라우팅&#x27;,&#x27;승인&#x27;],[&#x27;b&#x27;,&#x27;h&#x27;,&#x27;승인 요청&#x27;,&#x27;승인&#x27;],[&#x27;h&#x27;,&#x27;n&#x27;,&#x27;승인 요청&#x27;,&#x27;승인&#x27;],[&#x27;n&#x27;,&#x27;m&#x27;,&#x27;결제 승인&#x27;,&#x27;승인&#x27;],[&#x27;n&#x27;,&#x27;c&#x27;,&#x27;승인 결과 (역순)&#x27;,&#x27;승인&#x27;,&#x27;d&#x27;],[&#x27;b&#x27;,&#x27;h&#x27;,&#x27;외화 차액 정산&#x27;,&#x27;정산&#x27;],[&#x27;h&#x27;,&#x27;m&#x27;,&#x27;정산·가맹점 대금 입금&#x27;,&#x27;정산&#x27;],[&#x27;k&#x27;,&#x27;b&#x27;,&#x27;그룹 내부 정산 (외화머니 ↔ 결제계좌)&#x27;,&#x27;정산&#x27;]]}
+ {name:&#x27;KB Pay 결제&#x27;,steps:[[&#x27;c&#x27;,&#x27;k&#x27;,&#x27;QR 스캔 (KB Pay)&#x27;,&#x27;승인&#x27;],[&#x27;k&#x27;,&#x27;k&#x27;,&#x27;외화머니·연결 계좌 확인&#x27;,&#x27;승인&#x27;],[&#x27;k&#x27;,&#x27;b&#x27;,&#x27;결제 처리 요청&#x27;,&#x27;승인&#x27;],[&#x27;b&#x27;,&#x27;b&#x27;,&#x27;환율 확정·AML·라우팅&#x27;,&#x27;승인&#x27;],[&#x27;b&#x27;,&#x27;h&#x27;,&#x27;승인 요청&#x27;,&#x27;승인&#x27;],[&#x27;h&#x27;,&#x27;n&#x27;,&#x27;승인 요청&#x27;,&#x27;승인&#x27;],[&#x27;n&#x27;,&#x27;m&#x27;,&#x27;결제 승인&#x27;,&#x27;승인&#x27;],[&#x27;n&#x27;,&#x27;c&#x27;,&#x27;승인 결과 (역순)&#x27;,&#x27;승인&#x27;,&#x27;d&#x27;],[&#x27;b&#x27;,&#x27;h&#x27;,&#x27;외화 차액 정산&#x27;,&#x27;정산&#x27;],[&#x27;h&#x27;,&#x27;n&#x27;,&#x27;정산&#x27;,&#x27;정산&#x27;],[&#x27;n&#x27;,&#x27;m&#x27;,&#x27;가맹점 대금 입금&#x27;,&#x27;정산&#x27;],[&#x27;k&#x27;,&#x27;b&#x27;,&#x27;그룹 내부 정산 (외화머니 ↔ 결제계좌)&#x27;,&#x27;정산&#x27;]]}
  ]});
 lane(&#x27;s2&#x27;,&#x27;t2&#x27;,{lanes:[
  {id:&#x27;c&#x27;,name:&#x27;현지 고객&#x27;,sub:&#x27;수납 고객·수취인&#x27;,kind:&#x27;ext&#x27;},
@@ -311,7 +323,7 @@ lane(&#x27;s2&#x27;,&#x27;t2&#x27;,{lanes:[
  {id:&#x27;e&#x27;,name:&#x27;고객사&#x27;,sub:&#x27;계좌·ERP&#x27;,kind:&#x27;kb&#x27;},
  {id:&#x27;b&#x27;,name:&#x27;국민은행 모행&#x27;,sub:&#x27;본점&#x27;,kind:&#x27;ext&#x27;}],
  flows:[
- {name:&#x27;베트남 가상계좌 QR 수납&#x27;,steps:[[&#x27;c&#x27;,&#x27;n&#x27;,&#x27;VietQR로 가상계좌 이체&#x27;,&#x27;처리&#x27;],[&#x27;n&#x27;,&#x27;g&#x27;,&#x27;지급 요청 전달&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;g&#x27;,&#x27;가상계좌 입금·자동대사&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;e&#x27;,&#x27;입금 통지·모계좌 정산&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;b&#x27;,&#x27;일별 자금·보고&#x27;,&#x27;일마감&#x27;,&#x27;d&#x27;]]},
+ {name:&#x27;베트남 가상계좌 QR 수납&#x27;,steps:[[&#x27;c&#x27;,&#x27;n&#x27;,&#x27;VietQR로 가상계좌 이체&#x27;,&#x27;처리&#x27;],[&#x27;n&#x27;,&#x27;g&#x27;,&#x27;입금 전문 전달&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;g&#x27;,&#x27;가상계좌 입금·자동대사&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;e&#x27;,&#x27;입금 통지·모계좌 정산&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;b&#x27;,&#x27;일별 자금·보고&#x27;,&#x27;일마감&#x27;,&#x27;d&#x27;]]},
  {name:&#x27;베트남 펌뱅킹 지급&#x27;,steps:[[&#x27;e&#x27;,&#x27;p&#x27;,&#x27;이체 지시 (ERP)&#x27;,&#x27;처리&#x27;],[&#x27;p&#x27;,&#x27;g&#x27;,&#x27;이체 지시 전달 (API)&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;g&#x27;,&#x27;출금·검증&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;n&#x27;,&#x27;타행 이체&#x27;,&#x27;처리&#x27;],[&#x27;n&#x27;,&#x27;c&#x27;,&#x27;입금 완료&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;b&#x27;,&#x27;일별 자금·보고&#x27;,&#x27;일마감&#x27;,&#x27;d&#x27;]]},
  {name:&#x27;인도 진출기업 수납 (검토)&#x27;,steps:[[&#x27;c&#x27;,&#x27;n&#x27;,&#x27;UPI 등으로 지급&#x27;,&#x27;처리&#x27;],[&#x27;n&#x27;,&#x27;g&#x27;,&#x27;입금&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;g&#x27;,&#x27;가상계좌 매칭·대사&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;e&#x27;,&#x27;입금 통지·ERP 반영&#x27;,&#x27;처리&#x27;],[&#x27;g&#x27;,&#x27;b&#x27;,&#x27;일별 자금·보고&#x27;,&#x27;일마감&#x27;,&#x27;d&#x27;]]}
  ]});
@@ -466,7 +478,7 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
 @media(max-width:900px){.split{grid-template-columns:minmax(0,1fr)}.top,.pri{grid-template-columns:minmax(0,1fr)}.dgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.split{grid-template-columns:minmax(0,1fr);margin-left:0}.lyr{grid-template-columns:minmax(0,1fr);gap:8px}.blocks{grid-template-columns:repeat(2,minmax(0,1fr))}.phases{grid-template-columns:minmax(0,1fr)}.lyr.new{margin:0}}
 @media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:10px 0;border-bottom:1px solid var(--rule)}.stack td{border:0;padding:6px}.stack td:first-child{grid-column:1/-1}.stack td.verdict{grid-column:1/-1;text-align:left;padding-left:0}.stack td.v::before{content:attr(data-l);display:block;font-size:11px;font-weight:500;color:inherit;opacity:.75}.dgrid{grid-template-columns:minmax(0,1fr)}}
-&lt;/style&gt;
+.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}&lt;/style&gt;
 &lt;script&gt;new MutationObserver(()=&gt;{for(const c of document.querySelectorAll(&#x27;.stack td:not([data-l])&#x27;)){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest(&#x27;table&#x27;).rows[0].cells[i]?.textContent||&#x27;&#x27;}}).observe(document,{childList:true,subtree:true})&lt;/script&gt;
 &lt;style&gt;
 html{-webkit-font-smoothing:antialiased}
@@ -492,7 +504,7 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
     &lt;div&gt;
       &lt;div class=&quot;meta&quot;&gt;글로벌IT개발부 검토(안) · 2026.11.27 · 기술·실효성·수익성·실현가능성 관점&lt;/div&gt;
       &lt;h1&gt;국민카드·국민은행·글로벌을 잇는 구조는 기술적으로 가능, 새로 만들 것은 공통 결제 플랫폼 하나&lt;/h1&gt;
-      &lt;p class=&quot;lead&quot;&gt;채널, 국내 인프라, 국가 간 망, 글로벌IT개발부가 연결한 현지망은 이미 보유하고 있습니다. 이를 한 API로 잇는 공통 계층만 신규로 구축하면 되고, 효과와 실현성을 함께 갖춘 국가별 라우팅·한·캄 결제 연결(한국 고객 → PRASAC 가맹점)·베트남 기업 수납부터 착수하는 것이 효과적입니다.&lt;/p&gt;
+      &lt;p class=&quot;lead&quot;&gt;채널, 국내 인프라, 국가 간 망, 글로벌IT개발부가 연결한 현지망은 이미 보유하고 있습니다. 이를 한 API로 잇는 공통 계층만 신규로 구축하면 되고, 효과와 실현성을 함께 갖춘 국가별 라우팅·한·캄 결제 연결(한국 고객 → KHQR 가맹점, PRASAC 정산)·베트남 기업 수납부터 착수하는 것이 효과적입니다.&lt;/p&gt;
     &lt;/div&gt;
     &lt;div class=&quot;keys&quot;&gt;
       &lt;div class=&quot;key y&quot;&gt;&lt;b&gt;1개&lt;/b&gt;&lt;span&gt;신규 구축 계층&lt;/span&gt;&lt;/div&gt;
@@ -528,15 +540,15 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
           &lt;/div&gt;&lt;/div&gt;
         &lt;div class=&quot;sub&quot;&gt;&lt;div class=&quot;lab2&quot;&gt;국가 간 망 &lt;em&gt;연결 경로&lt;/em&gt;&lt;/div&gt;
           &lt;div class=&quot;blocks&quot; style=&quot;--n:3&quot;&gt;
-            &lt;div class=&quot;blk fix&quot;&gt;&lt;b&gt;금결원 국가 간 QR 허브&lt;/b&gt;&lt;span&gt;인니 개통, 베트남·인도 예정&lt;/span&gt;&lt;/div&gt;
-            &lt;div class=&quot;blk&quot;&gt;&lt;b&gt;국가결제망 직접 연계&lt;/b&gt;&lt;span&gt;중국 NUCC&lt;/span&gt;&lt;/div&gt;
-            &lt;div class=&quot;blk&quot;&gt;&lt;b&gt;제휴망&lt;/b&gt;&lt;span&gt;GLN·유니온페이·Visa QR&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;blk fix&quot;&gt;&lt;b&gt;금결원 국가 간 QR 허브&lt;/b&gt;&lt;span&gt;인니 개통(&#x27;26.4, KB 국내 최초), 베트남·인도 연내 예정&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;blk&quot;&gt;&lt;b&gt;국가결제망 직접 연계&lt;/b&gt;&lt;span&gt;중국 NUCC(&#x27;26.10)&lt;/span&gt;&lt;/div&gt;
+            &lt;div class=&quot;blk&quot;&gt;&lt;b&gt;제휴망&lt;/b&gt;&lt;span&gt;GLN(스타뱅킹 다수 국가)·유니온페이 QR(KB Pay)&lt;/span&gt;&lt;/div&gt;
           &lt;/div&gt;&lt;/div&gt;
         &lt;div class=&quot;flow&quot;&gt;국가 간 망을 거쳐 현지망으로 ↓&lt;/div&gt;
       &lt;/div&gt;
       &lt;div class=&quot;lane direct&quot;&gt;
         &lt;div class=&quot;lanehead&quot;&gt;&lt;b&gt;② 현지 직접 경로&lt;/b&gt;&lt;span&gt;한국을 거치지 않는 현지 고객·기업 거래&lt;/span&gt;&lt;/div&gt;
-        &lt;p&gt;공통 플랫폼의 국가별 어댑터가 현지망에 바로 연결됩니다. 현재 실적이 가장 큰 경로입니다.&lt;/p&gt;
+        &lt;p&gt;공통 플랫폼의 국가별 어댑터가 현지망에 바로 연결됩니다. 현재 운영 실적이 있는 경로입니다.&lt;/p&gt;
         &lt;ul&gt;
           &lt;li&gt;베트남 기업 수납: 가상계좌 QR 월 25.3만 건(&#x27;26.9)&lt;/li&gt;
           &lt;li&gt;캄보디아 가맹점 수납: KHQR·입금 알림&lt;/li&gt;
@@ -548,8 +560,8 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
     &lt;/div&gt;
     &lt;div class=&quot;lyr gitl&quot;&gt;&lt;div class=&quot;lab&quot;&gt;&lt;b&gt;글로벌IT 현지망 연결&lt;/b&gt;&lt;span&gt;국가별 어댑터 · 글로벌IT개발부 운영&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;blocks&quot; style=&quot;--n:5&quot;&gt;
-        &lt;div class=&quot;blk&quot;&gt;&lt;b&gt;캄보디아 KHQR&lt;/b&gt;&lt;span&gt;KB PRASAC&lt;/span&gt;&lt;span class=&quot;use&quot;&gt;가맹점 수납 · 한·캄 결제&lt;/span&gt;&lt;/div&gt;
-        &lt;div class=&quot;blk fix&quot;&gt;&lt;b&gt;인니 QRIS&lt;/b&gt;&lt;span&gt;KBI&lt;/span&gt;&lt;span class=&quot;use&quot;&gt;한·인니 결제 연계, 역할 확인&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;blk&quot;&gt;&lt;b&gt;캄보디아 KHQR&lt;/b&gt;&lt;span&gt;KB PRASAC&lt;/span&gt;&lt;span class=&quot;use&quot;&gt;가맹점 수납 · 한·캄 결제 정산(MoU &#x27;24.5)&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;blk fix&quot;&gt;&lt;b&gt;인니 QRIS&lt;/b&gt;&lt;span&gt;KBI&lt;/span&gt;&lt;span class=&quot;use&quot;&gt;현지 수납. 한·인니 결제는 모행이 금결원 허브로 처리&lt;/span&gt;&lt;/div&gt;
         &lt;div class=&quot;blk&quot;&gt;&lt;b&gt;베트남 NAPAS&lt;/b&gt;&lt;span&gt;하노이·호치민지점&lt;/span&gt;&lt;span class=&quot;use&quot;&gt;기업 수납·대사(기업뱅킹)&lt;/span&gt;&lt;/div&gt;
         &lt;div class=&quot;blk fix&quot;&gt;&lt;b&gt;인도 NPCI&lt;/b&gt;&lt;span&gt;구루그람·첸나이·푸네지점&lt;/span&gt;&lt;span class=&quot;use&quot;&gt;진출기업 수납, 서비스 범위 확인&lt;/span&gt;&lt;/div&gt;
         &lt;div class=&quot;blk ctl&quot;&gt;&lt;b&gt;미얀마 MPU·MMQR&lt;/b&gt;&lt;span&gt;KB미얀마은행&lt;/span&gt;&lt;span class=&quot;use&quot;&gt;현지 한정, 국가 간 연결 분리&lt;/span&gt;&lt;/div&gt;
@@ -577,7 +589,7 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
   &lt;div class=&quot;pri&quot;&gt;
     &lt;div class=&quot;fig&quot;&gt;&lt;svg id=&quot;pm&quot; role=&quot;img&quot; aria-label=&quot;실현가능성과 효과 기준 우선순위 맵&quot;&gt;&lt;/svg&gt;&lt;/div&gt;
     &lt;div class=&quot;ql&quot;&gt;
-      &lt;div class=&quot;q y&quot;&gt;&lt;b&gt;우선 착수&lt;/b&gt;&lt;span&gt;③ 국가별 라우팅, ④ 한·캄 결제 연결(한국 고객 → PRASAC 가맹점), ⑤ 베트남 기업 수납·허브 참가&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;q y&quot;&gt;&lt;b&gt;우선 착수&lt;/b&gt;&lt;span&gt;③ 국가별 라우팅, ④ 한·캄 결제 연결(한국 고객 → KHQR 가맹점, PRASAC 정산), ⑤ 베트남 기업 수납·허브 참가&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;q alt&quot;&gt;&lt;b&gt;기반 과제&lt;/b&gt;&lt;span&gt;② 외화머니↔외화통장 연결. 효과는 보통이나 빠르게 가능하고 다른 과제의 토대&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;q alt&quot;&gt;&lt;b&gt;전략 과제&lt;/b&gt;&lt;span&gt;① 두 앱 공통 해외결제 모듈(은행·카드 합의 필요), ⑥ 인바운드(제도·국내 수납 참여 확인)&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;q alt&quot;&gt;&lt;b&gt;보류·관찰&lt;/b&gt;&lt;span&gt;⑦ 인니 QRIS(KBI 정상화와 연동), ⑧ 인도(서비스 범위 확인 후), ⑨ 미얀마(현지 한정 유지)&lt;/span&gt;&lt;/div&gt;
@@ -589,7 +601,7 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
   &lt;h2&gt;기술 추진 단계: 연결 → 한·캄 결제로 효과 검증 → 확장&lt;/h2&gt;
   &lt;div class=&quot;phases&quot;&gt;
     &lt;div class=&quot;ph y&quot;&gt;&lt;b&gt;1단계 연결 기반&lt;/b&gt;&lt;small&gt;0~6개월&lt;/small&gt;&lt;ul&gt;&lt;li&gt;국가별 라우팅 테이블 통합(③)&lt;/li&gt;&lt;li&gt;외화머니↔외화통장 상호 충전(②)&lt;/li&gt;&lt;li&gt;현지 결제망 연결 현황 표준화: 연결 서비스·참가 방식·메시지 표준&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;
-    &lt;div class=&quot;ph&quot;&gt;&lt;b&gt;2단계 효과 검증&lt;/b&gt;&lt;small&gt;6~12개월&lt;/small&gt;&lt;ul&gt;&lt;li&gt;한·캄 결제 연결: 한국 고객 결제 대금을 PRASAC 가맹점 계좌로 입금(④)&lt;/li&gt;&lt;li&gt;베트남 기업 수납 표준 기능, 허브 참가 준비(⑤)&lt;/li&gt;&lt;li&gt;공통 플랫폼 1차: 라우팅·정산·AML&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;
+    &lt;div class=&quot;ph&quot;&gt;&lt;b&gt;2단계 효과 검증&lt;/b&gt;&lt;small&gt;6~12개월&lt;/small&gt;&lt;ul&gt;&lt;li&gt;한·캄 결제 연결: 모행 ↔ 캄보디아 중앙은행(바콩) 연결, PRASAC이 정산은행(④)&lt;/li&gt;&lt;li&gt;베트남 기업 수납 표준 기능, 허브 참가 준비(⑤)&lt;/li&gt;&lt;li&gt;공통 플랫폼 1차: 라우팅·정산·AML&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;
     &lt;div class=&quot;ph&quot;&gt;&lt;b&gt;3단계 확장&lt;/b&gt;&lt;small&gt;12~24개월&lt;/small&gt;&lt;ul&gt;&lt;li&gt;두 앱 공통 해외결제 모듈(①)&lt;/li&gt;&lt;li&gt;인바운드 국내 가맹점 연계(⑥)&lt;/li&gt;&lt;li&gt;인니·인도 연결 확대(⑦⑧)&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;
   &lt;/div&gt;
   &lt;div class=&quot;dec&quot;&gt;
@@ -612,7 +624,7 @@ const items=[
  [&#x27;① 두 앱 공통 해외결제 모듈&#x27;,&#x27;카드 승인계·은행 계정계를 한 API로&#x27;,M,H,M,M,0.42,0.68],
  [&#x27;② 외화머니↔외화통장 연결&#x27;,&#x27;선불과 예금 간 상호 충전&#x27;,H,M,M,H,0.82,0.45],
  [&#x27;③ 국가별 라우팅&#x27;,&#x27;허브·직접·제휴 중 최적 경로, GLN 의존 축소&#x27;,M,H,M,H,0.86,0.74],
- [&#x27;④ 한·캄 결제 연결&#x27;,&#x27;한국 고객이 캄보디아에서 결제 → PRASAC 가맹점 계좌 입금&#x27;,M,H,H,M,0.64,0.9],
+ [&#x27;④ 한·캄 결제 연결&#x27;,&#x27;한국 고객이 KHQR 가맹점에서 결제, PRASAC이 현지 정산&#x27;,M,H,H,M,0.64,0.9],
  [&#x27;⑤ 베트남 기업 수납·허브 참가&#x27;,&#x27;NAPAS 연결·수납 실적 기반&#x27;,H,H,M,M,0.72,0.79],
  [&#x27;⑥ 인바운드(국내 가맹점)&#x27;,&#x27;카드 가맹점망 + 은행 외환·수납&#x27;,M,M,M,L,0.22,0.56],
  [&#x27;⑦ 인니 QRIS(KBI)&#x27;,&#x27;모행 한·인니 결제와 KBI 역할 연계&#x27;,M,M,L,M,0.55,0.3],
@@ -646,9 +658,9 @@ NPC:[760,360,&#x27;NPCI&#x27;,&#x27;인도 결제망&#x27;,&#x27;ext&#x27;],INB:
 const F=[
  [&#x27;베트남 QR 수납&#x27;,[&#x27;VCU&#x27;,&#x27;NAP&#x27;,&#x27;VNB&#x27;,&#x27;VCO&#x27;],&#x27;운영 중&#x27;,&#x27;on&#x27;,&#x27;수납 고객이 QR로 내면 KB 베트남지점 계좌로&#x27;],
  [&#x27;베트남 펌뱅킹 지급&#x27;,[&#x27;VCO&#x27;,&#x27;VNB&#x27;,&#x27;NAP&#x27;,&#x27;VCU&#x27;],&#x27;운영 중&#x27;,&#x27;on&#x27;,&#x27;고객사 지시로 KB 지점이 현지로 이체&#x27;],
- [&#x27;베트남 한국 고객 결제&#x27;,[&#x27;KRC&#x27;,&#x27;PLT&#x27;,&#x27;EXT&#x27;,&#x27;HUB&#x27;,&#x27;NAP&#x27;,&#x27;VNB&#x27;],&#x27;허브 개통 후&#x27;,&#x27;plan&#x27;,&#x27;한국 고객 결제 대금이 KB 베트남지점으로&#x27;],
+ [&#x27;베트남 한국 고객 결제&#x27;,[&#x27;KRC&#x27;,&#x27;PLT&#x27;,&#x27;EXT&#x27;,&#x27;HUB&#x27;,&#x27;NAP&#x27;,&#x27;VCU&#x27;],&#x27;허브 개통 후&#x27;,&#x27;plan&#x27;,&#x27;한국 고객 결제 대금은 NAPAS를 거쳐 현지 가맹점으로 (KB 지점 미경유·국내 고객 계좌 없음)&#x27;],
  [&#x27;인도 진출기업 수납&#x27;,[&#x27;ICU&#x27;,&#x27;NPC&#x27;,&#x27;INB&#x27;,&#x27;ICO&#x27;],&#x27;검토&#x27;,&#x27;rev&#x27;,&#x27;인도 대금이 KB 인도지점을 거쳐 진출기업으로&#x27;],
- [&#x27;인도 한국 고객 결제&#x27;,[&#x27;KRC&#x27;,&#x27;PLT&#x27;,&#x27;EXT&#x27;,&#x27;HUB&#x27;,&#x27;NPC&#x27;,&#x27;INB&#x27;],&#x27;한·인 개통 후&#x27;,&#x27;plan&#x27;,&#x27;한국 고객 결제 대금이 KB 인도지점으로&#x27;]];
+ [&#x27;인도 한국 고객 결제&#x27;,[&#x27;KRC&#x27;,&#x27;PLT&#x27;,&#x27;EXT&#x27;,&#x27;HUB&#x27;,&#x27;NPC&#x27;,&#x27;ICU&#x27;],&#x27;한·인 개통 후&#x27;,&#x27;plan&#x27;,&#x27;한국 고객 결제 대금은 NPCI를 거쳐 현지 가맹점으로 (KB 지점 미경유·국내 고객 계좌 없음)&#x27;]];
 const bw=156,bh=56,E=new Set();F.forEach(f=&gt;f[1].forEach((k,i)=&gt;{if(i)E.add([f[1][i-1],k].sort().join(&#x27;|&#x27;))}));
 const zone=(x,y,w,h,t)=&gt;`&lt;rect x=&quot;${x}&quot; y=&quot;${y}&quot; width=&quot;${w}&quot; height=&quot;${h}&quot; fill=&quot;var(--soft)&quot;/&gt;&lt;text x=&quot;${x+14}&quot; y=&quot;${y+26}&quot; font-size=&quot;16&quot; font-weight=&quot;800&quot; fill=&quot;var(--mute)&quot;&gt;${t}&lt;/text&gt;`;
 let base=zone(20,20,610,520,&#x27;한국&#x27;)+zone(650,20,430,250,&#x27;베트남&#x27;)+zone(650,290,430,250,&#x27;인도&#x27;);
@@ -667,6 +679,8 @@ const pts=i=&gt;F[i][1].map(k=&gt;[N[k][0],N[k][1]]);
 const show=i=&gt;{cur=i;t0=performance.now();
  fb.querySelectorAll(&#x27;button&#x27;).forEach((b,j)=&gt;b.setAttribute(&#x27;aria-selected&#x27;,j===i));
  const P=pts(i);hlL.innerHTML=`&lt;polyline points=&quot;${P.map(p=&gt;p.join(&#x27;,&#x27;)).join(&#x27; &#x27;)}&quot; fill=&quot;none&quot; stroke=&quot;var(--ink)&quot; stroke-width=&quot;5&quot; stroke-linejoin=&quot;round&quot;/&gt;`;hl.innerHTML=P.map((p,j)=&gt;`&lt;rect x=&quot;${p[0]-bw/2-4}&quot; y=&quot;${p[1]-bh/2-4}&quot; width=&quot;${bw+8}&quot; height=&quot;${bh+8}&quot; fill=&quot;none&quot; stroke=&quot;var(--ink)&quot; stroke-width=&quot;3&quot;/&gt;&lt;circle cx=&quot;${p[0]-bw/2}&quot; cy=&quot;${p[1]-bh/2}&quot; r=&quot;12&quot; fill=&quot;var(--ink)&quot;/&gt;&lt;text x=&quot;${p[0]-bw/2}&quot; y=&quot;${p[1]-bh/2+5}&quot; font-size=&quot;13&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--bg)&quot; style=&quot;stroke:none&quot;&gt;${j+1}&lt;/text&gt;`).join(&#x27;&#x27;);
+ const sk=F[i][0].includes(&#x27;한국 고객&#x27;)?(F[i][0].startsWith(&#x27;베트남&#x27;)?&#x27;VNB&#x27;:&#x27;INB&#x27;):null;
+ if(sk){const n=N[sk];hl.innerHTML+=`&lt;rect x=&quot;${n[0]-bw/2-4}&quot; y=&quot;${n[1]-bh/2-4}&quot; width=&quot;${bw+8}&quot; height=&quot;${bh+8}&quot; fill=&quot;var(--bg)&quot; stroke=&quot;var(--mute)&quot; stroke-width=&quot;2&quot; stroke-dasharray=&quot;6 5&quot;/&gt;&lt;text x=&quot;${n[0]}&quot; y=&quot;${n[1]-2}&quot; font-size=&quot;15&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;stroke:none&quot;&gt;${n[2]} 미경유&lt;/text&gt;&lt;text x=&quot;${n[0]}&quot; y=&quot;${n[1]+16}&quot; font-size=&quot;12&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;stroke:none&quot;&gt;국내 고객 계좌 없음&lt;/text&gt;`;}
  cap.innerHTML=`&lt;span&gt;${F[i][4]}&lt;/span&gt;&lt;span class=&quot;tag2 ${F[i][3]}&quot;&gt;${F[i][2]}&lt;/span&gt;`;};
 const at=(P,u)=&gt;{const L=P.slice(1).map((p,j)=&gt;Math.hypot(p[0]-P[j][0],p[1]-P[j][1])),T=L.reduce((a,b)=&gt;a+b,0);let d=u*T;for(let j=0;j&lt;L.length;j++){if(d&lt;=L[j]){const r=d/L[j];return[P[j][0]+(P[j+1][0]-P[j][0])*r,P[j][1]+(P[j+1][1]-P[j][1])*r]}d-=L[j]}return P[P.length-1]};
 const loop=now=&gt;{const P=pts(cur),dur=900*(P.length-1),e=now-t0,u=Math.min(1,e/dur),q=at(P,red?1:u);
@@ -677,6 +691,16 @@ fb.addEventListener(&#x27;click&#x27;,e=&gt;{const b=e.target.closest(&#x27;butt
 show(0);raf=requestAnimationFrame(loop);
 }
 &lt;/script&gt;
+&lt;section class=&quot;band&quot;&gt;&lt;div class=&quot;wrap&quot;&gt;
+  &lt;h2&gt;출처&lt;/h2&gt;
+  &lt;ul class=&quot;srcs&quot;&gt;
+   &lt;li&gt;&lt;a href=&quot;https://www.smarttoday.co.kr/ko-kr/articles/106071&quot;&gt;스마트투데이, KB국민은행 한·인니 QR결제(금결원 허브·QRIS 직접 연계)&lt;/a&gt; (2026.4.2) · &lt;a href=&quot;https://v.daum.net/v/20260503180009016&quot;&gt;금결원장, 인도·베트남 연내 론칭&lt;/a&gt; (2026.5.3)&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://www.smarttoday.co.kr/ko-kr/articles/113031&quot;&gt;스마트투데이, KB스타뱅킹 중국 NUCC 연계&lt;/a&gt; (2026.10.22) · &lt;a href=&quot;https://www.smarttoday.co.kr/ko-kr/articles/92703&quot;&gt;KB스타뱅킹 해외결제 GLN 제휴&lt;/a&gt; (2025.9.30)&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://www.card-gorilla.com/contents/detail/1542&quot;&gt;카드고릴라, KB Pay 해외 유니온페이 QR 결제&lt;/a&gt; (KB Pay 출시 시점)&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://www.smarttoday.co.kr/ko-kr/articles/50469&quot;&gt;스마트투데이, KB국민은행·캄보디아 중앙은행 QR MoU, PRASAC 결제은행 역할&lt;/a&gt; (2024.5.17) · &lt;a href=&quot;https://thestar.com.my/aseanplus/aseanplus-news/2024/08/31/cambodia-and-south-korea-cross-border-qr-code-payments&quot;&gt;The Star, 한·캄 QR 1단계 개통(전북은행)&lt;/a&gt; (2024.8)&lt;/li&gt;
+   &lt;li&gt;내부: 베트남 기업 수납 실적, 현지망 연결 범위는 글로벌IT개발부 자료 기준&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;&lt;/section&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 " hidden></iframe><iframe id="f2" title="현지결제망 검토" scrolling="no" srcdoc="&lt;!DOCTYPE html&gt;
@@ -810,8 +834,8 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
       &lt;div class=&quot;cty&quot;&gt;베트남&lt;small&gt;VND · NAPAS&lt;/small&gt;&lt;/div&gt;
       &lt;div class=&quot;seg local&quot;&gt;&lt;span class=&quot;lbl&quot;&gt;KB 거점&lt;/span&gt;&lt;b&gt;하노이·호치민지점&lt;/b&gt;&lt;span&gt;기업뱅킹 전용. 펌뱅킹·가상계좌 QR 수납 6개 고객사&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;seg&quot;&gt;&lt;span class=&quot;lbl&quot;&gt;현지 결제망&lt;/span&gt;&lt;b&gt;NAPAS 연결&lt;/b&gt;&lt;span&gt;VietQR 기반 기업 수납 월 25.3만 건 (&#x27;26.9 내부)&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;seg plan&quot;&gt;&lt;span class=&quot;lbl&quot;&gt;국가 간 연결&lt;/span&gt;&lt;b&gt;한·베 개통(&#x27;26.4), KB는 미참여&lt;/b&gt;&lt;span&gt;BIDV·하나은행·GLN이 선점. 금결원 허브 경로는 개통 일정 확인&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;call&quot;&gt;&lt;span class=&quot;tag&quot;&gt;확대&lt;/span&gt;&lt;br&gt;현지 측 수납·정산을 KB 지점이 맡는 구조 검토&lt;/div&gt;
+      &lt;div class=&quot;seg plan&quot;&gt;&lt;span class=&quot;lbl&quot;&gt;국가 간 연결&lt;/span&gt;&lt;b&gt;한·베 개통(&#x27;26.4.23, GLN 경유)&lt;/b&gt;&lt;span&gt;정산은행 BIDV·하나은행(한국 측 유일). KB스타뱅킹 베트남 결제는 GLN 제휴. 금결원 허브 경로는 연내 예정&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;call&quot;&gt;&lt;span class=&quot;tag&quot;&gt;확대&lt;/span&gt;&lt;br&gt;지점은 현지 기업 수납 확대. 한국 고객 결제는 모행 처리&lt;/div&gt;
     &lt;/div&gt;
 
     &lt;div class=&quot;rail&quot; role=&quot;row&quot;&gt;
@@ -843,12 +867,12 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
         &lt;dt&gt;시장&lt;/dt&gt;&lt;dd&gt;NAPAS는 2026.4.23 한국과 국가 간 QR을 열었고, 7월 싱가포르까지 6개국으로 넓힘. 베트남 이용자의 한국 결제(역방향)도 계획 중&lt;/dd&gt;
         &lt;dt&gt;KB 강점&lt;/dt&gt;&lt;dd&gt;NAPAS 연결과 병원·보험·PG 기업 수납 실적. 기업뱅킹 전용이라 소매 QR은 PG사를 통한 간접 방식&lt;/dd&gt;
         &lt;dt&gt;제약&lt;/dt&gt;&lt;dd&gt;한·베 연결의 현지 정산은행은 BIDV, 한국 측은 하나·GLN. 수납자금의 예금 정착 미흡(월평잔 6.7백만 USD)&lt;/dd&gt;
-        &lt;dt&gt;검토&lt;/dt&gt;&lt;dd&gt;금결원 허브의 베트남 개통 시 KB 지점의 현지 측 역할(수납·정산·대사) 확보, NAPAS 2.0 대응과 일정 묶기&lt;/dd&gt;
+        &lt;dt&gt;검토&lt;/dt&gt;&lt;dd&gt;금결원 허브 베트남 개통 시 모행이 참가(지점 미경유). 지점은 기업 수납 표준화와 NAPAS 2.0 대응에 집중&lt;/dd&gt;
       &lt;/dl&gt;
     &lt;/article&gt;
     &lt;article class=&quot;card&quot;&gt;
       &lt;h3&gt;인도: 시장은 가장 크지만 KB는 기업 고객 중심&lt;/h3&gt;
-      &lt;div class=&quot;stats&quot;&gt;&lt;div&gt;&lt;b&gt;약 10억 건&lt;/b&gt;UPI 일 거래&lt;/div&gt;&lt;div&gt;&lt;b&gt;11개국&lt;/b&gt;UPI 해외 가맹점 결제&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;stats&quot;&gt;&lt;div&gt;&lt;b&gt;약 7.9억 건&lt;/b&gt;UPI 일 거래(&#x27;26.8, 월 245억 건)&lt;/div&gt;&lt;div&gt;&lt;b&gt;11개국&lt;/b&gt;UPI 해외 가맹점 결제&lt;/div&gt;&lt;/div&gt;
       &lt;dl&gt;
         &lt;dt&gt;시장&lt;/dt&gt;&lt;dd&gt;UPI가 결제를 지배. 해외 연결은 UAE·싱가포르·프랑스·캄보디아 등 11개국, 말레이시아(&#x27;26.2 협약)·일본(MoU)으로 확대 중. 방문객용 UPI One World 지갑 운영&lt;/dd&gt;
         &lt;dt&gt;KB 강점&lt;/dt&gt;&lt;dd&gt;3개 지점과 한국계 제조·공급망 고객. 연결된 현지망을 기업 수납·지급 자동화에 재사용 가능&lt;/dd&gt;
@@ -891,7 +915,7 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
     &lt;ol&gt;
       &lt;li&gt;&lt;b&gt;공통 엔진의 현지 계층으로 편입.&lt;/b&gt; 앞서 제안한 그룹 공통 결제 엔진 아래에 NAPAS·인도·미얀마 연결을 국가별 어댑터로 둡니다. KB PRASAC(KHQR), KBI(QRIS)와 함께 현지 결제망 5곳이 됩니다.&lt;/li&gt;
       &lt;li&gt;&lt;b&gt;기업 수납 공통 상품을 먼저 재사용.&lt;/b&gt; 베트남의 청구·QR 발급·입금 통지·자동대사를 표준 기능으로 만들고 인도에 이식합니다. 국가별 QR·이체 표준은 어댑터가 맡습니다.&lt;/li&gt;
-      &lt;li&gt;&lt;b&gt;국가 간 연결은 허브 개통에 맞춰 참가.&lt;/b&gt; 금결원 허브가 베트남·인도로 열릴 때 KB 현지 지점이 현지 측 수납·정산을 맡을 수 있는지 협의합니다. 하나금융이 GLN과 현지 정산은행으로 양쪽을 다 잡은 구조에 대응하는 방법입니다.&lt;/li&gt;
+      &lt;li&gt;&lt;b&gt;국가 간 연결은 모행이 허브 개통에 맞춰 참가.&lt;/b&gt; 금결원 허브가 베트남·인도로 열리면 한국 고객 결제는 모행이 처리하고 현지 지점은 거치지 않습니다(지점에 국내 고객 계좌 없음). 하나금융은 GLN과 한국 측 정산은행(하나은행)을 함께 맡고 있어, KB는 금결원 허브 직접 참가로 GLN 의존을 줄이는 것이 대응 방향입니다.&lt;/li&gt;
       &lt;li&gt;&lt;b&gt;미얀마는 엔진과 분리.&lt;/b&gt; 고위험국 거래가 공통 엔진에 섞이면 그룹 전체의 제재·AML 부담이 커집니다. 별도 통제 구역으로 둡니다.&lt;/li&gt;
     &lt;/ol&gt;
   &lt;/div&gt;
@@ -916,10 +940,11 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
     &lt;li&gt;&lt;a href=&quot;https://en.napas.com.vn/new-milestone-in-vietnamkorea-financial-connectivity-launch-of-cross-border-qr-payment-service-184260526100013798.htm&quot;&gt;NAPAS, 한·베 국가 간 QR 결제 개시&lt;/a&gt; (2026.4) · &lt;a href=&quot;https://technode.global/2026/04/23/vietnam-south-korea-launch-cross-border-qr-payment-service/&quot;&gt;TechNode Global&lt;/a&gt; · &lt;a href=&quot;https://www.crowdfundinsider.com/2026/04/275498-cross-border-qr-payments-gain-ground-as-vietnam-korea-connect-retail-networks/&quot;&gt;Crowdfund Insider&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&quot;https://sbv.gov.vn/en/w/official-launch-of-the-vietnam-singapore-cross-border-qr-payment-service&quot;&gt;베트남 중앙은행, 베트남·싱가포르 QR 개시&lt;/a&gt; (2026.7.2)&lt;/li&gt;
     &lt;li&gt;&lt;a href=&quot;https://www.etoday.co.kr/news/view/1723871&quot;&gt;이투데이, KB국민은행 인도 구루그람지점 개설&lt;/a&gt; (2019.2) · &lt;a href=&quot;https://www.smarttoday.co.kr/ko-kr/articles/62172&quot;&gt;스마트투데이, 첸나이·푸네 지점 개점&lt;/a&gt; (2024.10)&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;https://khaleejtimes.com/uae/uae-among-countries-linked-to-indias-upi-and-rupay-network-as-digital-payments-expand-globally&quot;&gt;Khaleej Times, UPI 해외 11개국·일 10억 건&lt;/a&gt; · &lt;a href=&quot;https://paynet.my/about-us/media-centre/press-release/payments-network-malaysia-and-india-npci-international-sign-agreement-to-enable-cross-border-qr-payments.html&quot;&gt;PayNet, 말레이시아·인도 QR 협약&lt;/a&gt; (2026.2) · &lt;a href=&quot;https://www.npci.org.in/uploads/NPCI_Extends_UPI_One_World_Wallet_Service_to_International_Delegates_at_the_India_AI_Impact_Summit_2026_f1b7e11410.pdf&quot;&gt;NPCI, UPI One World&lt;/a&gt; (2026.2) · &lt;a href=&quot;https://assets.kpmg.com/content/dam/kpmgsites/in/pdf/2025/07/unified-payments-interface-upi-information-security-compliance-framework-2025.pdf&quot;&gt;KPMG, UPI 정보보호 준수 체계 2025&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://khaleejtimes.com/uae/uae-among-countries-linked-to-indias-upi-and-rupay-network-as-digital-payments-expand-globally&quot;&gt;Khaleej Times, UPI 해외 11개국·8월 245억 건&lt;/a&gt; (2026.9) · &lt;a href=&quot;https://paynet.my/about-us/media-centre/press-release/payments-network-malaysia-and-india-npci-international-sign-agreement-to-enable-cross-border-qr-payments.html&quot;&gt;PayNet, 말레이시아·인도 QR 협약&lt;/a&gt; (2026.2) · &lt;a href=&quot;https://www.npci.org.in/uploads/NPCI_Extends_UPI_One_World_Wallet_Service_to_International_Delegates_at_the_India_AI_Impact_Summit_2026_f1b7e11410.pdf&quot;&gt;NPCI, UPI One World&lt;/a&gt; (2026.2) · &lt;a href=&quot;https://assets.kpmg.com/content/dam/kpmgsites/in/pdf/2025/07/unified-payments-interface-upi-information-security-compliance-framework-2025.pdf&quot;&gt;KPMG, UPI 정보보호 준수 체계 2025&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&quot;https://elevenmyanmar.com/node/310008&quot;&gt;Eleven Myanmar, MMQR 이용자 2,400만 명&lt;/a&gt; (2026.2) · &lt;a href=&quot;https://mdn.gov.mm/my/node/199483&quot;&gt;미얀마 정부, CBM MMQR 실적&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=&quot;https://www.fatf-gafi.org/en/publications/High-risk-and-other-monitored-jurisdictions/call-for-action-june-2026.html&quot;&gt;FATF, 고위험국 성명&lt;/a&gt; (2026.6) · &lt;a href=&quot;https://www.fatf-gafi.org/en/publications/Fatfgeneral/outcomes-fatf-plenary-october-2026.html&quot;&gt;FATF 총회 결과&lt;/a&gt; (2026.10) · &lt;a href=&quot;https://www.mas.gov.sg/publications/fatf-statement/2026/october-2026&quot;&gt;MAS, 2026.10 FATF 성명&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;내부: 펌뱅킹·가상계좌 거래현황 및 처리흐름(2026.10.27), 글로벌IT개발부 사업계획&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;https://www.smarttoday.co.kr/ko-kr/articles/92703&quot;&gt;스마트투데이, KB스타뱅킹 해외결제 GLN 제휴&lt;/a&gt; (2025.9.30) · &lt;a href=&quot;https://www.newsis.com/view/NISX20260424_0003605873&quot;&gt;뉴시스, 하나은행 한·베 QR 한국 측 유일 정산은행&lt;/a&gt; (2026.4.24) · &lt;a href=&quot;https://v.daum.net/v/20260503180009016&quot;&gt;금결원장, 인도·베트남 연내 론칭&lt;/a&gt; (2026.5.3)&lt;/li&gt;
+    &lt;li&gt;내부: 펌뱅킹·가상계좌 거래현황 및 처리흐름(2026.10.27), 글로벌IT개발부 사업계획 (수치는 예시)&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/div&gt;&lt;/section&gt;
 
