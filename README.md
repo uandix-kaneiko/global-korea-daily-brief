@@ -1,4 +1,4 @@
-# Tech & Global News Daily
+# GLOBAL TECH PULSE
 
 공개자료 기반의 IT 기술·금융IT·디지털·보안·IT 장애 및 사고 전문 브리핑입니다.
 

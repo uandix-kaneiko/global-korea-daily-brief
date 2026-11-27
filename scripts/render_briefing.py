@@ -42,7 +42,7 @@ def render(date):
   for st in L.get('stages',[]):assert all(i in L['evidence'] for i in st['ids'])
  assert covered==set(byid),'Every article must belong to a decision board'
  data['lane_of']=laneof;data['deep_count']=len(deep)
- brand=data.get('brand','Tech & Global News Daily');short=date.replace('-','.');brief=data['brief']
+ brand=data.get('brand','GLOBAL TECH PULSE');short=date.replace('-','.');brief=data['brief']
  style='\n'.join((ROOT/'templates'/n).read_text() for n in ['decision-board.css'])
  js=(ROOT/'templates/decision-board.js').read_text()
  weekday=['MON','TUE','WED','THU','FRI','SAT','SUN'][datetime.date.fromisoformat(date).weekday()]
@@ -114,7 +114,7 @@ def render(date):
  prior=[ET.tostring(i) for i in ch.findall('item') if i.findtext('link')!=url]
  current=[i for i in ch.findall('item') if i.findtext('link')==url];item=current[0] if current else ET.Element('item')
  for i in current:ch.remove(i)
- title=f'Tech & Global News Daily {short} | IT 기술·금융IT·디지털·보안·IT 장애 및 사고'
+ title=f'GLOBAL TECH PULSE {short} | IT 기술·금융IT·디지털·보안·IT 장애 및 사고'
  vals={'title':title,'link':url,'guid':url,'description':f'{brief["summary"]} 심층분석 {len(deep)}건·전체 뉴스 {len(A)}건.'}
  for k,v in vals.items():
   e=item.find(k)
@@ -123,7 +123,7 @@ def render(date):
  item.find('guid').set('isPermaLink','true')
  if item.find('pubDate') is None:ET.SubElement(item,'pubDate').text=format_datetime(datetime.datetime.now(ZoneInfo('Asia/Seoul')))
  first=next((i for i,e in enumerate(ch) if e.tag=='item'),len(ch));ch.insert(first,item)
- for k,v in [('title','Tech & Global News Daily'),('lastBuildDate',format_datetime(datetime.datetime.now(ZoneInfo('Asia/Seoul'))))]:
+ for k,v in [('title','GLOBAL TECH PULSE'),('lastBuildDate',format_datetime(datetime.datetime.now(ZoneInfo('Asia/Seoul'))))]:
   e=ch.find(k)
   if e is None:e=ET.SubElement(ch,k)
   e.text=v
@@ -132,7 +132,7 @@ def render(date):
  assert len({i.findtext('link') for i in ch.findall('item')})==len(ch.findall('item'))
  assert len({i.findtext('guid') for i in ch.findall('item')})==len(ch.findall('item'))
  # Real, existing archive URLs only.
- dates=archive_dates();archive=['<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>지난 브리핑 | Tech &amp; Global News Daily</title><style>body{margin:0;background:#0C0B09;color:#EFEBE2;font:17px/1.7 system-ui,sans-serif}.wrap{max-width:850px;margin:40px auto;padding:0 22px}a{color:#FFBC00;text-decoration:none}h1{font-size:30px;line-height:1.4}ul{list-style:none;padding:0}li{border-top:1px solid #2A261F}li a{display:flex;justify-content:space-between;padding:18px 0;gap:20px}li span{color:#acbac7;font-size:15px}a:focus-visible{outline:2px solid #FFBC00}p{color:#acbac7}</style></head><body><main class="wrap"><a href="../latest.html">Tech &amp; Global News Daily</a><h1>지난 브리핑</h1><p>날짜를 선택해 해당 일자의 브리핑을 읽으세요.</p><ul>']
+ dates=archive_dates();archive=['<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>지난 브리핑 | GLOBAL TECH PULSE</title><style>body{margin:0;background:#0C0B09;color:#EFEBE2;font:17px/1.7 system-ui,sans-serif}.wrap{max-width:850px;margin:40px auto;padding:0 22px}a{color:#FFBC00;text-decoration:none}h1{font-size:30px;line-height:1.4}ul{list-style:none;padding:0}li{border-top:1px solid #2A261F}li a{display:flex;justify-content:space-between;padding:18px 0;gap:20px}li span{color:#acbac7;font-size:15px}a:focus-visible{outline:2px solid #FFBC00}p{color:#acbac7}</style></head><body><main class="wrap"><a href="../latest.html">GLOBAL TECH PULSE</a><h1>지난 브리핑</h1><p>날짜를 선택해 해당 일자의 브리핑을 읽으세요.</p><ul>']
  for d,path in dates:archive.append(f'<li><a href="../{path}"><strong>{d}</strong><span>{"최신 브리핑" if d==date else "브리핑 읽기"}</span></a></li>')
  archive.append('</ul></main></body></html>');(ROOT/'archive/index.html').write_text('\n'.join(archive))
  print(json.dumps({'date':date,'articles':len(A),'deep':len(deep),'categories':dict(counts),'archive_dates':len(dates),'rss_items':len(ch.findall('item'))},ensure_ascii=False))
