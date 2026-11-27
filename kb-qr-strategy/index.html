@@ -212,6 +212,7 @@ rect[fill=&quot;var(--ink)&quot;]{fill:#d9d3c7}
   &lt;h2&gt;글로벌뱅킹시스템을 거치지 않아도 되는 이유&lt;/h2&gt;
   &lt;div class=&quot;logic&quot;&gt;
     &lt;ol class=&quot;why&quot;&gt;
+      &lt;li&gt;&lt;div&gt;&lt;b&gt;글로벌뱅킹시스템엔 국내 고객이 없음&lt;/b&gt;&lt;span&gt;결제하는 사람은 국내 고객, 출금 계좌도 모행 계좌. 해외 지점에는 받을 돈도, 확인할 고객 정보도 없음&lt;/span&gt;&lt;/div&gt;&lt;/li&gt;
       &lt;li&gt;&lt;div&gt;&lt;b&gt;거래 당사자가 모행&lt;/b&gt;&lt;span&gt;허브 참가기관은 국민은행 모행. 고객 계좌·카드·한도·환율 원장도 모두 국내에 있음&lt;/span&gt;&lt;/div&gt;&lt;/li&gt;
       &lt;li&gt;&lt;div&gt;&lt;b&gt;실시간 승인에 단계가 늘지 않음&lt;/b&gt;&lt;span&gt;경유 시스템이 하나 늘 때마다 승인 지연·장애 지점·미결 건이 늘어남&lt;/span&gt;&lt;/div&gt;&lt;/li&gt;
       &lt;li&gt;&lt;div&gt;&lt;b&gt;이중 기표·대사가 없음&lt;/b&gt;&lt;span&gt;해외 지점 원장에 다시 기표하면 모행·지점 간 대사가 추가됨&lt;/span&gt;&lt;/div&gt;&lt;/li&gt;
@@ -263,7 +264,7 @@ function lane(svgId,tabId,cfg){
    const hf=l.kind===&#x27;hub&#x27;?&#x27;var(--yel)&#x27;:l.kind===&#x27;kb&#x27;?&#x27;var(--bg)&#x27;:gbs?&#x27;var(--bg)&#x27;:&#x27;var(--plane)&#x27;,hs=l.kind===&#x27;ext&#x27;?&#x27;transparent&#x27;:gbs?&#x27;var(--rule)&#x27;:&#x27;var(--ink)&#x27;;
    o+=`&lt;rect x=&quot;${x+6}&quot; y=&quot;14&quot; width=&quot;${lw-12}&quot; height=&quot;62&quot; fill=&quot;${hf}&quot; stroke=&quot;${hs}&quot; stroke-width=&quot;2&quot; ${gbs?&#x27;stroke-dasharray=&quot;6 5&quot;&#x27;:&#x27;&#x27;}/&gt;&lt;text x=&quot;${cx}&quot; y=&quot;41&quot; font-size=&quot;15.5&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;${l.kind===&#x27;hub&#x27;?&#x27;#111&#x27;:gbs?&#x27;var(--mute)&#x27;:&#x27;var(--ink)&#x27;}&quot;&gt;${l.name}&lt;/text&gt;&lt;text x=&quot;${cx}&quot; y=&quot;62&quot; font-size=&quot;12.5&quot; text-anchor=&quot;middle&quot; fill=&quot;${l.kind===&#x27;hub&#x27;?&#x27;#333&#x27;:&#x27;var(--mute)&#x27;}&quot;&gt;${l.sub}&lt;/text&gt;`;
    o+=`&lt;line x1=&quot;${cx}&quot; y1=&quot;78&quot; x2=&quot;${cx}&quot; y2=&quot;${H-10}&quot; stroke=&quot;${gbs?&#x27;var(--rule)&#x27;:&#x27;var(--mute)&#x27;}&quot; stroke-width=&quot;1&quot; stroke-dasharray=&quot;3 5&quot;/&gt;`;
-   if(gbs)o+=`&lt;text x=&quot;${cx}&quot; y=&quot;${top+ (H-top)/2}&quot; font-size=&quot;15&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;paint-order:stroke;stroke:var(--bg);stroke-width:6px&quot;&gt;${l.note||&#x27;미경유&#x27;}&lt;/text&gt;`;
+   if(gbs)o+=`&lt;text x=&quot;${cx}&quot; y=&quot;${top+ (H-top)/2-8}&quot; font-size=&quot;15&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;paint-order:stroke;stroke:var(--bg);stroke-width:6px&quot;&gt;${l.note||&#x27;미경유&#x27;}&lt;/text&gt;&lt;text x=&quot;${cx}&quot; y=&quot;${top+ (H-top)/2+14}&quot; font-size=&quot;12.5&quot; font-weight=&quot;700&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;paint-order:stroke;stroke:var(--bg);stroke-width:6px&quot;&gt;국내 고객 계좌 없음&lt;/text&gt;`;
   });
   // phase bands
   let ph=null,p0=0;const bands=[];S.forEach((s,k)=&gt;{if(s[3]!==ph){if(ph)bands.push([ph,p0,k-1]);ph=s[3];p0=k}});bands.push([ph,p0,S.length-1]);

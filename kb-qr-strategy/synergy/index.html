@@ -139,6 +139,7 @@ p{margin:0 0 12px;max-width:72ch}
   <h2>글로벌뱅킹시스템을 거치지 않아도 되는 이유</h2>
   <div class="logic">
     <ol class="why">
+      <li><div><b>글로벌뱅킹시스템엔 국내 고객이 없음</b><span>결제하는 사람은 국내 고객, 출금 계좌도 모행 계좌. 해외 지점에는 받을 돈도, 확인할 고객 정보도 없음</span></div></li>
       <li><div><b>거래 당사자가 모행</b><span>허브 참가기관은 국민은행 모행. 고객 계좌·카드·한도·환율 원장도 모두 국내에 있음</span></div></li>
       <li><div><b>실시간 승인에 단계가 늘지 않음</b><span>경유 시스템이 하나 늘 때마다 승인 지연·장애 지점·미결 건이 늘어남</span></div></li>
       <li><div><b>이중 기표·대사가 없음</b><span>해외 지점 원장에 다시 기표하면 모행·지점 간 대사가 추가됨</span></div></li>
@@ -190,7 +191,7 @@ function lane(svgId,tabId,cfg){
    const hf=l.kind==='hub'?'var(--yel)':l.kind==='kb'?'var(--bg)':gbs?'var(--bg)':'var(--plane)',hs=l.kind==='ext'?'transparent':gbs?'var(--rule)':'var(--ink)';
    o+=`<rect x="${x+6}" y="14" width="${lw-12}" height="62" fill="${hf}" stroke="${hs}" stroke-width="2" ${gbs?'stroke-dasharray="6 5"':''}/><text x="${cx}" y="41" font-size="15.5" font-weight="800" text-anchor="middle" fill="${l.kind==='hub'?'#111':gbs?'var(--mute)':'var(--ink)'}">${l.name}</text><text x="${cx}" y="62" font-size="12.5" text-anchor="middle" fill="${l.kind==='hub'?'#333':'var(--mute)'}">${l.sub}</text>`;
    o+=`<line x1="${cx}" y1="78" x2="${cx}" y2="${H-10}" stroke="${gbs?'var(--rule)':'var(--mute)'}" stroke-width="1" stroke-dasharray="3 5"/>`;
-   if(gbs)o+=`<text x="${cx}" y="${top+ (H-top)/2}" font-size="15" font-weight="800" text-anchor="middle" fill="var(--mute)" style="paint-order:stroke;stroke:var(--bg);stroke-width:6px">${l.note||'미경유'}</text>`;
+   if(gbs)o+=`<text x="${cx}" y="${top+ (H-top)/2-8}" font-size="15" font-weight="800" text-anchor="middle" fill="var(--mute)" style="paint-order:stroke;stroke:var(--bg);stroke-width:6px">${l.note||'미경유'}</text><text x="${cx}" y="${top+ (H-top)/2+14}" font-size="12.5" font-weight="700" text-anchor="middle" fill="var(--mute)" style="paint-order:stroke;stroke:var(--bg);stroke-width:6px">국내 고객 계좌 없음</text>`;
   });
   // phase bands
   let ph=null,p0=0;const bands=[];S.forEach((s,k)=>{if(s[3]!==ph){if(ph)bands.push([ph,p0,k-1]);ph=s[3];p0=k}});bands.push([ph,p0,S.length-1]);
