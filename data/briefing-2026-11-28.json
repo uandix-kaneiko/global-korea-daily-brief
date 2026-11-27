@@ -1,0 +1,507 @@
+{
+  "date": "2026-11-28",
+  "display_date": "2026.11.28",
+  "edition": "오전 브리핑",
+  "brand": "GLOBAL TECH PULSE",
+  "articles": [
+    {
+      "id": 1,
+      "cat": "보안",
+      "title": "국가안보실, 유출 고객의 2차 금융피해 차단 점검",
+      "status": "대응 강화",
+      "published": "11.27",
+      "meta": "2026.11.27",
+      "summary": "26일 국가안보실이 금융당국을 소집했다. 27일 발표에 따르면 안심차단 서비스, 유출 계좌·카드 정보의 FDS 반영, AI 보이스피싱 탐지 및 추가 인증 강화를 추진한다.",
+      "board_fact": "26일 국가안보실이 금융당국을 소집했다. 27일 발표에 따르면 안심차단 서비스, 유출 계좌·카드 정보의 FDS 반영, AI 보이스피싱 탐지 및 추가 인증 강화를 추진한다.",
+      "fact": "26일 국가안보실이 금융당국을 소집했다. 27일 발표에 따르면 안심차단 서비스, 유출 계좌·카드 정보의 FDS 반영, AI 보이스피싱 탐지 및 추가 인증 강화를 추진한다.",
+      "impact": "유출 사고 대응 범위가 개인정보 보호에서 실제 금융거래 피해 예방까지 확대된다.",
+      "lesson": "침해 대응과 금융사기 대응의 정보 전달 시간을 줄여야 한다.",
+      "action": "유출 고객 식별부터 FDS 반영·추가 인증·고객 통지까지 책임 및 처리시간을 정의한다.",
+      "deep": true,
+      "sources": [
+        {
+          "name": "청와대 공식 발표",
+          "url": "https://www.president.go.kr/actually/r90MD0XL"
+        }
+      ],
+      "source_short": "청와대 공식 발표"
+    },
+    {
+      "id": 2,
+      "cat": "IT 장애·사고",
+      "title": "Google Managed Airflow, Java 보안 대응 관련 작업 정지 문제 공개",
+      "status": "수정판 안내",
+      "published": "11.26",
+      "meta": "2026.11.26",
+      "summary": "Google Cloud는 26일 Java 보안 대응 과정에서 일부 Beam Java 작업이 멈추거나 교착 상태에 빠질 수 있다고 공지했다. 25일부터 수정된 OpenJDK를 포함한 일부 빌드에서 관련 완화 설정을 자동 적용하지 않으며 수정판도 안내했다.",
+      "board_fact": "Google Cloud는 26일 Java 보안 대응 과정에서 일부 Beam Java 작업이 멈추거나 교착 상태에 빠질 수 있다고 공지했다. 25일부터 수정된 OpenJDK를 포함한 일부 빌드에서 관련 완화 설정을 자동 적용하지 않으며 수정판도 안내했다.",
+      "fact": "Google Cloud는 26일 Java 보안 대응 과정에서 일부 Beam Java 작업이 멈추거나 교착 상태에 빠질 수 있다고 공지했다. 25일부터 수정된 OpenJDK를 포함한 일부 빌드에서 관련 완화 설정을 자동 적용하지 않으며 수정판도 안내했다.",
+      "impact": "금융 배치·데이터 파이프라인은 보안 변경 이후 완료 여부까지 별도로 검증해야 한다.",
+      "lesson": "긴급 패치 적용 성공과 업무 정상 처리는 별개의 검증 지표다.",
+      "action": "공급사 안내에 따라 수정판 적용 가능성을 검토하고 배치 완료·누락·재처리 및 대사 시험을 수행한다.",
+      "deep": true,
+      "sources": [
+        {
+          "name": "Google Cloud 공식 릴리스",
+          "url": "https://docs.cloud.google.com/release-notes/"
+        }
+      ],
+      "source_short": "Google Cloud 공식 릴리스"
+    },
+    {
+      "id": 3,
+      "cat": "보안",
+      "title": "스위스 NCSC, AI 에이전트 연관 침해 확인",
+      "status": "공식 확인",
+      "published": "11.24 · 후속/심층",
+      "meta": "2026.11.24 · 후속/심층",
+      "summary": "스위스 NCSC는 24일 AI 에이전트가 관여한 기업과 중요 인프라 침해 사례를 처음 확인했다고 발표했다. 최소 두 분야에 걸쳐 있었으며 기관은 탐지·대응 시간이 단축되는 위험을 강조했다. Reuters는 26일 후속 보도했다.",
+      "board_fact": "스위스 NCSC는 24일 AI 에이전트가 관여한 기업과 중요 인프라 침해 사례를 처음 확인했다고 발표했다. 최소 두 분야에 걸쳐 있었으며 기관은 탐지·대응 시간이 단축되는 위험을 강조했다. Reuters는 26일 후속 보도했다.",
+      "fact": "스위스 NCSC는 24일 AI 에이전트가 관여한 기업과 중요 인프라 침해 사례를 처음 확인했다고 발표했다. 최소 두 분야에 걸쳐 있었으며 기관은 탐지·대응 시간이 단축되는 위험을 강조했다. Reuters는 26일 후속 보도했다.",
+      "impact": "기존 탐지와 조치 사이의 시간이 더 중요해질 수 있다.",
+      "lesson": "인터넷 노출 자산의 최신 목록과 사고 초기 대응이 핵심이다.",
+      "action": "노출 자산 식별, 우선순위 기반 패치, 접근 통제 및 침해 대응 훈련을 강화한다.",
+      "deep": true,
+      "sources": [
+        {
+          "name": "스위스 NCSC 공식 발표",
+          "url": "https://www.bacs.admin.ch/en/26-ki-agenten-1-en"
+        }
+      ],
+      "source_short": "스위스 NCSC 공식 발표"
+    },
+    {
+      "id": 4,
+      "cat": "금융IT",
+      "title": "Temenos, 코어뱅킹 AI 도입과 실시간 대사 방향 제시",
+      "status": "전략 인터뷰",
+      "published": "11.27",
+      "meta": "2026.11.27",
+      "summary": "The Asian Banker의 27일 인터뷰에서 Temenos 제품 책임자는 위험에 따라 AI의 자율성 범위를 나누고, 코어 원장에는 결정론적 처리와 실시간 기장·대사가 필요하다고 설명했다. 개발·검증 역할 분리와 단계적 현대화도 제안했다. 공급사 전략 설명이다.",
+      "board_fact": "The Asian Banker의 27일 인터뷰에서 Temenos 제품 책임자는 위험에 따라 AI의 자율성 범위를 나누고, 코어 원장에는 결정론적 처리와 실시간 기장·대사가 필요하다고 설명했다. 개발·검증 역할 분리와 단계적 현대화도 제안했다. 공급사 전략 설명이다.",
+      "fact": "The Asian Banker의 27일 인터뷰에서 Temenos 제품 책임자는 위험에 따라 AI의 자율성 범위를 나누고, 코어 원장에는 결정론적 처리와 실시간 기장·대사가 필요하다고 설명했다. 개발·검증 역할 분리와 단계적 현대화도 제안했다. 공급사 전략 설명이다.",
+      "impact": "AI 개발과 코어 거래 운영의 검증 요구사항은 서로 다르다.",
+      "lesson": "원장 정합성과 복구 가능성을 제품 기능만큼 중요하게 평가한다.",
+      "action": "AI 개발 도구의 독립 검증, 요구사항 추적, 원장 재현성 및 24시간 대사 요건을 평가한다.",
+      "deep": true,
+      "sources": [
+        {
+          "name": "The Asian Banker · 인터뷰",
+          "url": "https://live.theasianbanker.com/video/can-temenos-help-banks-deploy-agentic-ai-and-modernise-core-systems-without-increasing-operational-risk"
+        }
+      ],
+      "source_short": "The Asian Banker · 인터뷰"
+    },
+    {
+      "id": 5,
+      "cat": "보안",
+      "title": "Zodia Custody, 고객 정보 비인가 접근 후 B2B API 재개",
+      "status": "복구 후속",
+      "published": "11.27",
+      "meta": "2026.11.27",
+      "summary": "27일 Fintech News Singapore는 Zodia가 23일 기관고객 서비스를 예방적으로 중단했고 24일 일부 고객 관련 정보의 비인가 접근을 발견했다고 보도했다. 보안조치 후 B2B API를 복구했고, 회사는 조사 당시 무단 거래가 확인되지 않았다고 밝혔다.",
+      "board_fact": "27일 Fintech News Singapore는 Zodia가 23일 기관고객 서비스를 예방적으로 중단했고 24일 일부 고객 관련 정보의 비인가 접근을 발견했다고 보도했다. 보안조치 후 B2B API를 복구했고, 회사는 조사 당시 무단 거래가 확인되지 않았다고 밝혔다.",
+      "fact": "27일 Fintech News Singapore는 Zodia가 23일 기관고객 서비스를 예방적으로 중단했고 24일 일부 고객 관련 정보의 비인가 접근을 발견했다고 보도했다. 보안조치 후 B2B API를 복구했고, 회사는 조사 당시 무단 거래가 확인되지 않았다고 밝혔다.",
+      "impact": "기관 간 API는 예방 중단과 복구 과정에서 거래·정보 영향이 각각 확인돼야 한다.",
+      "lesson": "연계기관에 통지하고 고객별 미완료 업무와 이상 거래를 확인해야 한다.",
+      "action": "접근 권한 검토, 연계 거래 대사, 고객·감독기관 통지 완료와 추가 조사 결과를 추적한다.",
+      "deep": true,
+      "sources": [
+        {
+          "name": "Fintech News Singapore",
+          "url": "https://fintechnews.sg/142477/security/zodia-custody-security-breach/"
+        }
+      ],
+      "source_short": "Fintech News Singapore"
+    },
+    {
+      "id": 6,
+      "cat": "IT 기술",
+      "title": "KB테크포럼, 개발 변경검토 자동화와 AI 업무 적용 사례 공유",
+      "status": "사례 발표",
+      "published": "11.26",
+      "meta": "2026.11.26",
+      "summary": "BI KOREA는 KB금융이 25일 제8회 테크포럼을 열었다고 26일 보도했다. 계열사 개발자·파트너 약 200명이 참석했으며 카드사의 AI 기반 변경 검토·영향도 분석 자동화와 은행의 업무 적용 사례가 소개됐다.",
+      "board_fact": "BI KOREA는 KB금융이 25일 제8회 테크포럼을 열었다고 26일 보도했다. 계열사 개발자·파트너 약 200명이 참석했으며 카드사의 AI 기반 변경 검토·영향도 분석 자동화와 은행의 업무 적용 사례가 소개됐다.",
+      "fact": "BI KOREA는 KB금융이 25일 제8회 테크포럼을 열었다고 26일 보도했다. 계열사 개발자·파트너 약 200명이 참석했으며 카드사의 AI 기반 변경 검토·영향도 분석 자동화와 은행의 업무 적용 사례가 소개됐다.",
+      "impact": "금융 IT 조직의 AI 활용이 코딩 외 변경 영향 분석과 업무 심사까지 확대된다.",
+      "lesson": "사례 발표와 실제 운영 효과는 구분해 평가한다.",
+      "action": "동일 업무 표본으로 영향 분석 누락률, 검토시간, 승인 증적과 사람의 최종 검수 결과를 비교한다.",
+      "deep": true,
+      "sources": [
+        {
+          "name": "BI KOREA",
+          "url": "https://www.bikorea.net/news/articleView.html?idxno=47932"
+        }
+      ],
+      "source_short": "BI KOREA"
+    },
+    {
+      "id": 7,
+      "cat": "금융IT",
+      "title": "쿠콘·Triple-A, 한국과 ASEAN 스테이블코인 결제 연계 협력",
+      "status": "협력 발표",
+      "published": "11.26",
+      "meta": "2026.11.26",
+      "summary": "26일 보도에 따르면 양사는 국내 QR 결제·ATM 출금 인프라와 글로벌 스테이블코인 결제·정산 기반을 연결하는 협약을 맺었다. 원화 충전·QR·출금 안정화와 한국–ASEAN 양방향 결제 가능성 검토가 주요 방향이다. 실제 신규 국가간 서비스 개통은 확인되지 않았다.",
+      "board_fact": "26일 보도에 따르면 양사는 국내 QR 결제·ATM 출금 인프라와 글로벌 스테이블코인 결제·정산 기반을 연결하는 협약을 맺었다. 원화 충전·QR·출금 안정화와 한국–ASEAN 양방향 결제 가능성 검토가 주요 방향이다. 실제 신규 국가간 서비스 개통은 확인되지 않았다.",
+      "fact": "26일 보도에 따르면 양사는 국내 QR 결제·ATM 출금 인프라와 글로벌 스테이블코인 결제·정산 기반을 연결하는 협약을 맺었다. 원화 충전·QR·출금 안정화와 한국–ASEAN 양방향 결제 가능성 검토가 주요 방향이다. 실제 신규 국가간 서비스 개통은 확인되지 않았다.",
+      "impact": "기존 원화 결제망과 새로운 결제수단의 연계에는 정산과 규제 확인이 필요하다.",
+      "lesson": "지갑 연계보다 거래 최종성, 환불, 대사와 고객 확인이 중요하다.",
+      "action": "국가별 인허가, 거래 모니터링, 정산 통화, 환불 및 서비스별 가동 조건을 검토한다.",
+      "deep": true,
+      "sources": [
+        {
+          "name": "Fintech News Singapore",
+          "url": "https://fintechnews.sg/142403/digitalassets/triple-a-coocon-stablecoin-payments/"
+        }
+      ],
+      "source_short": "Fintech News Singapore"
+    },
+    {
+      "id": 8,
+      "cat": "디지털",
+      "title": "GoCardless, 영국 FCA AI 결제 실증 프로그램 완료",
+      "status": "실증 완료",
+      "published": "11.27",
+      "meta": "2026.11.27",
+      "summary": "27일 The Paypers는 GoCardless가 FCA AI Live Testing 두 번째 과정에서 계좌 간 AI 결제 실증을 완료했다고 보도했다. 9월 반복 기부 결제, 10월 일회성 결제로 확대했다. 영국 성인 2,184명 대상 조사에서 44%는 결제 오류 수정 책임을 AI 제공사에 기대한다고 응답했다.",
+      "board_fact": "27일 The Paypers는 GoCardless가 FCA AI Live Testing 두 번째 과정에서 계좌 간 AI 결제 실증을 완료했다고 보도했다. 9월 반복 기부 결제, 10월 일회성 결제로 확대했다. 영국 성인 2,184명 대상 조사에서 44%는 결제 오류 수정 책임을 AI 제공사에 기대한다고 응답했다.",
+      "fact": "27일 The Paypers는 GoCardless가 FCA AI Live Testing 두 번째 과정에서 계좌 간 AI 결제 실증을 완료했다고 보도했다. 9월 반복 기부 결제, 10월 일회성 결제로 확대했다. 영국 성인 2,184명 대상 조사에서 44%는 결제 오류 수정 책임을 AI 제공사에 기대한다고 응답했다.",
+      "impact": "고객은 AI 결제 편의성과 별도로 오류 시 책임 및 복구 수단을 요구한다.",
+      "lesson": "실증 결과가 전면 상용화를 뜻하지 않으며 위임 범위를 명확히 해야 한다.",
+      "action": "결제 승인·금액 한도·실행 기록·취소/환불·오결제 책임을 고객 여정에 반영한다.",
+      "deep": true,
+      "sources": [
+        {
+          "name": "The Paypers",
+          "url": "https://thepaypers.com/payments/news/gocardless-completes-fca-ai-live-testing-on-agentic-payments"
+        }
+      ],
+      "source_short": "The Paypers"
+    },
+    {
+      "id": 9,
+      "cat": "디지털",
+      "title": "Klarna, Visa 결제 플랫폼에 결제 선택지 확대",
+      "status": "서비스 제공",
+      "published": "11.26",
+      "meta": "2026.11.26",
+      "summary": "26일 The Paypers에 따르면 미국·캐나다·영국·유럽의 Visa Acceptance Platform 가맹점은 기존 연동을 통해 Klarna 일시불·무이자 할부·장기 금융 선택지를 제공할 수 있게 됐다.",
+      "board_fact": "26일 The Paypers에 따르면 미국·캐나다·영국·유럽의 Visa Acceptance Platform 가맹점은 기존 연동을 통해 Klarna 일시불·무이자 할부·장기 금융 선택지를 제공할 수 있게 됐다.",
+      "fact": "26일 The Paypers에 따르면 미국·캐나다·영국·유럽의 Visa Acceptance Platform 가맹점은 기존 연동을 통해 Klarna 일시불·무이자 할부·장기 금융 선택지를 제공할 수 있게 됐다.",
+      "impact": "가맹점 단일 연동으로 결제 방법을 확장하는 구조가 확산된다.",
+      "lesson": "결제 선택지 증가 시 고객 고지와 환불 절차도 일관돼야 한다.",
+      "action": "국가별 제공 범위, 결제수단별 승인·취소·정산과 소비자 고지를 검토한다.",
+      "deep": true,
+      "sources": [
+        {
+          "name": "The Paypers",
+          "url": "https://thepaypers.com/payments/news/klarna-expands-visa-partnership-to-visa-acceptance-platform-merchants"
+        }
+      ],
+      "source_short": "The Paypers"
+    },
+    {
+      "id": 10,
+      "cat": "금융IT",
+      "title": "Huawei·CMA, 국가 지급결제 인프라 공동 솔루션 공개",
+      "status": "솔루션 공개",
+      "published": "11.26",
+      "meta": "2026.11.26",
+      "summary": "26일 공개 보도는 양사가 싱가포르 핀테크 페스티벌에서 중앙은행용 지급결제 솔루션을 발표했다고 전했다. CMA의 RTGS·ACH·즉시결제 소프트웨어와 Huawei 인프라를 결합하며 고가용성과 재해복구 구성을 지원한다는 공급사 설명이다.",
+      "board_fact": "26일 공개 보도는 양사가 싱가포르 핀테크 페스티벌에서 중앙은행용 지급결제 솔루션을 발표했다고 전했다. CMA의 RTGS·ACH·즉시결제 소프트웨어와 Huawei 인프라를 결합하며 고가용성과 재해복구 구성을 지원한다는 공급사 설명이다.",
+      "fact": "26일 공개 보도는 양사가 싱가포르 핀테크 페스티벌에서 중앙은행용 지급결제 솔루션을 발표했다고 전했다. CMA의 RTGS·ACH·즉시결제 소프트웨어와 Huawei 인프라를 결합하며 고가용성과 재해복구 구성을 지원한다는 공급사 설명이다.",
+      "impact": "지급결제 현대화는 애플리케이션과 하부 인프라의 통합 운영 책임을 요구한다.",
+      "lesson": "공급사 기능과 실제 국가별 구축 성과는 구분한다.",
+      "action": "성능·복구시간·메시지 표준·단계별 전환·공급망 의존성을 제안요청서에서 검증한다.",
+      "deep": true,
+      "sources": [
+        {
+          "name": "Fintech News Singapore",
+          "url": "https://fintechnews.sg/142402/payments/huawei-cma-national-payment-solution/"
+        }
+      ],
+      "source_short": "Fintech News Singapore"
+    },
+    {
+      "id": 11,
+      "cat": "IT 기술",
+      "title": "Google Cloud, GKE 기반 관리형 Spark 신규 버전 비공개 프리뷰",
+      "status": "비공개 프리뷰",
+      "published": "11.27",
+      "meta": "2026.11.27",
+      "summary": "27일 Google Cloud 릴리스 노트에 Standard GKE에서 관리형 Spark 작업을 실행하는 차세대 서비스의 비공개 프리뷰가 공개됐다. 허용된 프로젝트에 한해 참여할 수 있다.",
+      "board_fact": "27일 Google Cloud 릴리스 노트에 Standard GKE에서 관리형 Spark 작업을 실행하는 차세대 서비스의 비공개 프리뷰가 공개됐다. 허용된 프로젝트에 한해 참여할 수 있다.",
+      "fact": "27일 Google Cloud 릴리스 노트에 Standard GKE에서 관리형 Spark 작업을 실행하는 차세대 서비스의 비공개 프리뷰가 공개됐다. 허용된 프로젝트에 한해 참여할 수 있다.",
+      "impact": "데이터 처리 인프라의 컨테이너 기반 운영 선택지가 늘어난다.",
+      "lesson": "프리뷰 단계이므로 운영 SLA나 비용 효율이 입증된 것으로 볼 수 없다.",
+      "action": "격리된 시험 환경에서 배치 처리량, 장애 재시작, 데이터 권한과 비용을 비교한다.",
+      "deep": false,
+      "sources": [
+        {
+          "name": "Google Cloud 공식 릴리스",
+          "url": "https://docs.cloud.google.com/release-notes/"
+        }
+      ],
+      "source_short": "Google Cloud 공식 릴리스"
+    },
+    {
+      "id": 12,
+      "cat": "금융IT",
+      "title": "XTransfer·Standard Chartered, 다통화 기업 지급결제 협력",
+      "status": "협력 발표",
+      "published": "11.27",
+      "meta": "2026.11.27",
+      "summary": "27일 보도에 따르면 양사는 기업의 여러 통화 수납과 지급 지원을 위해 협력한다. 아프리카·중동·동남아시아로 협력을 확대할 계획이다. 국가별 개통 일정과 실제 비용 절감 수치는 제시되지 않았다.",
+      "board_fact": "27일 보도에 따르면 양사는 기업의 여러 통화 수납과 지급 지원을 위해 협력한다. 아프리카·중동·동남아시아로 협력을 확대할 계획이다. 국가별 개통 일정과 실제 비용 절감 수치는 제시되지 않았다.",
+      "fact": "27일 보도에 따르면 양사는 기업의 여러 통화 수납과 지급 지원을 위해 협력한다. 아프리카·중동·동남아시아로 협력을 확대할 계획이다. 국가별 개통 일정과 실제 비용 절감 수치는 제시되지 않았다.",
+      "impact": "은행 네트워크와 핀테크 거래 연결이 중소기업 국제결제의 중요한 기반이 된다.",
+      "lesson": "지역 확장 계획과 실제 서비스 가능 국가를 구분한다.",
+      "action": "현지 통화 계좌 구조, 결제 경로, AML 및 수취 확인·환불·대사를 검토한다.",
+      "deep": false,
+      "sources": [
+        {
+          "name": "Fintech News Singapore",
+          "url": "https://fintechnews.sg/142490/payments/xtransfer-standard-chartered/"
+        }
+      ],
+      "source_short": "Fintech News Singapore"
+    }
+  ],
+  "highlights": [],
+  "deep_order": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "insights": [
+    {
+      "title": "보안 변경 뒤 업무 검증",
+      "body": "패치·업그레이드 적용 후 배치와 원장 대사의 실제 완료 여부를 확인한다."
+    },
+    {
+      "title": "개발과 검증 역할 분리",
+      "body": "AI 변경 영향 분석 결과는 독립된 테스트와 승인 증적으로 검증한다."
+    },
+    {
+      "title": "상시 정산",
+      "body": "다통화·디지털 지급결제는 휴일과 장애 상황에서도 원장 대사와 환불이 가능해야 한다."
+    },
+    {
+      "title": "고객 위임 통제",
+      "body": "AI 결제는 금액 한도, 사용자 승인, 오류 책임을 명확히 한다."
+    },
+    {
+      "title": "2차 피해 차단",
+      "body": "침해 통지와 FDS 반영, 추가 인증의 처리시간을 함께 관리한다."
+    },
+    {
+      "title": "복구 후 거래 확인",
+      "body": "API 복구 공지와 기관별 미완료 거래 대사를 연결한다."
+    }
+  ],
+  "watch": [
+    {
+      "article": 2,
+      "name": "Google Managed Airflow, Java 보안 대응 관련 작업 정지 문제 공개",
+      "state": "수정판 안내",
+      "tone": "open",
+      "fact": "Google Cloud는 26일 Java 보안 대응 과정에서 일부 Beam Java 작업이 멈추거나 교착 상태에 빠질 수 있다고 공지했다. 25일부터 수정된 OpenJDK를 포함한 일부 빌드에서 관련 완화 설정을 자동 적용하지 않으며 수정판도 안내했다.",
+      "action": "공급사 안내에 따라 수정판 적용 가능성을 검토하고 배치 완료·누락·재처리 및 대사 시험을 수행한다."
+    },
+    {
+      "article": 5,
+      "name": "Zodia Custody, 고객 정보 비인가 접근 후 B2B API 재개",
+      "state": "복구 후속",
+      "tone": "open",
+      "fact": "27일 Fintech News Singapore는 Zodia가 23일 기관고객 서비스를 예방적으로 중단했고 24일 일부 고객 관련 정보의 비인가 접근을 발견했다고 보도했다. 보안조치 후 B2B API를 복구했고, 회사는 조사 당시 무단 거래가 확인되지 않았다고 밝혔다.",
+      "action": "접근 권한 검토, 연계 거래 대사, 고객·감독기관 통지 완료와 추가 조사 결과를 추적한다."
+    }
+  ],
+  "followups": [
+    {
+      "article": 1,
+      "label": "다음 확인",
+      "title": "국가안보실, 유출 고객의 2차 금융피해 차단 점검",
+      "body": "유출 고객 식별부터 FDS 반영·추가 인증·고객 통지까지 책임 및 처리시간을 정의한다."
+    },
+    {
+      "article": 2,
+      "label": "다음 확인",
+      "title": "Google Managed Airflow, Java 보안 대응 관련 작업 정지 문제 공개",
+      "body": "공급사 안내에 따라 수정판 적용 가능성을 검토하고 배치 완료·누락·재처리 및 대사 시험을 수행한다."
+    },
+    {
+      "article": 4,
+      "label": "다음 확인",
+      "title": "Temenos, 코어뱅킹 AI 도입과 실시간 대사 방향 제시",
+      "body": "AI 개발 도구의 독립 검증, 요구사항 추적, 원장 재현성 및 24시간 대사 요건을 평가한다."
+    },
+    {
+      "article": 5,
+      "label": "다음 확인",
+      "title": "Zodia Custody, 고객 정보 비인가 접근 후 B2B API 재개",
+      "body": "접근 권한 검토, 연계 거래 대사, 고객·감독기관 통지 완료와 추가 조사 결과를 추적한다."
+    },
+    {
+      "article": 7,
+      "label": "다음 확인",
+      "title": "쿠콘·Triple-A, 한국과 ASEAN 스테이블코인 결제 연계 협력",
+      "body": "국가별 인허가, 거래 모니터링, 정산 통화, 환불 및 서비스별 가동 조건을 검토한다."
+    },
+    {
+      "article": 8,
+      "label": "다음 확인",
+      "title": "GoCardless, 영국 FCA AI 결제 실증 프로그램 완료",
+      "body": "결제 승인·금액 한도·실행 기록·취소/환불·오결제 책임을 고객 여정에 반영한다."
+    }
+  ],
+  "decision_board": [
+    {
+      "id": 1,
+      "title": "IT 기술",
+      "description": "AI 개발과 데이터 인프라",
+      "evidence": [
+        6,
+        11
+      ],
+      "watch": [],
+      "followups": [],
+      "insights": [
+        1
+      ],
+      "action": "동일 업무 표본으로 영향 분석 누락률, 검토시간, 승인 증적과 사람의 최종 검수 결과를 비교한다."
+    },
+    {
+      "id": 2,
+      "title": "금융IT",
+      "description": "코어뱅킹·국제결제 인프라",
+      "evidence": [
+        4,
+        7,
+        10,
+        12
+      ],
+      "watch": [],
+      "followups": [
+        2,
+        4
+      ],
+      "insights": [
+        2
+      ],
+      "action": "AI 개발 도구의 독립 검증, 요구사항 추적, 원장 재현성 및 24시간 대사 요건을 평가한다."
+    },
+    {
+      "id": 5,
+      "title": "디지털",
+      "description": "AI 결제와 고객 접점",
+      "evidence": [
+        8,
+        9
+      ],
+      "watch": [],
+      "followups": [
+        5
+      ],
+      "insights": [
+        3
+      ],
+      "action": "결제 승인·금액 한도·실행 기록·취소/환불·오결제 책임을 고객 여정에 반영한다."
+    },
+    {
+      "id": 3,
+      "title": "보안",
+      "description": "유출 후 피해 차단과 위협 대응",
+      "evidence": [
+        1,
+        3,
+        5
+      ],
+      "watch": [
+        5
+      ],
+      "followups": [
+        0,
+        3
+      ],
+      "insights": [
+        4,
+        5
+      ],
+      "action": "유출 고객 식별부터 FDS 반영·추가 인증·고객 통지까지 책임 및 처리시간을 정의한다."
+    },
+    {
+      "id": 4,
+      "title": "IT 장애·사고",
+      "description": "보안 변경 후 배치 처리 안정성",
+      "evidence": [
+        2
+      ],
+      "watch": [
+        2
+      ],
+      "followups": [
+        1
+      ],
+      "insights": [
+        0
+      ],
+      "action": "공급사 안내에 따라 수정판 적용 가능성을 검토하고 배치 완료·누락·재처리 및 대사 시험을 수행한다."
+    }
+  ],
+  "brief": {
+    "headline": "금융 보안 대응과 업무 연속성을 함께 점검",
+    "summary": "국가안보실은 유출 정보의 금융사기 악용을 막기 위한 FDS·추가 인증 강화를 주문했습니다. Google Cloud는 Java 보안 대응 이후 일부 배치 작업의 정지 가능성과 수정판을 안내했습니다. 스위스는 AI 관련 침해를 확인했으며, 은행의 AI 도입과 국경 간 결제는 독립 검증·정산·고객 위임 통제를 함께 설계할 과제입니다.",
+    "points": [
+      {
+        "article": 1,
+        "title": "국가안보실, 유출 고객의 2차 금융피해 차단 점검",
+        "body": "26일 국가안보실이 금융당국을 소집했다. 27일 발표에 따르면 안심차단 서비스, 유출 계좌·카드 정보의 FDS 반영, AI 보이스피싱 탐지 및 추가 인증 강화를 추진한다.",
+        "lesson": "침해 대응과 금융사기 대응의 정보 전달 시간을 줄여야 한다."
+      },
+      {
+        "article": 2,
+        "title": "Google Managed Airflow, Java 보안 대응 관련 작업 정지 문제 공개",
+        "body": "Google Cloud는 26일 Java 보안 대응 과정에서 일부 Beam Java 작업이 멈추거나 교착 상태에 빠질 수 있다고 공지했다. 25일부터 수정된 OpenJDK를 포함한 일부 빌드에서 관련 완화 설정을 자동 적용하지 않으며 수정판도 안내했다.",
+        "lesson": "긴급 패치 적용 성공과 업무 정상 처리는 별개의 검증 지표다."
+      },
+      {
+        "article": 3,
+        "title": "스위스 NCSC, AI 에이전트 연관 침해 확인",
+        "body": "스위스 NCSC는 24일 AI 에이전트가 관여한 기업과 중요 인프라 침해 사례를 처음 확인했다고 발표했다. 최소 두 분야에 걸쳐 있었으며 기관은 탐지·대응 시간이 단축되는 위험을 강조했다. Reuters는 26일 후속 보도했다.",
+        "lesson": "인터넷 노출 자산의 최신 목록과 사고 초기 대응이 핵심이다."
+      }
+    ],
+    "detail": {
+      "title": "침해 이후 피해 차단과 변경 후 업무 검증",
+      "summary": "국가안보실은 유출 정보의 금융사기 악용을 막기 위한 FDS·추가 인증 강화를 주문했습니다. Google Cloud는 Java 보안 대응 이후 일부 배치 작업의 정지 가능성과 수정판을 안내했습니다. 스위스는 AI 관련 침해를 확인했으며, 은행의 AI 도입과 국경 간 결제는 독립 검증·정산·고객 위임 통제를 함께 설계할 과제입니다.",
+      "fact": "26일 국가안보실이 금융당국을 소집했다. 27일 발표에 따르면 안심차단 서비스, 유출 계좌·카드 정보의 FDS 반영, AI 보이스피싱 탐지 및 추가 인증 강화를 추진한다. Google Cloud는 26일 Java 보안 대응 과정에서 일부 Beam Java 작업이 멈추거나 교착 상태에 빠질 수 있다고 공지했다. 25일부터 수정된 OpenJDK를 포함한 일부 빌드에서 관련 완화 설정을 자동 적용하지 않으며 수정판도 안내했다. 스위스 NCSC는 24일 AI 에이전트가 관여한 기업과 중요 인프라 침해 사례를 처음 확인했다고 발표했다. 최소 두 분야에 걸쳐 있었으며 기관은 탐지·대응 시간이 단축되는 위험을 강조했다. Reuters는 26일 후속 보도했다. The Asian Banker의 27일 인터뷰에서 Temenos 제품 책임자는 위험에 따라 AI의 자율성 범위를 나누고, 코어 원장에는 결정론적 처리와 실시간 기장·대사가 필요하다고 설명했다. 개발·검증 역할 분리와 단계적 현대화도 제안했다. 공급사 전략 설명이다. 26일 보도에 따르면 양사는 국내 QR 결제·ATM 출금 인프라와 글로벌 스테이블코인 결제·정산 기반을 연결하는 협약을 맺었다. 원화 충전·QR·출금 안정화와 한국–ASEAN 양방향 결제 가능성 검토가 주요 방향이다. 실제 신규 국가간 서비스 개통은 확인되지 않았다. 27일 The Paypers는 GoCardless가 FCA AI Live Testing 두 번째 과정에서 계좌 간 AI 결제 실증을 완료했다고 보도했다. 9월 반복 기부 결제, 10월 일회성 결제로 확대했다. 영국 성인 2,184명 대상 조사에서 44%는 결제 오류 수정 책임을 AI 제공사에 기대한다고 응답했다.",
+      "impact": "금융 거래의 보호와 가용성은 함께 관리해야 한다. 서로 다른 사례의 원인은 각각 확인한다.",
+      "lesson": "보안 조치 완료, 거래 완료 및 고객 피해 차단을 별도 지표로 확인하고 AI 실증은 승인·정합성 검증을 포함한다.",
+      "action": "FDS 반영과 추가 인증, 배치 회귀시험·대사, AI 개발 검수 및 결제 위임 책임을 점검한다.",
+      "related": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    }
+  }
+}
