@@ -150,11 +150,11 @@ p{margin:0 0 12px;max-width:72ch}
 .stat .bar{height:6px;background:var(--plane);margin-top:12px;overflow:hidden}
 .stat .bar i{display:block;height:100%;width:0;background:var(--yel);transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
 @media(max-width:760px){.vs{grid-template-columns:6.2em minmax(0,1fr) minmax(0,1fr)}.vs&gt;div{padding:10px 8px;font-size:13.5px;flex-wrap:wrap;gap:4px}.peer{grid-template-columns:1fr 1fr}.peer .lbl{grid-column:1/-1;padding:0}}
-.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}.status{margin-top:12px;padding:12px 14px;border-left:3px solid var(--yel);background:var(--soft);font-size:14px;line-height:1.65}.status b{color:var(--ink)}&lt;/style&gt;
+.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}.status{margin-top:12px;padding:12px 14px;border-left:3px solid var(--yel);background:var(--soft);font-size:14px;line-height:1.65}.status b{color:var(--ink)}.lane-svg{--flow:var(--ink)}.lane-svg .flw{animation:sdash 1.1s linear infinite}@keyframes sdash{to{stroke-dashoffset:-32}}&lt;/style&gt;
 &lt;style&gt;
 html{-webkit-font-smoothing:antialiased}
 :root,:root[data-theme]{color-scheme:dark!important;--bg:#2b2924!important;--ink:#efebe2!important;--mute:#bfb9ad!important;--plane:#3a3731!important;--soft:#33302a!important;--rule:#57524a!important;--yel:#ffbc00!important;--yel2:#5c4a12!important;--red:#ff8f7f!important}
-#fsv{--flow:#ffbc00!important}
+#fsv,.lane-svg{--flow:#ffbc00!important}
 body{background:#2b2924!important;color:#efebe2}
 h1{font-size:clamp(22px,2.6vw,30px)!important;max-width:none!important;letter-spacing:-.025em!important}
 h2{letter-spacing:-.025em!important}
@@ -271,34 +271,43 @@ function lane(svgId,tabId,cfg){
  const draw=i=&gt;{
   const F=cfg.flows[i],S=F.steps,H=top+S.length*gap+30;
   sv.setAttribute(&#x27;viewBox&#x27;,`0 0 ${W} ${H}`);
-  let o=`&lt;defs&gt;&lt;marker id=&quot;${svgId}a&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;9&quot; refY=&quot;5&quot; markerWidth=&quot;7&quot; markerHeight=&quot;7&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M0 0L10 5L0 10z&quot; fill=&quot;var(--ink)&quot;/&gt;&lt;/marker&gt;&lt;pattern id=&quot;${svgId}h&quot; width=&quot;8&quot; height=&quot;8&quot; patternUnits=&quot;userSpaceOnUse&quot; patternTransform=&quot;rotate(45)&quot;&gt;&lt;rect width=&quot;8&quot; height=&quot;8&quot; fill=&quot;var(--bg)&quot;/&gt;&lt;rect width=&quot;3&quot; height=&quot;8&quot; fill=&quot;var(--plane)&quot;/&gt;&lt;/pattern&gt;&lt;/defs&gt;`;
+  let o=`&lt;defs&gt;&lt;marker id=&quot;${svgId}a&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;8&quot; refY=&quot;5&quot; markerWidth=&quot;6&quot; markerHeight=&quot;6&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M1.5 1.5L8.5 5L1.5 8.5&quot; fill=&quot;none&quot; stroke=&quot;var(--ink)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/marker&gt;&lt;marker id=&quot;${svgId}m&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;8&quot; refY=&quot;5&quot; markerWidth=&quot;6&quot; markerHeight=&quot;6&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M1.5 1.5L8.5 5L1.5 8.5&quot; fill=&quot;none&quot; stroke=&quot;var(--mute)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/marker&gt;&lt;marker id=&quot;${svgId}f&quot; viewBox=&quot;0 0 10 10&quot; refX=&quot;8&quot; refY=&quot;5&quot; markerWidth=&quot;5.5&quot; markerHeight=&quot;5.5&quot; orient=&quot;auto-start-reverse&quot;&gt;&lt;path d=&quot;M1.5 1.5L8.5 5L1.5 8.5&quot; fill=&quot;none&quot; stroke=&quot;var(--flow)&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/marker&gt;&lt;pattern id=&quot;${svgId}h&quot; width=&quot;8&quot; height=&quot;8&quot; patternUnits=&quot;userSpaceOnUse&quot; patternTransform=&quot;rotate(45)&quot;&gt;&lt;rect width=&quot;8&quot; height=&quot;8&quot; fill=&quot;var(--bg)&quot;/&gt;&lt;rect width=&quot;3&quot; height=&quot;8&quot; fill=&quot;var(--plane)&quot;/&gt;&lt;/pattern&gt;&lt;/defs&gt;`;
   L.forEach((l,j)=&gt;{const x=left+lw*j,cx=x+lw/2,gbs=l.kind===&#x27;skip&#x27;;
-   o+=`&lt;rect x=&quot;${x+4}&quot; y=&quot;${top-14}&quot; width=&quot;${lw-8}&quot; height=&quot;${H-top}&quot; fill=&quot;${gbs?`url(#${svgId}h)`:j%2?&#x27;var(--soft)&#x27;:&#x27;transparent&#x27;}&quot;/&gt;`;
+   o+=`&lt;rect x=&quot;${x+4}&quot; y=&quot;${top-14}&quot; width=&quot;${lw-8}&quot; height=&quot;${H-top}&quot; rx=&quot;8&quot; fill=&quot;${gbs?`url(#${svgId}h)`:j%2?&#x27;var(--soft)&#x27;:&#x27;transparent&#x27;}&quot;/&gt;`;
    const hf=l.kind===&#x27;hub&#x27;?&#x27;var(--yel)&#x27;:l.kind===&#x27;kb&#x27;?&#x27;var(--bg)&#x27;:gbs?&#x27;var(--bg)&#x27;:&#x27;var(--plane)&#x27;,hs=l.kind===&#x27;ext&#x27;?&#x27;transparent&#x27;:gbs?&#x27;var(--rule)&#x27;:&#x27;var(--ink)&#x27;;
-   o+=`&lt;rect x=&quot;${x+6}&quot; y=&quot;14&quot; width=&quot;${lw-12}&quot; height=&quot;62&quot; fill=&quot;${hf}&quot; stroke=&quot;${hs}&quot; stroke-width=&quot;2&quot; ${gbs?&#x27;stroke-dasharray=&quot;6 5&quot;&#x27;:&#x27;&#x27;}/&gt;&lt;text x=&quot;${cx}&quot; y=&quot;41&quot; font-size=&quot;15.5&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;${l.kind===&#x27;hub&#x27;?&#x27;#111&#x27;:gbs?&#x27;var(--mute)&#x27;:&#x27;var(--ink)&#x27;}&quot;&gt;${l.name}&lt;/text&gt;&lt;text x=&quot;${cx}&quot; y=&quot;62&quot; font-size=&quot;12.5&quot; text-anchor=&quot;middle&quot; fill=&quot;${l.kind===&#x27;hub&#x27;?&#x27;#333&#x27;:&#x27;var(--mute)&#x27;}&quot;&gt;${l.sub}&lt;/text&gt;`;
-   o+=`&lt;line x1=&quot;${cx}&quot; y1=&quot;78&quot; x2=&quot;${cx}&quot; y2=&quot;${H-10}&quot; stroke=&quot;${gbs?&#x27;var(--rule)&#x27;:&#x27;var(--mute)&#x27;}&quot; stroke-width=&quot;1&quot; stroke-dasharray=&quot;3 5&quot;/&gt;`;
+   o+=`&lt;rect x=&quot;${x+6}&quot; y=&quot;14&quot; width=&quot;${lw-12}&quot; height=&quot;62&quot; rx=&quot;9&quot; fill=&quot;${hf}&quot; stroke=&quot;${hs}&quot; stroke-width=&quot;1.5&quot; ${gbs?&#x27;stroke-dasharray=&quot;6 5&quot;&#x27;:&#x27;&#x27;}/&gt;&lt;text x=&quot;${cx}&quot; y=&quot;41&quot; font-size=&quot;15.5&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;${l.kind===&#x27;hub&#x27;?&#x27;#111&#x27;:gbs?&#x27;var(--mute)&#x27;:&#x27;var(--ink)&#x27;}&quot;&gt;${l.name}&lt;/text&gt;&lt;text x=&quot;${cx}&quot; y=&quot;62&quot; font-size=&quot;12.5&quot; text-anchor=&quot;middle&quot; fill=&quot;${l.kind===&#x27;hub&#x27;?&#x27;#333&#x27;:&#x27;var(--mute)&#x27;}&quot;&gt;${l.sub}&lt;/text&gt;`;
+   o+=`&lt;line x1=&quot;${cx}&quot; y1=&quot;78&quot; x2=&quot;${cx}&quot; y2=&quot;${H-10}&quot; stroke=&quot;${gbs?&#x27;var(--rule)&#x27;:&#x27;var(--mute)&#x27;}&quot; stroke-width=&quot;1&quot; stroke-dasharray=&quot;1 6&quot; stroke-linecap=&quot;round&quot; opacity=&quot;.7&quot;/&gt;`;
    if(gbs)o+=`&lt;text x=&quot;${cx}&quot; y=&quot;${top+ (H-top)/2-8}&quot; font-size=&quot;15&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;paint-order:stroke;stroke:var(--bg);stroke-width:6px&quot;&gt;${l.note||&#x27;미경유&#x27;}&lt;/text&gt;&lt;text x=&quot;${cx}&quot; y=&quot;${top+ (H-top)/2+14}&quot; font-size=&quot;12.5&quot; font-weight=&quot;700&quot; text-anchor=&quot;middle&quot; fill=&quot;var(--mute)&quot; style=&quot;paint-order:stroke;stroke:var(--bg);stroke-width:6px&quot;&gt;국내 고객 계좌 없음&lt;/text&gt;`;
   });
   // phase bands
   let ph=null,p0=0;const bands=[];S.forEach((s,k)=&gt;{if(s[3]!==ph){if(ph)bands.push([ph,p0,k-1]);ph=s[3];p0=k}});bands.push([ph,p0,S.length-1]);
-  bands.forEach(b=&gt;{const y1=top+b[1]*gap-18,y2=top+b[2]*gap+18;o+=`&lt;rect x=&quot;6&quot; y=&quot;${y1}&quot; width=&quot;40&quot; height=&quot;${y2-y1}&quot; fill=&quot;${b[0]===&#x27;승인&#x27;?&#x27;var(--ink)&#x27;:&#x27;var(--plane)&#x27;}&quot;/&gt;&lt;text transform=&quot;translate(31 ${(y1+y2)/2}) rotate(-90)&quot; font-size=&quot;13&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;${b[0]===&#x27;승인&#x27;?&#x27;var(--bg)&#x27;:&#x27;var(--ink)&#x27;}&quot;&gt;${b[0]}&lt;/text&gt;`});
+  bands.forEach(b=&gt;{const y1=top+b[1]*gap-18,y2=top+b[2]*gap+18;o+=`&lt;rect x=&quot;6&quot; y=&quot;${y1}&quot; width=&quot;40&quot; height=&quot;${y2-y1}&quot; rx=&quot;8&quot; fill=&quot;${b[0]===&#x27;승인&#x27;?&#x27;var(--ink)&#x27;:&#x27;var(--plane)&#x27;}&quot;/&gt;&lt;text transform=&quot;translate(31 ${(y1+y2)/2}) rotate(-90)&quot; font-size=&quot;13&quot; font-weight=&quot;800&quot; text-anchor=&quot;middle&quot; fill=&quot;${b[0]===&#x27;승인&#x27;?&#x27;var(--bg)&#x27;:&#x27;var(--ink)&#x27;}&quot;&gt;${b[0]}&lt;/text&gt;`});
   S.forEach((s,k)=&gt;{const y=top+k*gap,x1=X(s[0]),x2=X(s[1]),d=s[4]===&#x27;d&#x27;,x=s[4]===&#x27;x&#x27;;
+   let pd,lx,ly,anchor=&#x27;middle&#x27;;
+   if(s[0]===s[1]){pd=`M${x1+5} ${y-11} C${x1+62} ${y-15} ${x1+62} ${y+15} ${x1+9} ${y+11}`;lx=x1+60;ly=y+5;anchor=&#x27;start&#x27;}
+   else{const dir=x2&gt;x1?1:-1;pd=`M${x1+dir*7} ${y} L${x2-dir*9} ${y}`;lx=(x1+x2)/2;ly=y-9}
+   const col=x?&#x27;var(--mute)&#x27;:&#x27;var(--ink)&#x27;,dash=d||x?&#x27;stroke-dasharray=&quot;1 7&quot;&#x27;:&#x27;&#x27;;
    o+=`&lt;g class=&quot;stp&quot; data-k=&quot;${k}&quot; opacity=&quot;.12&quot;&gt;`;
-   if(s[0]===s[1]){o+=`&lt;path d=&quot;M${x1} ${y-10}h46v20h-40&quot; fill=&quot;none&quot; stroke=&quot;var(--ink)&quot; stroke-width=&quot;2.5&quot; marker-end=&quot;url(#${svgId}a)&quot;/&gt;&lt;text x=&quot;${x1+56}&quot; y=&quot;${y+5}&quot; font-size=&quot;14&quot; font-weight=&quot;600&quot; fill=&quot;var(--ink)&quot; style=&quot;paint-order:stroke;stroke:var(--bg);stroke-width:5px&quot;&gt;${s[2]}&lt;/text&gt;`}
-   else{const dir=x2&gt;x1?1:-1,mx=(x1+x2)/2;o+=`&lt;line x1=&quot;${x1+dir*6}&quot; y1=&quot;${y}&quot; x2=&quot;${x2-dir*8}&quot; y2=&quot;${y}&quot; stroke=&quot;${x?&#x27;var(--mute)&#x27;:&#x27;var(--ink)&#x27;}&quot; stroke-width=&quot;${x?2:2.5}&quot; ${d||x?&#x27;stroke-dasharray=&quot;7 5&quot;&#x27;:&#x27;&#x27;} marker-end=&quot;url(#${svgId}a)&quot;/&gt;&lt;text x=&quot;${mx}&quot; y=&quot;${y-8}&quot; font-size=&quot;14&quot; font-weight=&quot;600&quot; text-anchor=&quot;middle&quot; fill=&quot;${x?&#x27;var(--mute)&#x27;:&#x27;var(--ink)&#x27;}&quot; style=&quot;paint-order:stroke;stroke:var(--bg);stroke-width:5px&quot;&gt;${s[2]}&lt;/text&gt;`}
-   o+=`&lt;circle cx=&quot;22&quot; cy=&quot;${y}&quot; r=&quot;0&quot;/&gt;&lt;/g&gt;`;
+   o+=`&lt;path class=&quot;act&quot; d=&quot;${pd}&quot; fill=&quot;none&quot; stroke=&quot;var(--flow)&quot; stroke-width=&quot;11&quot; stroke-linecap=&quot;round&quot; opacity=&quot;0&quot; style=&quot;opacity:0&quot;/&gt;`;
+   o+=`&lt;path class=&quot;bs&quot; d=&quot;${pd}&quot; fill=&quot;none&quot; stroke=&quot;${col}&quot; stroke-width=&quot;${x?1.6:2}&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; ${dash} marker-end=&quot;url(#${svgId}${x?&#x27;m&#x27;:&#x27;a&#x27;})&quot;/&gt;`;
+   o+=`&lt;path class=&quot;act2&quot; id=&quot;${svgId}p${k}&quot; d=&quot;${pd}&quot; fill=&quot;none&quot; stroke=&quot;var(--flow)&quot; stroke-width=&quot;2.6&quot; stroke-linecap=&quot;round&quot; ${dash} marker-end=&quot;url(#${svgId}f)&quot; style=&quot;opacity:0&quot;/&gt;`;
+   o+=`&lt;path class=&quot;act3 ${reduce?&#x27;&#x27;:&#x27;flw&#x27;}&quot; d=&quot;${pd}&quot; fill=&quot;none&quot; stroke=&quot;var(--bg)&quot; stroke-width=&quot;2.6&quot; stroke-dasharray=&quot;2 14&quot; stroke-linecap=&quot;round&quot; style=&quot;opacity:0&quot;/&gt;`;
+   o+=`&lt;text x=&quot;${lx}&quot; y=&quot;${ly}&quot; font-size=&quot;14&quot; font-weight=&quot;600&quot; text-anchor=&quot;${anchor}&quot; fill=&quot;${x?&#x27;var(--mute)&#x27;:&#x27;var(--ink)&#x27;}&quot; style=&quot;paint-order:stroke;stroke:var(--bg);stroke-width:5px&quot;&gt;${s[2]}&lt;/text&gt;`;
+   o+=`&lt;/g&gt;`;
    o+=`&lt;text x=&quot;${left-6}&quot; y=&quot;${y+5}&quot; font-size=&quot;12&quot; font-weight=&quot;800&quot; text-anchor=&quot;end&quot; fill=&quot;var(--mute)&quot; class=&quot;num&quot; data-k=&quot;${k}&quot;&gt;${k+1}&lt;/text&gt;`;
   });
-  o+=`&lt;circle id=&quot;${svgId}t&quot; r=&quot;10&quot; fill=&quot;var(--yel)&quot; stroke=&quot;var(--ink)&quot; stroke-width=&quot;3&quot; opacity=&quot;0&quot;/&gt;`;
+  o+=`&lt;circle id=&quot;${svgId}th&quot; r=&quot;15&quot; fill=&quot;var(--flow)&quot; opacity=&quot;0&quot;/&gt;&lt;circle id=&quot;${svgId}t&quot; r=&quot;6.5&quot; fill=&quot;var(--yel)&quot; stroke=&quot;var(--bg)&quot; stroke-width=&quot;3&quot; opacity=&quot;0&quot;/&gt;`;
   sv.innerHTML=o;
  };
  const show=i=&gt;{cur=i;t0=performance.now();draw(i);tb.querySelectorAll(&#x27;[data-i]&#x27;).forEach(b=&gt;b.setAttribute(&#x27;aria-selected&#x27;,+b.dataset.i===i))};
  const step=1000;
  const tick=now=&gt;{
   const S=cfg.flows[cur].steps,e=Math.max(0,now-t0),k=reduce?S.length:Math.floor(e/step),u=(e%step)/step,tok=document.getElementById(svgId+&#x27;t&#x27;);
-  sv.querySelectorAll(&#x27;.stp&#x27;).forEach(g=&gt;{const j=+g.dataset.k;g.setAttribute(&#x27;opacity&#x27;,j&lt;k?1:j===k?.35+.65*Math.min(1,u*1.6):.12)});
-  if(tok){if(!reduce&amp;&amp;k&lt;S.length){const s=S[k],y=top+k*gap,x1=X(s[0]),x2=X(s[1]),q=Math.min(1,u*1.4);
-    tok.setAttribute(&#x27;cx&#x27;,s[0]===s[1]?x1+46*Math.sin(Math.PI*q):x1+(x2-x1)*(q*q*(3-2*q)));tok.setAttribute(&#x27;cy&#x27;,s[0]===s[1]?y-10+20*q:y);tok.setAttribute(&#x27;opacity&#x27;,1)}else tok.setAttribute(&#x27;opacity&#x27;,0)}
+  sv.querySelectorAll(&#x27;.stp&#x27;).forEach(g=&gt;{const j=+g.dataset.k,on=j===k&amp;&amp;!reduce;g.setAttribute(&#x27;opacity&#x27;,j&lt;k?1:j===k?.45+.55*Math.min(1,u*1.6):.12);
+   g.querySelector(&#x27;.act&#x27;).style.opacity=on?.14:0;g.querySelector(&#x27;.act2&#x27;).style.opacity=on?1:0;g.querySelector(&#x27;.act3&#x27;).style.opacity=on?.5:0;g.querySelector(&#x27;.bs&#x27;).style.opacity=on?0:1});
+  const th=document.getElementById(svgId+&#x27;th&#x27;);
+  if(tok){if(!reduce&amp;&amp;k&lt;S.length){const pe=document.getElementById(svgId+&#x27;p&#x27;+k),q=Math.min(1,u*1.4),ez=q&lt;.5?2*q*q:1-Math.pow(-2*q+2,2)/2,pt=pe.getPointAtLength(pe.getTotalLength()*ez);
+    tok.setAttribute(&#x27;cx&#x27;,pt.x);tok.setAttribute(&#x27;cy&#x27;,pt.y);tok.setAttribute(&#x27;opacity&#x27;,1);th.setAttribute(&#x27;cx&#x27;,pt.x);th.setAttribute(&#x27;cy&#x27;,pt.y);th.setAttribute(&#x27;opacity&#x27;,.22)}else{tok.setAttribute(&#x27;opacity&#x27;,0);th.setAttribute(&#x27;opacity&#x27;,0)}}
   if(e&gt;S.length*step+2600){auto&amp;&amp;cfg.flows.length&gt;1?show((cur+1)%cfg.flows.length):(t0=now)}
   requestAnimationFrame(tick)};
  tb.addEventListener(&#x27;click&#x27;,ev=&gt;{const b=ev.target.closest(&#x27;button&#x27;);if(!b)return;if(b.dataset.r){t0=performance.now();return}auto=false;show(+b.dataset.i)});
@@ -484,7 +493,7 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
 &lt;style&gt;
 html{-webkit-font-smoothing:antialiased}
 :root,:root[data-theme]{color-scheme:dark!important;--bg:#2b2924!important;--ink:#efebe2!important;--mute:#bfb9ad!important;--plane:#3a3731!important;--soft:#33302a!important;--rule:#57524a!important;--yel:#ffbc00!important;--yel2:#5c4a12!important;--red:#ff8f7f!important}
-#fsv{--flow:#ffbc00!important}
+#fsv,.lane-svg{--flow:#ffbc00!important}
 body{background:#2b2924!important;color:#efebe2}
 h1{font-size:clamp(22px,2.6vw,30px)!important;max-width:none!important;letter-spacing:-.025em!important}
 h2{letter-spacing:-.025em!important}
@@ -810,7 +819,7 @@ li{margin-bottom:6px;max-width:80ch}
 &lt;style&gt;
 html{-webkit-font-smoothing:antialiased}
 :root,:root[data-theme]{color-scheme:dark!important;--bg:#2b2924!important;--ink:#efebe2!important;--mute:#bfb9ad!important;--plane:#3a3731!important;--soft:#33302a!important;--rule:#57524a!important;--yel:#ffbc00!important;--yel2:#5c4a12!important;--red:#ff8f7f!important}
-#fsv{--flow:#ffbc00!important}
+#fsv,.lane-svg{--flow:#ffbc00!important}
 body{background:#2b2924!important;color:#efebe2}
 h1{font-size:clamp(22px,2.6vw,30px)!important;max-width:none!important;letter-spacing:-.025em!important}
 h2{letter-spacing:-.025em!important}

@@ -93,7 +93,7 @@ p{margin:0 0 12px;max-width:72ch}
 .stat .bar{height:6px;background:var(--plane);margin-top:12px;overflow:hidden}
 .stat .bar i{display:block;height:100%;width:0;background:var(--yel);transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
 @media(max-width:760px){.vs{grid-template-columns:6.2em minmax(0,1fr) minmax(0,1fr)}.vs>div{padding:10px 8px;font-size:13.5px;flex-wrap:wrap;gap:4px}.peer{grid-template-columns:1fr 1fr}.peer .lbl{grid-column:1/-1;padding:0}}
-.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}.status{margin-top:12px;padding:12px 14px;border-left:3px solid var(--yel);background:var(--soft);font-size:14px;line-height:1.65}.status b{color:var(--ink)}</style>
+.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}.status{margin-top:12px;padding:12px 14px;border-left:3px solid var(--yel);background:var(--soft);font-size:14px;line-height:1.65}.status b{color:var(--ink)}.lane-svg{--flow:var(--ink)}.lane-svg .flw{animation:sdash 1.1s linear infinite}@keyframes sdash{to{stroke-dashoffset:-32}}</style>
 </head>
 <body>
 
@@ -197,34 +197,43 @@ function lane(svgId,tabId,cfg){
  const draw=i=>{
   const F=cfg.flows[i],S=F.steps,H=top+S.length*gap+30;
   sv.setAttribute('viewBox',`0 0 ${W} ${H}`);
-  let o=`<defs><marker id="${svgId}a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker><pattern id="${svgId}h" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="var(--bg)"/><rect width="3" height="8" fill="var(--plane)"/></pattern></defs>`;
+  let o=`<defs><marker id="${svgId}a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1.5 1.5L8.5 5L1.5 8.5" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="${svgId}m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1.5 1.5L8.5 5L1.5 8.5" fill="none" stroke="var(--mute)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="${svgId}f" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M1.5 1.5L8.5 5L1.5 8.5" fill="none" stroke="var(--flow)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker><pattern id="${svgId}h" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="var(--bg)"/><rect width="3" height="8" fill="var(--plane)"/></pattern></defs>`;
   L.forEach((l,j)=>{const x=left+lw*j,cx=x+lw/2,gbs=l.kind==='skip';
-   o+=`<rect x="${x+4}" y="${top-14}" width="${lw-8}" height="${H-top}" fill="${gbs?`url(#${svgId}h)`:j%2?'var(--soft)':'transparent'}"/>`;
+   o+=`<rect x="${x+4}" y="${top-14}" width="${lw-8}" height="${H-top}" rx="8" fill="${gbs?`url(#${svgId}h)`:j%2?'var(--soft)':'transparent'}"/>`;
    const hf=l.kind==='hub'?'var(--yel)':l.kind==='kb'?'var(--bg)':gbs?'var(--bg)':'var(--plane)',hs=l.kind==='ext'?'transparent':gbs?'var(--rule)':'var(--ink)';
-   o+=`<rect x="${x+6}" y="14" width="${lw-12}" height="62" fill="${hf}" stroke="${hs}" stroke-width="2" ${gbs?'stroke-dasharray="6 5"':''}/><text x="${cx}" y="41" font-size="15.5" font-weight="800" text-anchor="middle" fill="${l.kind==='hub'?'#111':gbs?'var(--mute)':'var(--ink)'}">${l.name}</text><text x="${cx}" y="62" font-size="12.5" text-anchor="middle" fill="${l.kind==='hub'?'#333':'var(--mute)'}">${l.sub}</text>`;
-   o+=`<line x1="${cx}" y1="78" x2="${cx}" y2="${H-10}" stroke="${gbs?'var(--rule)':'var(--mute)'}" stroke-width="1" stroke-dasharray="3 5"/>`;
+   o+=`<rect x="${x+6}" y="14" width="${lw-12}" height="62" rx="9" fill="${hf}" stroke="${hs}" stroke-width="1.5" ${gbs?'stroke-dasharray="6 5"':''}/><text x="${cx}" y="41" font-size="15.5" font-weight="800" text-anchor="middle" fill="${l.kind==='hub'?'#111':gbs?'var(--mute)':'var(--ink)'}">${l.name}</text><text x="${cx}" y="62" font-size="12.5" text-anchor="middle" fill="${l.kind==='hub'?'#333':'var(--mute)'}">${l.sub}</text>`;
+   o+=`<line x1="${cx}" y1="78" x2="${cx}" y2="${H-10}" stroke="${gbs?'var(--rule)':'var(--mute)'}" stroke-width="1" stroke-dasharray="1 6" stroke-linecap="round" opacity=".7"/>`;
    if(gbs)o+=`<text x="${cx}" y="${top+ (H-top)/2-8}" font-size="15" font-weight="800" text-anchor="middle" fill="var(--mute)" style="paint-order:stroke;stroke:var(--bg);stroke-width:6px">${l.note||'미경유'}</text><text x="${cx}" y="${top+ (H-top)/2+14}" font-size="12.5" font-weight="700" text-anchor="middle" fill="var(--mute)" style="paint-order:stroke;stroke:var(--bg);stroke-width:6px">국내 고객 계좌 없음</text>`;
   });
   // phase bands
   let ph=null,p0=0;const bands=[];S.forEach((s,k)=>{if(s[3]!==ph){if(ph)bands.push([ph,p0,k-1]);ph=s[3];p0=k}});bands.push([ph,p0,S.length-1]);
-  bands.forEach(b=>{const y1=top+b[1]*gap-18,y2=top+b[2]*gap+18;o+=`<rect x="6" y="${y1}" width="40" height="${y2-y1}" fill="${b[0]==='승인'?'var(--ink)':'var(--plane)'}"/><text transform="translate(31 ${(y1+y2)/2}) rotate(-90)" font-size="13" font-weight="800" text-anchor="middle" fill="${b[0]==='승인'?'var(--bg)':'var(--ink)'}">${b[0]}</text>`});
+  bands.forEach(b=>{const y1=top+b[1]*gap-18,y2=top+b[2]*gap+18;o+=`<rect x="6" y="${y1}" width="40" height="${y2-y1}" rx="8" fill="${b[0]==='승인'?'var(--ink)':'var(--plane)'}"/><text transform="translate(31 ${(y1+y2)/2}) rotate(-90)" font-size="13" font-weight="800" text-anchor="middle" fill="${b[0]==='승인'?'var(--bg)':'var(--ink)'}">${b[0]}</text>`});
   S.forEach((s,k)=>{const y=top+k*gap,x1=X(s[0]),x2=X(s[1]),d=s[4]==='d',x=s[4]==='x';
+   let pd,lx,ly,anchor='middle';
+   if(s[0]===s[1]){pd=`M${x1+5} ${y-11} C${x1+62} ${y-15} ${x1+62} ${y+15} ${x1+9} ${y+11}`;lx=x1+60;ly=y+5;anchor='start'}
+   else{const dir=x2>x1?1:-1;pd=`M${x1+dir*7} ${y} L${x2-dir*9} ${y}`;lx=(x1+x2)/2;ly=y-9}
+   const col=x?'var(--mute)':'var(--ink)',dash=d||x?'stroke-dasharray="1 7"':'';
    o+=`<g class="stp" data-k="${k}" opacity=".12">`;
-   if(s[0]===s[1]){o+=`<path d="M${x1} ${y-10}h46v20h-40" fill="none" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#${svgId}a)"/><text x="${x1+56}" y="${y+5}" font-size="14" font-weight="600" fill="var(--ink)" style="paint-order:stroke;stroke:var(--bg);stroke-width:5px">${s[2]}</text>`}
-   else{const dir=x2>x1?1:-1,mx=(x1+x2)/2;o+=`<line x1="${x1+dir*6}" y1="${y}" x2="${x2-dir*8}" y2="${y}" stroke="${x?'var(--mute)':'var(--ink)'}" stroke-width="${x?2:2.5}" ${d||x?'stroke-dasharray="7 5"':''} marker-end="url(#${svgId}a)"/><text x="${mx}" y="${y-8}" font-size="14" font-weight="600" text-anchor="middle" fill="${x?'var(--mute)':'var(--ink)'}" style="paint-order:stroke;stroke:var(--bg);stroke-width:5px">${s[2]}</text>`}
-   o+=`<circle cx="22" cy="${y}" r="0"/></g>`;
+   o+=`<path class="act" d="${pd}" fill="none" stroke="var(--flow)" stroke-width="11" stroke-linecap="round" opacity="0" style="opacity:0"/>`;
+   o+=`<path class="bs" d="${pd}" fill="none" stroke="${col}" stroke-width="${x?1.6:2}" stroke-linecap="round" stroke-linejoin="round" ${dash} marker-end="url(#${svgId}${x?'m':'a'})"/>`;
+   o+=`<path class="act2" id="${svgId}p${k}" d="${pd}" fill="none" stroke="var(--flow)" stroke-width="2.6" stroke-linecap="round" ${dash} marker-end="url(#${svgId}f)" style="opacity:0"/>`;
+   o+=`<path class="act3 ${reduce?'':'flw'}" d="${pd}" fill="none" stroke="var(--bg)" stroke-width="2.6" stroke-dasharray="2 14" stroke-linecap="round" style="opacity:0"/>`;
+   o+=`<text x="${lx}" y="${ly}" font-size="14" font-weight="600" text-anchor="${anchor}" fill="${x?'var(--mute)':'var(--ink)'}" style="paint-order:stroke;stroke:var(--bg);stroke-width:5px">${s[2]}</text>`;
+   o+=`</g>`;
    o+=`<text x="${left-6}" y="${y+5}" font-size="12" font-weight="800" text-anchor="end" fill="var(--mute)" class="num" data-k="${k}">${k+1}</text>`;
   });
-  o+=`<circle id="${svgId}t" r="10" fill="var(--yel)" stroke="var(--ink)" stroke-width="3" opacity="0"/>`;
+  o+=`<circle id="${svgId}th" r="15" fill="var(--flow)" opacity="0"/><circle id="${svgId}t" r="6.5" fill="var(--yel)" stroke="var(--bg)" stroke-width="3" opacity="0"/>`;
   sv.innerHTML=o;
  };
  const show=i=>{cur=i;t0=performance.now();draw(i);tb.querySelectorAll('[data-i]').forEach(b=>b.setAttribute('aria-selected',+b.dataset.i===i))};
  const step=1000;
  const tick=now=>{
   const S=cfg.flows[cur].steps,e=Math.max(0,now-t0),k=reduce?S.length:Math.floor(e/step),u=(e%step)/step,tok=document.getElementById(svgId+'t');
-  sv.querySelectorAll('.stp').forEach(g=>{const j=+g.dataset.k;g.setAttribute('opacity',j<k?1:j===k?.35+.65*Math.min(1,u*1.6):.12)});
-  if(tok){if(!reduce&&k<S.length){const s=S[k],y=top+k*gap,x1=X(s[0]),x2=X(s[1]),q=Math.min(1,u*1.4);
-    tok.setAttribute('cx',s[0]===s[1]?x1+46*Math.sin(Math.PI*q):x1+(x2-x1)*(q*q*(3-2*q)));tok.setAttribute('cy',s[0]===s[1]?y-10+20*q:y);tok.setAttribute('opacity',1)}else tok.setAttribute('opacity',0)}
+  sv.querySelectorAll('.stp').forEach(g=>{const j=+g.dataset.k,on=j===k&&!reduce;g.setAttribute('opacity',j<k?1:j===k?.45+.55*Math.min(1,u*1.6):.12);
+   g.querySelector('.act').style.opacity=on?.14:0;g.querySelector('.act2').style.opacity=on?1:0;g.querySelector('.act3').style.opacity=on?.5:0;g.querySelector('.bs').style.opacity=on?0:1});
+  const th=document.getElementById(svgId+'th');
+  if(tok){if(!reduce&&k<S.length){const pe=document.getElementById(svgId+'p'+k),q=Math.min(1,u*1.4),ez=q<.5?2*q*q:1-Math.pow(-2*q+2,2)/2,pt=pe.getPointAtLength(pe.getTotalLength()*ez);
+    tok.setAttribute('cx',pt.x);tok.setAttribute('cy',pt.y);tok.setAttribute('opacity',1);th.setAttribute('cx',pt.x);th.setAttribute('cy',pt.y);th.setAttribute('opacity',.22)}else{tok.setAttribute('opacity',0);th.setAttribute('opacity',0)}}
   if(e>S.length*step+2600){auto&&cfg.flows.length>1?show((cur+1)%cfg.flows.length):(t0=now)}
   requestAnimationFrame(tick)};
  tb.addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b)return;if(b.dataset.r){t0=performance.now();return}auto=false;show(+b.dataset.i)});
