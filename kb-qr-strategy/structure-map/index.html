@@ -27,7 +27,7 @@ p{margin:0 0 12px;max-width:72ch}
 .meta{color:var(--mute);font-size:14px;margin-bottom:16px}
 .lead{font-size:18px}
 .top{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:32px;align-items:end}
-.keys{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.keys{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.45fr) minmax(0,.85fr) minmax(0,.85fr);gap:8px}.keys .key b{white-space:nowrap}@media(max-width:760px){.keys{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .key{background:var(--soft);padding:12px 14px}
 .key b{display:block;font-size:clamp(24px,2.6vw,30px);line-height:1.1}
 .key span{font-size:13px;color:var(--mute)}
@@ -138,7 +138,7 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
 @media(max-width:900px){.split{grid-template-columns:minmax(0,1fr)}.top,.pri{grid-template-columns:minmax(0,1fr)}.dgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.split{grid-template-columns:minmax(0,1fr);margin-left:0}.lyr{grid-template-columns:minmax(0,1fr);gap:8px}.blocks{grid-template-columns:repeat(2,minmax(0,1fr))}.phases{grid-template-columns:minmax(0,1fr)}.lyr.new{margin:0}}
 @media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:10px 0;border-bottom:1px solid var(--rule)}.stack td{border:0;padding:6px}.stack td:first-child{grid-column:1/-1}.stack td.verdict{grid-column:1/-1;text-align:left;padding-left:0}.stack td.v::before{content:attr(data-l);display:block;font-size:11px;font-weight:500;color:inherit;opacity:.75}.dgrid{grid-template-columns:minmax(0,1fr)}}
-.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}#fsv{--flow:var(--ink)}#fsv .flow{animation:fdash 1.1s linear infinite}@keyframes fdash{to{stroke-dashoffset:-36}}</style>
+.srcs{margin:0;padding-left:18px;font-size:13.5px;color:var(--mute);line-height:1.7}.srcs a{color:inherit}#fsv{--flow:var(--ink)}#fsv .flow{animation:fdash 1.1s linear infinite}@keyframes fdash{to{stroke-dashoffset:-36}}.lyr.new .blk{position:relative}.lyr.new .st{position:absolute;top:8px;right:8px;font-style:normal;font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;line-height:1.5}.lyr.new .st.own{border:1px solid currentColor;opacity:.75}.lyr.new .st.ext{background:var(--ink);color:var(--bg)}.lyr.new .st.nw{background:var(--yel);color:#111}.lyr.new .blk.nw{box-shadow:inset 0 0 0 2px var(--yel)}.lyr.new .blk b{padding-right:38px}</style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
@@ -147,11 +147,12 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
   <div class="top">
     <div>
       <div class="meta">글로벌IT개발부 검토(안) · 2026.11.27 · 기술·실효성·수익성·실현가능성 관점</div>
-      <h1>국민카드·국민은행·글로벌을 잇는 구조는 기술적으로 가능, 새로 만들 것은 공통 결제 플랫폼 하나</h1>
-      <p class="lead">채널, 국내 인프라, 국가 간 망, 글로벌IT개발부가 연결한 현지망은 이미 보유하고 있습니다. 이를 한 API로 잇는 공통 계층만 신규로 구축하면 되고, 효과와 실현성을 함께 갖춘 국가별 라우팅·한·캄 결제 연결(한국 고객 → KHQR 가맹점, PRASAC 정산)·베트남 기업 수납부터 착수하는 것이 효과적입니다.</p>
+      <h1>국민카드·국민은행·글로벌 연결 구조는 기술적으로 가능, 신규 재구축 시스템 불필요</h1>
+      <p class="lead">신규로 재구축해야 하는 시스템 불필요. 채널, 국내 인프라, 국가 간 망, 글로벌IT개발부가 연결한 현지망 모두 기보유. 국민은행이 운영 중인 해외결제 기반(라우팅·환율·정산·AML)을 KB Pay까지 연결 구조로 확장. 효과와 실현성을 함께 갖춘 국가별 라우팅·한·캄 결제 연결(한국 고객 → KHQR 가맹점, PRASAC 정산)·베트남 기업 수납부터 착수</p>
     </div>
     <div class="keys">
-      <div class="key y"><b>1개</b><span>신규 구축 계층</span></div>
+      <div class="key y"><b>불필요</b><span>별도 신규 구축 시스템</span></div>
+      <div class="key"><b>4건</b><span>연결 구조 확장 (API·정산·동의·라우팅)</span></div>
       <div class="key"><b>9개</b><span>평가 과제</span></div>
       <div class="key"><b>3개</b><span>우선 착수 과제</span></div>
     </div>
@@ -164,14 +165,14 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
         <div class="blk"><b>KB스타뱅킹 지갑 (국민은행)</b><span>계좌·외화통장·계좌 QR</span></div>
         <div class="blk fix"><b>현지법인 앱</b><span>PRASAC·KBI 모바일, 연계 필요</span></div>
       </div></div>
-    <div class="lyr new"><div class="lab"><b>그룹 공통 결제 플랫폼</b><span>신규 구축</span></div>
+    <div class="lyr new"><div class="lab"><b>그룹 공통 결제 기반</b><span>기존 은행 해외결제 기반 공동 활용 · 보유 4 · 확장 1 · 신규 1</span></div>
       <div class="blocks" style="--n:6">
-        <div class="blk"><b>API·인증</b><span>통합 ID·동의</span></div>
-        <div class="blk"><b>자금원 연결</b><span>카드·계좌·외화머니</span></div>
-        <div class="blk"><b>국가별 라우팅</b><span>허브·직접·제휴 선택</span></div>
-        <div class="blk"><b>환율·정산·대사</b><span>다통화 정산</span></div>
-        <div class="blk"><b>AML·제재</b><span>SafeWatch 공동 사용</span></div>
-        <div class="blk"><b>모니터링</b><span>미결·장애 대응</span></div>
+        <div class="blk"><em class="st own">보유</em><b>국가별 라우팅</b><span>GLN·금결원 허브·NUCC 운영 중</span></div>
+        <div class="blk"><em class="st own">보유</em><b>환율·정산·대사</b><span>외환계·허브 정산 운영 중</span></div>
+        <div class="blk"><em class="st own">보유</em><b>AML·제재</b><span>SafeWatch·FDS, 기준만 통일</span></div>
+        <div class="blk"><em class="st own">보유</em><b>모니터링</b><span>각자 운영, 공동 화면 추가</span></div>
+        <div class="blk"><em class="st ext">확장</em><b>자금원 연결</b><span>외화통장 연결을 QR까지</span></div>
+        <div class="blk nw"><em class="st nw">신규</em><b>카드 연동 API</b><span>KB Pay↔모행 연동·고객 동의</span></div>
       </div></div>
     <div class="split">
       <div class="lane">
@@ -192,7 +193,7 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
       </div>
       <div class="lane direct">
         <div class="lanehead"><b>② 현지 직접 경로</b><span>한국을 거치지 않는 현지 고객·기업 거래</span></div>
-        <p>공통 플랫폼의 국가별 어댑터가 현지망에 바로 연결됩니다. 현재 운영 실적이 있는 경로입니다.</p>
+        <p>공통 기반의 국가별 어댑터가 현지망에 바로 연결. 현재 운영 실적이 있는 경로</p>
         <ul>
           <li>베트남 기업 수납: 가상계좌 QR 월 25.3만 건('26.9)</li>
           <li>캄보디아 가맹점 수납: KHQR·입금 알림</li>
@@ -211,7 +212,7 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
         <div class="blk ctl"><b>미얀마 MPU·MMQR</b><span>KB미얀마은행</span><span class="use">현지 한정, 국가 간 연결 분리</span></div>
       </div></div>
   </div>
-  <div class="legend"><span><i></i>보유</span><span><i class="f"></i>보완·확인</span><span><i class="n"></i>신규</span><span><i class="c"></i>분리 통제</span></div>
+  <div class="legend"><span><i></i>보유</span><span><i class="f"></i>보완·확인</span><span><i class="n"></i>공통 결제 기반(공동 활용)</span><span><i class="c"></i>분리 통제</span></div>
 </div></section>
 
 <section class="band"><div class="wrap">
@@ -223,7 +224,7 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
 
 <section class="band alt"><div class="wrap">
   <h2>관점별 평가: 라우팅·캄보디아·베트남이 효과와 실현성을 함께 갖춤</h2>
-  <p>9개 연결 과제를 기술 준비도·실효성·수익성·실현가능성 3단계로 평가했습니다. 검토 의견이며, 내부 실적과 비용 자료로 확정해야 합니다.</p>
+  <p>9개 연결 과제를 기술 준비도·실효성·수익성·실현가능성 3단계로 평가. 검토 의견이며 내부 실적·비용 자료로 확정 필요</p>
   <div class="scroll"><table class="stack" id="ev"><thead><tr><th>과제</th><th>기술 준비도</th><th>실효성</th><th>수익성</th><th>실현가능성</th><th>종합</th></tr></thead><tbody></tbody></table></div>
   <p class="defs">기술 준비도: 기존 연결·시스템 재사용 정도 · 실효성: 고객 이용·순증 효과 · 수익성: 외환·예금·수납 잔액 등 수익원 크기 · 실현가능성: 제도·일정·외부 의존도</p>
 </div></section>
@@ -245,20 +246,20 @@ svg text{paint-order:stroke;stroke:var(--bg);stroke-width:3px}
   <h2>기술 추진 단계: 연결 → 한·캄 결제로 효과 검증 → 확장</h2>
   <div class="phases">
     <div class="ph y"><b>1단계 연결 기반</b><small>0~6개월</small><ul><li>국가별 라우팅 테이블 통합(③)</li><li>외화머니↔외화통장 상호 충전(②)</li><li>현지 결제망 연결 현황 표준화: 연결 서비스·참가 방식·메시지 표준</li></ul></div>
-    <div class="ph"><b>2단계 효과 검증</b><small>6~12개월</small><ul><li>한·캄 결제 연결: 모행 ↔ 캄보디아 중앙은행(바콩) 연결, PRASAC이 정산은행(④)</li><li>베트남 기업 수납 표준 기능, 허브 참가 준비(⑤)</li><li>공통 플랫폼 1차: 라우팅·정산·AML</li></ul></div>
+    <div class="ph"><b>2단계 효과 검증</b><small>6~12개월</small><ul><li>한·캄 결제 연결: 모행 ↔ 캄보디아 중앙은행(바콩) 연결, PRASAC이 정산은행(④)</li><li>베트남 기업 수납 표준 기능, 허브 참가 준비(⑤)</li><li>KB Pay↔모행 연동 API, 은행·카드 간 정산 처리</li></ul></div>
     <div class="ph"><b>3단계 확장</b><small>12~24개월</small><ul><li>두 앱 공통 해외결제 모듈(①)</li><li>인바운드 국내 가맹점 연계(⑥)</li><li>인니·인도 연결 확대(⑦⑧)</li></ul></div>
   </div>
   <div class="dec">
     <h3>경영진 의사결정 사항</h3>
-    <p>본 검토의 평가 범위 밖이며, 착수 전 경영진 판단이 필요한 사항입니다.</p>
+    <p>본 검토의 평가 범위 밖, 착수 전 경영진 판단 필요 사항</p>
     <div class="dgrid">
       <div><b>손익 배분</b><span>은행·카드·현지법인 간 수익 배분과 성과 평가 기준</span></div>
-      <div><b>플랫폼 주관</b><span>공통 결제 플랫폼의 소유·운영 주체(은행·카드·지주)</span></div>
+      <div><b>운영 주관</b><span>공통 결제 기반의 운영 주체·비용 분담(은행·카드·지주)</span></div>
       <div><b>채널 원칙</b><span>두 앱 유지와 공통 모듈 탑재 여부</span></div>
       <div><b>고위험국 정책</b><span>미얀마 등 국가 간 연결 허용 범위</span></div>
     </div>
   </div>
-  <p class="note" style="margin-top:16px">기간은 검토 의견이며 IT 사전 검토로 확정이 필요합니다. 인도·미얀마 연결 서비스 범위, 참가 방식, 거래 실적은 내부 자료로 확인해야 합니다.</p>
+  <p class="note" style="margin-top:16px">기간은 검토 의견이며 IT 사전 검토로 확정 필요. 인도·미얀마 연결 서비스 범위·참가 방식·거래 실적은 내부 자료로 확인 필요</p>
 </div></section>
 
 <script>
@@ -296,7 +297,7 @@ const ro=new ResizeObserver(draw);ro.observe(sv);
 
 {
 const sv=document.getElementById('fsv'),fb=document.getElementById('fb'),cap=document.getElementById('fcap');
-const N={KRC:[110,150,'한국 고객','KB Pay·스타뱅킹','kb'],PLT:[300,150,'공통 플랫폼','라우팅·환율·대사','new'],EXT:[300,400,'국민은행','외환·대외 접속','kb'],HUB:[500,400,'금결원 허브','국가 간 QR','ext'],
+const N={KRC:[110,150,'한국 고객','KB Pay·스타뱅킹','kb'],PLT:[300,150,'공통 결제 기반','모행 운영·KB Pay 연동','new'],EXT:[300,400,'국민은행','외환·대외 접속','kb'],HUB:[500,400,'금결원 허브','국가 간 QR','ext'],
 NAP:[760,90,'NAPAS','베트남 결제망','ext'],VNB:[760,200,'KB 베트남지점','기업뱅킹','kb'],VCU:[970,90,'현지 고객·가맹점','','ext'],VCO:[970,200,'고객사','계좌·ERP','ext'],
 NPC:[760,360,'NPCI','인도 결제망','ext'],INB:[760,470,'KB 인도지점','3개 지점','kb'],ICU:[970,360,'구매자·가맹점','','ext'],ICO:[970,470,'진출기업','계좌·ERP','ext']};
 const F=[
@@ -368,7 +369,7 @@ show(0);raf=requestAnimationFrame(loop);
 .mo .pop{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .55s cubic-bezier(.34,1.56,.64,1);transition-delay:var(--d,0s)}
 .mo .pop.in{transform:scale(1)}
 .mo .hov:hover{transform:translateY(-3px)}
-</style>
+.lyr.new .blk{position:relative}.lyr.new .st{position:absolute;top:8px;right:8px;font-style:normal;font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;line-height:1.5}.lyr.new .st.own{border:1px solid currentColor;opacity:.75}.lyr.new .st.ext{background:var(--ink);color:var(--bg)}.lyr.new .st.nw{background:var(--yel);color:#111}.lyr.new .blk.nw{box-shadow:inset 0 0 0 2px var(--yel)}.lyr.new .blk b{padding-right:38px}</style>
 <script>
 (function(){
 if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
